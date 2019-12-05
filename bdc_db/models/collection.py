@@ -21,5 +21,5 @@ class Collection(BaseModel):
 
     grs_schema = relationship('GrsSchema')
     composite_function_schemas = relationship('CompositeFunctionSchema')
-    raster_size_schemas = relationship('RasterSizeSchemas')
+    raster_size_schemas = relationship('RasterSizeSchema')
     temporal_composition_schema = relationship('TemporalCompositionSchema')

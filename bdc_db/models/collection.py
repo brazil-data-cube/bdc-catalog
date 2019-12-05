@@ -20,6 +20,6 @@ class Collection(BaseModel):
     bands_quicklook = Column(String(250), nullable=True)
 
     grs_schema = relationship('GrsSchema')
-    composite_function_schemas = relationship('CompositeFunctionSchemas')
+    composite_function_schemas = relationship('CompositeFunctionSchema')
     raster_size_schemas = relationship('RasterSizeSchemas')
     temporal_composition_schema = relationship('TemporalCompositionSchema')

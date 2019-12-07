@@ -16,8 +16,8 @@ class Band(BaseModel):
     common_name = Column(String(16), nullable=False)
     data_type = Column(String(16))
     mime_type = Column(String(16))
-    resolution_x = Column(Float(50), nullable=False)
-    resolution_y = Column(Float(50), nullable=False)
+    resolution_x = Column(Float(53), nullable=False)
+    resolution_y = Column(Float(53), nullable=False)
     resolution_unit = Column(String(16), nullable=False)
     description = Column(String(64))
 

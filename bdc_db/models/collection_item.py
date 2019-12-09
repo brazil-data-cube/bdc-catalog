@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 class CollectionItem(BaseModel):
     __tablename__ = 'collection_items'
 
-    id = Column(String(64), primary_key=True, nullable=False, unique=True)
+    id = Column(String, primary_key=True, nullable=False, unique=True)
     collection_id = Column(ForeignKey('collections.id'), primary_key=True, nullable=False)
     grs_schema_id = Column(ForeignKey('grs_schemas.id'), primary_key=True, nullable=False)
     tile_id = Column(ForeignKey('tiles.id'), primary_key=True, nullable=False)
@@ -16,6 +16,7 @@ class CollectionItem(BaseModel):
     quicklook = Column(Text)
     cloud_cover = Column(Float)
     scene_type = Column(String)
+    compressed_file = Column(String)
 
     cube_collection = relationship('Collection')
     grs_schema = relationship('GrsSchema')

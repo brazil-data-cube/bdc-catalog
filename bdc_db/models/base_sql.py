@@ -12,6 +12,13 @@ class BaseModel(db.Model):
     def query(cls) -> Query:
         return db.session.query(cls)
 
+    @classmethod
+    def save_all(self, objects):
+        """Save list of objects in database"""
+
+        db.session.bulk_save_objects(objects)
+        db.session.commit()
+
     def save(self, commit=True):
         """
         Save record in database

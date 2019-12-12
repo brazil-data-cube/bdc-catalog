@@ -5,7 +5,7 @@ from flask import Flask
 from flask_script import Manager
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:datacube_2019@datacube-001.dpi.inpe.br:54320/bdc'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/database'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 manager = Manager(app)

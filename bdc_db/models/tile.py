@@ -11,7 +11,7 @@ class Tile(BaseModel):
         Index('idx_tiles_geom', 'geom', postgres_using='gist'),
     )
 
-    id = Column(String(20), primary_key=True, nullable=False, unique=True)
+    id = Column(String(20), primary_key=True, nullable=False)
     grs_schema_id = Column(ForeignKey('grs_schemas.id'), primary_key=True, nullable=False)
     geom_wgs84 = Column(Geometry(spatial_index=False))
     geom = Column(Geometry(spatial_index=False))

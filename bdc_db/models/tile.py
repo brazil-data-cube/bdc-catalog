@@ -1,6 +1,6 @@
 from .base_sql import BaseModel
 from geoalchemy2 import Geometry
-from sqlalchemy import Column, ForeignKey, Index, String
+from sqlalchemy import Column, ForeignKey, Index, String, Float
 from sqlalchemy.orm import relationship
 
 
@@ -15,5 +15,7 @@ class Tile(BaseModel):
     grs_schema_id = Column(ForeignKey('grs_schemas.id'), primary_key=True, nullable=False)
     geom_wgs84 = Column(Geometry(spatial_index=False))
     geom = Column(Geometry(spatial_index=False))
+    min_x = Column(Float)
+    max_y = Column(Float)
 
     grs_schema = relationship('GrsSchema')

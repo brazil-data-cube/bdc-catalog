@@ -7,3 +7,4 @@ class GrsSchema(BaseModel):
 
     id = Column(String(20), primary_key=True)
     description = Column(String(64), nullable=False)
+    crs = Column(String(400), nullable=True)

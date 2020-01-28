@@ -18,6 +18,7 @@ class Collection(BaseModel):
     oauth_scope = Column(String(250), nullable=True)
     is_cube = Column(Boolean, nullable=True, default=False)
     bands_quicklook = Column(String(250), nullable=True)
+    license = Column(String(250), nullable=True)
 
     grs_schema = relationship('GrsSchema')
     composite_function_schemas = relationship('CompositeFunctionSchema')

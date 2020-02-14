@@ -37,6 +37,7 @@ install_requires = [
     'Flask-SQLAlchemy>=2.4.1',
     'GeoAlchemy2>=0.6.2',
     'SQLAlchemy[postgresql]>=1.3.10',
+    'SQLAlchemy-Utils>=0.34.2',
 ]
 
 packages = find_packages()
@@ -61,6 +62,9 @@ setup(
     include_package_data=True,
     platforms='any',
     entry_points={
+        'console_scripts': [
+            'bdc-db = bdc_db.cli:cli'
+        ]
     },
     extras_require=extras_require,
     install_requires=install_requires,

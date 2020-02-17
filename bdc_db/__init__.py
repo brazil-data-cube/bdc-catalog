@@ -11,7 +11,6 @@
 from .ext import BDCDatabase
 from .version import __version__
 
-
 __all__ = (
     'BDCDatabase',
     '__version__',

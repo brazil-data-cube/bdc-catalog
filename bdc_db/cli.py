@@ -6,15 +6,16 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+import os
 
 import click
-import os
 from flask import Flask
 from flask.cli import FlaskGroup, with_appcontext
 from flask_migrate.cli import db as flask_migrate_db
 from sqlalchemy_utils.functions import create_database, database_exists
-from .models import db
+
 from .ext import BDCDatabase
+from .models import db
 
 
 def create_app():

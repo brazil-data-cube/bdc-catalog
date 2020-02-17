@@ -8,7 +8,7 @@
 
 """Version information for Brazil Data Cube Database module.
 
-This file is imported by ``stac.__init__``,
+This file is imported by ``bdc_db.__init__``,
 and parsed by ``setup.py``.
 """
 

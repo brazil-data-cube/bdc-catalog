@@ -1,6 +1,16 @@
-from .base_sql import BaseModel
-from sqlalchemy import Column, Date, ForeignKey, String, Text, Float, ForeignKeyConstraint
+#
+# This file is part of Brazil Data Cube Database module.
+# Copyright (C) 2019 INPE.
+#
+# Brazil Data Cube Database module is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+
+from sqlalchemy import (Column, Date, Float, ForeignKey, ForeignKeyConstraint,
+                        String, Text)
 from sqlalchemy.orm import relationship
+
+from .base_sql import BaseModel
 
 
 class CollectionItem(BaseModel):

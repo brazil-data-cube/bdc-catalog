@@ -24,6 +24,7 @@ Creating the Brazil Data Cube data model
 **2.** After that, run Flask-Migrate command to prepare the Brazil Data Cube data model:
 
 .. code-block:: shell
+
         SQLALCHEMY_DATABASE_URI="postgresql://username:password@localhost:5432/bdcdb" \
         bdc-db db upgrade
 
@@ -32,6 +33,7 @@ Updating an Existing Data Model
 -------------------------------
 
 .. code-block:: shell
+
         SQLALCHEMY_DATABASE_URI="postgresql://username:password@localhost:5432/bdcdb" \
         bdc-db db upgrade
 
@@ -40,6 +42,7 @@ Updating the Migration Scripts
 ------------------------------
 
 .. code-block:: shell
+
         SQLALCHEMY_DATABASE_URI="postgresql://username:password@localhost:5432/bdcdb" \
         bdc-db db migrate
 

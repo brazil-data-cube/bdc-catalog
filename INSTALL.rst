@@ -9,7 +9,7 @@
 Installation
 ============
 
-The `` Brazil Data Cube Database module`` (``bdc-db``) depends essentially on `Flask-Migrate <https://flask-migrate.readthedocs.io/en/latest/>`_ and `Flask-SQLAlchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_. Please, read the instructions below in order to install ``bdc-db``.
+The ``Brazil Data Cube Database module`` (``bdc-db``) depends essentially on `Flask-Migrate <https://flask-migrate.readthedocs.io/en/latest/>`_ and `Flask-SQLAlchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_. Please, read the instructions below in order to install ``bdc-db``.
 
 
 Production installation

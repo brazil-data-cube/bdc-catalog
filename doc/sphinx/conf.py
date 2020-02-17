@@ -10,13 +10,13 @@ import os
 
 # -- Project information -----------------------------------------------------
 
-project = 'STAC'
+project = 'Brazil Data Cube Database Model'
 copyright = '2019, INPE'
 author = 'INPE'
 
 g = {}
 
-with open(os.path.join('..', '..', 'stac', 'version.py'), 'rt') as fp:
+with open(os.path.join('..', '..', 'bdc_db', 'version.py'), 'rt') as fp:
     exec(fp.read(), g)
     version = g['__version__']
 
@@ -58,7 +58,7 @@ html_theme = 'alabaster'
 html_static_path = ['_static']
 
 def setup(app):
-    app.add_stylesheet('stac.css')
+    app.add_stylesheet('bdc-db.css')
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True

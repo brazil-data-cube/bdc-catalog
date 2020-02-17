@@ -10,4 +10,18 @@
 Changes
 =======
 
-**Under Development!**
+
+Version 0.2.0
+-------------
+
+Released 2019-02-17
+
+- First experimental version.
+- Metadata support for: Imagery Collections, Data Cubes and Grid Systems.
+- Documentation system based on Sphinx.
+- Documentation integrated to ``Read the Docs``.
+- Package support through Setuptools.
+- Installation and use instructions.
+- Schema versioning through Flask-Alembic.
+- Source code versioning based on `Semantic Versioning 2.0.0 <https://semver.org/>`_.
+- License: `MIT <https://raw.githubusercontent.com/brazil-data-cube/bdc-db/master/LICENSE>`_.

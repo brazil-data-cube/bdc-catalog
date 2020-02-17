@@ -8,6 +8,8 @@
 """Configuration file for the Sphinx documentation builder system."""
 import os
 
+import bdc_db
+
 # -- Project information -----------------------------------------------------
 
 project = 'Brazil Data Cube Database Model'
@@ -16,11 +18,9 @@ author = 'INPE'
 
 g = {}
 
-with open(os.path.join('..', '..', 'bdc_db', 'version.py'), 'rt') as fp:
-    exec(fp.read(), g)
-    version = g['__version__']
 
 # The full version, including alpha/beta/rc tags.
+version = bdc_db.__version__
 release = version
 
 # -- General configuration ---------------------------------------------------

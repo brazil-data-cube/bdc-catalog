@@ -26,6 +26,16 @@ Brazil Data Cube Database module
 
 .. image:: https://img.shields.io/badge/lifecycle-experimental-orange.svg
         :target: https://www.tidyverse.org/lifecycle/#experimental
+        :alt: Package Lifecycle Status: Experimental
+
+.. image:: https://img.shields.io/github/tag/brazil-data-cube/bdc-db.svg
+        :target: https://github.com/brazil-data-cube/bdc-db/releases
+        :alt: Release
+
+.. image:: https://badges.gitter.im/brazil-data-cube/community.png
+        :target: https://gitter.im/brazil-data-cube/community#
+        :alt: Join the chat
+
 
 .. role:: raw-html(raw)
     :format: html

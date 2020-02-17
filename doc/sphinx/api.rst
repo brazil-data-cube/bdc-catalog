@@ -8,4 +8,13 @@
 Python API
 ==========
 
-**Under Development**
+**(Under Development)**
+
+.. currentmodule:: bdc_db
+
+.. autoclass:: bdc_db.models.asset.Asset
+    :members:
+
+.. autofunction:: bdc_db.cli.create_cli
+
+.. autofunction:: bdc_db.cli.create_db

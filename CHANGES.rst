@@ -24,4 +24,4 @@ Released 2019-02-17
 - Installation and use instructions.
 - Schema versioning through Flask-Alembic.
 - Source code versioning based on `Semantic Versioning 2.0.0 <https://semver.org/>`_.
-- License: `MIT <https://raw.githubusercontent.com/brazil-data-cube/bdc-db/master/LICENSE>`_.
+- License: `MIT <https://raw.githubusercontent.com/brazil-data-cube/bdc-db/b-0.2/LICENSE>`_.

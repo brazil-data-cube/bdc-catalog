@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # This file is part of Brazil Data Cube Database module.
 # Copyright (C) 2019 INPE.
@@ -6,6 +7,8 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-[pytest]
-addopts = --color=auto --cov=bdc_db --cov-report=term-missing
-testpaths = tests
+#pydocstyle bdc_db && \
+#isort --check-only --diff --recursive **/*.py && \
+#check-manifest --ignore ".travis-*" --ignore ".readthedocs.*" && \
+#pytest &&
+sphinx-build -qnW --color -b doctest doc/sphinx/ doc/sphinx/_build/doctest

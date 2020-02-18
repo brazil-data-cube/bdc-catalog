@@ -14,8 +14,8 @@ Brazil Data Cube Database module
         :target: https://github.com//brazil-data-cube/bdc-db/blob/master/LICENSE
         :alt: Software License
 
-.. image:: https://readthedocs.org/projects/bdc-db/badge/?version=b-0.2
-        :target: https://bdc-db.readthedocs.io/en/b-0.2/
+.. image:: https://readthedocs.org/projects/bdc-db/badge/?version=v0.2.0
+        :target: https://bdc-db.readthedocs.io/en/v0.2.0/
         :alt: Documentation Status
 
 .. image:: https://img.shields.io/badge/lifecycle-experimental-orange.svg

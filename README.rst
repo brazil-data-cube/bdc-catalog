@@ -14,8 +14,8 @@ Brazil Data Cube Database module
         :target: https://github.com//brazil-data-cube/bdc-db/blob/master/LICENSE
         :alt: Software License
 
-.. image:: https://readthedocs.org/projects/bdc-db/badge/?version=v0.2.0
-        :target: https://bdc-db.readthedocs.io/en/v0.2.0/
+.. image:: https://readthedocs.org/projects/bdc-db/badge/?version=b-0.2
+        :target: https://bdc-db.readthedocs.io/en/b-0.2/
         :alt: Documentation Status
 
 .. image:: https://img.shields.io/badge/lifecycle-experimental-orange.svg
@@ -38,8 +38,8 @@ Brazil Data Cube Database module
 :raw-html:`<br />`
 This is the storage module for the Brazil Data Cube catalog metadata tables. The module relies on SQLAlchemy and Flask related packages in order to store and retrieve data items related to the catalog. All the imagery collections are recorded in tables according to the following schema:
 
-.. image:: https://github.com/brazil-data-cube/bdc-db/raw/v0.2.0/doc/model/db-schema.png
-        :target: https://github.com/brazil-data-cube/bdc-db/tree/v0.2.0/doc/model
+.. image:: https://github.com/brazil-data-cube/bdc-db/raw/b-0.2/doc/model/db-schema.png
+        :target: https://github.com/brazil-data-cube/bdc-db/tree/b-0.2/doc/model
         :width: 90%
         :alt: Database Schema
 

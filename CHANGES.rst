@@ -14,7 +14,7 @@ Changes
 Version 0.2.0
 -------------
 
-Released 2020-02-17
+Released 2020-02-18
 
 - First experimental version.
 - Metadata support for: Imagery Collections, Data Cubes and Grid Systems.

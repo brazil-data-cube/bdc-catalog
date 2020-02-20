@@ -9,12 +9,13 @@
 """Config test fixtures."""
 
 from typing import List
-from bdc_db.models import db, Collection, Tile
-from flask import Flask
+
 import pytest
+from flask import Flask
 
 from bdc_db.cli import create_app
 from bdc_db.fixtures.cli import load_fixtures
+from bdc_db.models import Collection, Tile, db
 
 
 @pytest.fixture

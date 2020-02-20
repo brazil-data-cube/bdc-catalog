@@ -9,6 +9,7 @@
 """Define file for testing bdc-db client."""
 
 import subprocess
+
 from click.testing import CliRunner
 
 from bdc_db.cli import cli

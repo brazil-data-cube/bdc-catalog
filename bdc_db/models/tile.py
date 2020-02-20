@@ -25,6 +25,8 @@ class Tile(BaseModel):
     geom_wgs84 = Column(Geometry(spatial_index=False))
     geom = Column(Geometry(spatial_index=False))
     min_x = Column(Float)
-    max_y = Column(Float)
+    max_x = Column(Float)
+    min_y = Column(Float)
+    max_x = Column(Float)
 
     grs_schema = relationship('GrsSchema')

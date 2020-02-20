@@ -1,4 +1,3 @@
-import unittest
 
 
 def test_load_tiles(tiles):

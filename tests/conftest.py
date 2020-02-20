@@ -29,7 +29,7 @@ def app() -> Flask:
 
         yield app
 
-        db.session.close_all()
+        db.close_all_sessions()
         db.drop_all()
 
 

@@ -1,7 +1,7 @@
 """add bdc-db models v1.0
 
 Revision ID: 837eddb8eee0
-Revises: 
+Revises:
 Create Date: 2019-12-06 22:59:26.666832
 
 """
@@ -96,7 +96,7 @@ def upgrade():
     sa.UniqueConstraint('id')
     )
     op.create_table('collection_items',
-    sa.Column('id', sa.String(length=64), nullable=False),
+    sa.Column('id', sa.String(length=400), nullable=False),
     sa.Column('collection_id', sa.String(length=20), nullable=False),
     sa.Column('grs_schema_id', sa.String(length=20), nullable=False),
     sa.Column('tile_id', sa.String(length=20), nullable=False),
@@ -129,7 +129,7 @@ def upgrade():
     sa.Column('band_id', sa.Integer(), nullable=False),
     sa.Column('grs_schema_id', sa.String(length=20), nullable=False),
     sa.Column('tile_id', sa.String(length=20), nullable=False),
-    sa.Column('collection_item_id', sa.String(length=64), nullable=False),
+    sa.Column('collection_item_id', sa.String(length=400), nullable=False),
     sa.Column('url', sa.Text(), nullable=True),
     sa.Column('source', sa.String(length=30), nullable=True),
     sa.Column('raster_size_x', sa.Float(precision=53), nullable=True),

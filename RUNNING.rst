@@ -29,6 +29,14 @@ Creating the Brazil Data Cube data model
         bdc-db db upgrade
 
 
+**3.** Load default fixtures of Brazil Data Cube data model:
+
+.. code-block:: shell
+
+        SQLALCHEMY_DATABASE_URI="postgresql://username:password@localhost:5432/bdcdb" \
+        bdc-db fixtures init
+
+
 Updating an Existing Data Model
 -------------------------------
 
@@ -45,4 +53,3 @@ Updating the Migration Scripts
 
         SQLALCHEMY_DATABASE_URI="postgresql://username:password@localhost:5432/bdcdb" \
         bdc-db db migrate
-

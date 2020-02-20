@@ -27,6 +27,6 @@ class Tile(BaseModel):
     min_x = Column(Float)
     max_x = Column(Float)
     min_y = Column(Float)
-    max_x = Column(Float)
+    max_y = Column(Float)
 
     grs_schema = relationship('GrsSchema')

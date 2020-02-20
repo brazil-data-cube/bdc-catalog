@@ -10,7 +10,7 @@
 
 from json import loads as json_parser
 from typing import List
-from bdc_db.models import db, Band, Collection, CompositeFunctionSchema, GrsSchema, Tile
+from bdc_db.models import db, Asset, Band, Collection, CollectionItem, CollectionTile, CompositeFunctionSchema, GrsSchema, Tile
 from flask import Flask
 from pkg_resources import resource_string
 import pytest
@@ -56,18 +56,53 @@ def load_collections(fixture_path: str):
                 b.save(commit=False)
 
 
+def load_items(fixture_path: str):
+    """Load default items and assets to database.
+
+    Args:
+        fixture_path - Path relative to fixtures. i.e 'data/items.json'
+    """
+    items = json_parser(resource_string(__name__, fixture_path))
+
+    with db.session.begin_nested():
+        for item in items:
+            assets = item.pop('assets')
+
+            c_item = CollectionItem(**item)
+            c_item.save(commit=False)
+
+            c_tile = CollectionTile()
+            c_tile.collection_id = c_item.collection_id
+            c_tile.grs_schema_id = c_item.grs_schema_id
+            c_tile.tile_id = c_item.tile_id
+            c_tile.save(commit=False)
+
+            for asset in assets:
+                b = Band.query().filter(
+                    Band.collection_id == c_item.collection_id,
+                    Band.name == asset.pop('band')
+                ).one()
+
+                a = Asset(**asset)
+                a.band = b
+
+                a.save(commit=False)
+
+
 def load_fixtures():
     """Load default database fixtures."""
     load_model('data/grs_schemas.json', GrsSchema)
     load_model('data/tiles.json', Tile)
     load_model('data/composite_functions.json', CompositeFunctionSchema)
     load_collections('data/collections.json')
+    load_items('data/items.json')
 
     db.session.commit()
 
 
 @pytest.fixture
 def app() -> Flask:
+    """Create flask app context."""
     _app = create_app()
 
     with _app.app_context():

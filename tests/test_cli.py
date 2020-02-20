@@ -27,3 +27,10 @@ def test_database_creation():
     exit_status = subprocess.call('bdc-db db create-db', shell=True)
 
     assert exit_status == 0
+
+
+def test_fixtures_init(app):
+    """Test cli fixtures init."""
+    exit_status = subprocess.call('bdc-db fixtures init', shell=True)
+
+    assert exit_status == 0

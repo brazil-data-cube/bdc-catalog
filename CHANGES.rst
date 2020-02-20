@@ -11,6 +11,15 @@ Changes
 =======
 
 
+Version 0.2.1
+-------------
+
+Released 2020-02-20
+
+- Added fixtures commands to the CLI.
+- Added new test cases.
+
+
 Version 0.2.0
 -------------
 

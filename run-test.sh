@@ -8,7 +8,7 @@
 #
 
 #pydocstyle bdc_db && \
-#isort --check-only --diff --recursive **/*.py && \
-#check-manifest --ignore ".travis-*" --ignore ".readthedocs.*" && \
-#pytest &&
+isort --check-only --diff --recursive bdc_db/*.py && \
+check-manifest --ignore ".travis-*" --ignore ".readthedocs.*" && \
+pytest &&
 sphinx-build -qnW --color -b doctest doc/sphinx/ doc/sphinx/_build/doctest

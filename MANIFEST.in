@@ -17,6 +17,7 @@ include pytest.ini
 recursive-exclude doc/model *
 recursive-exclude doc/sphinx/_build *
 recursive-exclude migrations *
+recursive-include bdc_db *.json
 recursive-include doc *.bat
 recursive-include doc *.css
 recursive-include doc *.py

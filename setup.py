@@ -2,7 +2,7 @@
 # This file is part of Brazil Data Cube Database module.
 # Copyright (C) 2019 INPE.
 #
-# Brazil Data Cube Database moduleis free software; you can redistribute it and/or modify it
+# Brazil Data Cube Database module is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
@@ -35,7 +35,7 @@ extras_require = {
     'tests': tests_require,
 }
 
-extras_require['all'] = [ req for exts, reqs in extras_require.items() for req in reqs ]
+extras_require['all'] = [req for exts, reqs in extras_require.items() for req in reqs]
 
 setup_requires = [
     'pytest-runner>=5.2',
@@ -65,7 +65,7 @@ setup(
     license='MIT',
     author='INPE',
     author_email='gribeiro@dpi.inpe.br',
-    url='https://github.com/brazil-data-cube/bdc-db.py',
+    url='https://github.com/brazil-data-cube/bdc-db',
     packages=packages,
     zip_safe=False,
     include_package_data=True,

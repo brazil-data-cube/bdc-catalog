@@ -11,7 +11,7 @@ Brazil Data Cube Database module
 ================================
 
 .. image:: https://img.shields.io/badge/license-MIT-green
-        :target: https://github.com//brazil-data-cube/bdc-db/blob/master/LICENSE
+        :target: https://github.com/brazil-data-cube/bdc-db/blob/master/LICENSE
         :alt: Software License
 
 .. image:: https://readthedocs.org/projects/bdc-db/badge/?version=b-0.2

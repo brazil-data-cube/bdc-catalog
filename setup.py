@@ -65,7 +65,7 @@ setup(
     license='MIT',
     author='INPE',
     author_email='gribeiro@dpi.inpe.br',
-    url='https://github.com/brazil-data-cube/bdc-db.py',
+    url='https://github.com/brazil-data-cube/bdc-db',
     packages=packages,
     zip_safe=False,
     include_package_data=True,

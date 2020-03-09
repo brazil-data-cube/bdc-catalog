@@ -51,8 +51,8 @@ install_requires = [
 
 packages = find_packages()
 
+g = {}
 with open(os.path.join('bdc_db', 'version.py'), 'rt') as fp:
-    g = {}
     exec(fp.read(), g)
     version = g['__version__']
 

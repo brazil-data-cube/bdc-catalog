@@ -6,11 +6,15 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import (Column, Float, ForeignKey, ForeignKeyConstraint,
-                        Integer, String, Text, text)
+from sqlalchemy import (and_, cast, Column, Float, ForeignKey, ForeignKeyConstraint,
+                        func, Index, Integer, select, String, Text, text)
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy_utils import create_materialized_view
 
-from .base_sql import BaseModel
+from .band import Band
+from .base_sql import BaseModel, db
+from .collection_item import CollectionItem
 
 
 class Asset(BaseModel):
@@ -39,3 +43,22 @@ class Asset(BaseModel):
     grs_schema = relationship('GrsSchema')
     tile = relationship('Tile')
     collection_item = relationship('CollectionItem')
+
+
+class AssetView(BaseModel):
+    _x = select([CollectionItem.id.label('item_id'),
+                            Band.common_name.label('band'),
+                            func.json_build_object('href', Asset.url).label('url')
+                           ]).where(and_(Asset.collection_item_id == CollectionItem.id,
+                                     Asset.band_id == Band.id)).alias('x')
+    __table__ = create_materialized_view(name='assets_mv',
+        selectable=select([_x.c.item_id, cast(func.json_object_agg(_x.c.band, _x.c.url), JSONB).op('||')(
+                          cast(func.json_build_object('thumbnail',
+                               func.json_build_object('href', CollectionItem.quicklook)),
+                               JSONB)).label('asset')]).
+        select_from(_x).
+        where(CollectionItem.id == _x.c.item_id).
+        group_by(_x.c.item_id, CollectionItem.quicklook),
+        metadata=db.metadata,
+        indexes=[Index('assets_mv_id_idx', 'item_id')]
+    )

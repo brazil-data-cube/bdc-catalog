@@ -6,7 +6,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from .asset import Asset, AssetView
+from .asset import Asset, AssetMV
 from .band import Band
 from .base_sql import db
 from .collection import Collection
@@ -21,7 +21,7 @@ from .tile import Tile
 __all__ = (
     'db',
     'Asset',
-    'AssetView',
+    'AssetMV',
     'Band',
     'Collection',
     'CollectionTile',

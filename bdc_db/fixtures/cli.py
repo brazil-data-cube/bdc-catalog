@@ -8,12 +8,14 @@
 
 """Python Brazil Data Cube Database Fixture click client."""
 
-from json import loads as json_parser
 
-from bdc_db.models import db, Asset, Band, Collection, CollectionItem, CollectionTile, CompositeFunctionSchema, GrsSchema, Tile
-from flask.cli import with_appcontext
-from pkg_resources import resource_string
 import click
+
+from bdc_db.models import db, Asset, AssetMV, Band, Collection, CollectionItem, CollectionTile, CompositeFunctionSchema, GrsSchema, Tile
+from flask.cli import with_appcontext
+from json import loads as json_parser
+from pkg_resources import resource_string
+from sqlalchemy_utils import refresh_materialized_view
 
 
 @click.group(chain=True)
@@ -106,5 +108,6 @@ def load_fixtures():
     load_model('data/composite_functions.json', CompositeFunctionSchema)
     load_collections('data/collections.json')
     load_items('data/items.json')
+    refresh_materialized_view(db.session, AssetMV.__table__)
 
     db.session.commit()

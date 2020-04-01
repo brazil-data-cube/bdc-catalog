@@ -56,7 +56,7 @@ class AssetMV(BaseModel):
         selectable=select([_x.c.item_id, cast(func.json_object_agg(_x.c.band, _x.c.url), JSONB).op('||')(
                           cast(func.json_build_object('thumbnail',
                                func.json_build_object('href', CollectionItem.quicklook)),
-                               JSONB)).label('asset')]).
+                               JSONB)).label('assets')]).
         select_from(_x).
         where(CollectionItem.id == _x.c.item_id).
         group_by(_x.c.item_id, CollectionItem.quicklook),

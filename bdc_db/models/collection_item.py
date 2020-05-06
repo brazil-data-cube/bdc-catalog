@@ -8,6 +8,7 @@
 
 from sqlalchemy import (Column, Date, Float, ForeignKey, ForeignKeyConstraint,
                         String, Text)
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel
@@ -30,6 +31,7 @@ class CollectionItem(BaseModel):
     cloud_cover = Column(Float)
     scene_type = Column(String)
     compressed_file = Column(String)
+    assets_json = Column(JSONB)
 
     cube_collection = relationship('Collection')
     grs_schema = relationship('GrsSchema')

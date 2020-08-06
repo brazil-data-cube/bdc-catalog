@@ -1,0 +1,137 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "asset.json#",
+    "title": "",
+    "type": "object",
+    "description": "This object represents the metadata for an asset in a Brazil Data Cube Database.",
+    "allOf": [
+        {
+            "$ref": "#/definitions/assets"
+        }
+    ],
+    "definitions": {
+        "assets": {
+            "title": "Asset links",
+            "description": "Links to assets",
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/asset"
+            }
+        },
+        "asset": {
+            "type": "object",
+            "required": [
+                "href",
+                "created",
+                "updated",
+                "type",
+                "roles"
+            ],
+            "properties": {
+                "href": {
+                    "title": "Asset url reference",
+                    "description": "URL for acessing the referenced asset",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "Asset title",
+                    "description": "Title of the referenced asset",
+                    "type": "string"
+                },
+                "description": {
+                    "title": "Asset description",
+                    "description": "Description of the referenced asset",
+                    "type": "string"
+                },
+                "type": {
+                    "title": "Asset type",
+                    "description": "Type of the referenced asset",
+                    "type": "string",
+                    "enum": [
+                        "image/png",
+                        "image/tiff",
+                        "image/tiff; application=geotiff; profile=cloud-optimized",
+                        "text/plain",
+                        "text/html",
+                        "application/json",
+                        "application/xml",
+                        "application/x-tar",
+                        "application/zip"
+                    ]
+                },
+                "created": {
+                    "title": "Asset creation date",
+                    "description": "Creation date of the referenced asset",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated": {
+                    "title": "Asset update date",
+                    "description": "Update of the referenced asset",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "roles": {
+                    "title": "Asset roles",
+                    "description": "Roles of the referenced asset",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "thumbnail",
+                            "overview",
+                            "data",
+                            "metadata"
+                        ]
+                    }
+                },
+                "checksum:multihash": {
+                    "title": "Multihash",
+                    "description": "Multihash for the corresponding file, encoded as hexadecimal (base 16) string with lowercase letters.",
+                    "type": "string",
+                    "pattern": "^[a-f0-9]+$"
+                },
+                "size": {
+                    "title": "Asset size",
+                    "description": "Size of the referenced asset (in MB)",
+                    "type": "number"
+                },
+                "raster_size": {
+                    "title": "Asset raster X, Y size",
+                    "description": "If the asset is a raster file, this field describes the dimensions of the raster.",
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Size of X axis"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Size of Y axis"
+                        }
+                    }
+                },
+                "chunk_size": {
+                    "title": "Asset chunk X, Y size",
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Size of X axis",
+                            "examples": [
+                                256, 512
+                            ]
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Size of Y axis",
+                            "examples": [
+                                256, 512
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -6,20 +6,19 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, String, Integer, Text, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Text, UniqueConstraint
 
 from .base_sql import BaseModel
 
 
-class CompositeFunctionSchema(BaseModel):
-    __tablename__ = 'composite_function_schemas'
+class ResolutionUnit(BaseModel):
+    __tablename__ = 'resolution_unit'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(64), nullable=False)
-    description = Column(Text, nullable=False)
-    alias = Column(String(6), nullable=False)
+    name = Column(String(20))
+    symbol = Column(String(3))
+    description = Column(Text)
 
     __table_args__ = (
-        UniqueConstraint(alias),
         UniqueConstraint(name),
     )

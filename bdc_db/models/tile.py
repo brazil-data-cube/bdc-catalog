@@ -6,8 +6,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from geoalchemy2 import Geometry
-from sqlalchemy import Column, Float, ForeignKey, Index, String
+from sqlalchemy import Column, ForeignKey, Index, String, Integer
 from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel
@@ -15,16 +14,15 @@ from .base_sql import BaseModel
 
 class Tile(BaseModel):
     __tablename__ = 'tiles'
-    __table_args__ = (
-        Index('idx_tiles_geom_wgs84', 'geom_wgs84', postgres_using='gist'),
-        Index('idx_tiles_geom', 'geom', postgres_using='gist'),
-    )
 
-    id = Column(String(20), primary_key=True, nullable=False)
-    grs_schema_id = Column(ForeignKey('grs_schemas.id'), primary_key=True, nullable=False)
-    geom_wgs84 = Column(Geometry(spatial_index=False))
-    geom = Column(Geometry(spatial_index=False))
-    min_x = Column(Float)
-    max_y = Column(Float)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    grs_schema_id = Column(ForeignKey('grs_schemas.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    name = Column(String(20), nullable=False)
 
     grs_schema = relationship('GrsSchema')
+
+    __table_args__ = (
+        Index(None, 'id'),
+        Index(None, name),
+        Index(None, grs_schema_id)
+    )

@@ -6,28 +6,32 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from .asset import Asset
+from .application import Application
 from .band import Band
 from .base_sql import db
-from .collection import Collection
-from .collection_item import CollectionItem
-from .collection_tile import CollectionTile
+from .collection import Collection, CollectionSRC, CollectionsProviders
 from .composite_function_schema import CompositeFunctionSchema
 from .grs_schema import GrsSchema
-from .raster_size_schema import RasterSizeSchema
-from .temporal_composition_schema import TemporalCompositionSchema
+from .item import Item
+from .mime_type import MimeType
+from .provider import Provider
+from .quicklook import Quicklook
+from .resolution_unit import ResolutionUnit
 from .tile import Tile
 
 __all__ = (
     'db',
-    'Asset',
+    'Application',
     'Band',
     'Collection',
-    'CollectionTile',
-    'CollectionItem',
+    'CollectionSRC',
+    'CollectionsProviders',
     'CompositeFunctionSchema',
     'GrsSchema',
-    'RasterSizeSchema',
-    'TemporalCompositionSchema',
+    'Item',
+    'MimeType',
+    'Provider',
+    'Quicklook',
+    'ResolutionUnit',
     'Tile',
 )

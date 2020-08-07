@@ -6,20 +6,20 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, String, Integer, Text, UniqueConstraint
+from sqlalchemy import Column, Integer, Text, UniqueConstraint
+from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel
 
 
-class CompositeFunctionSchema(BaseModel):
-    __tablename__ = 'composite_function_schemas'
+class MimeType(BaseModel):
+    __tablename__ = 'mime_type'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(64), nullable=False)
-    description = Column(Text, nullable=False)
-    alias = Column(String(6), nullable=False)
+    name = Column(Text, nullable=False)
+
+    bands = relationship('Band')
 
     __table_args__ = (
-        UniqueConstraint(alias),
         UniqueConstraint(name),
     )

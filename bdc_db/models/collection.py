@@ -6,30 +6,79 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Boolean, Column, ForeignKey, String
+from sqlalchemy import (Column, ForeignKey, String, Enum, Text, Integer,
+                        UniqueConstraint, Index, TIMESTAMP, Boolean, SmallInteger, PrimaryKeyConstraint)
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import JSONB
 
-from .base_sql import BaseModel
+from .base_sql import BaseModel, db
+
+name_collection_type = 'collection_type'
+options_collection_type = ('cube', 'collection')
+enum_collection_type = Enum(*options_collection_type, name=name_collection_type)
 
 
 class Collection(BaseModel):
+    """Define the collection structure for Brazil Data Cube."""
+
     __tablename__ = 'collections'
 
-    id = Column(String(20), primary_key=True)
-    temporal_composition_schema_id = Column(ForeignKey('temporal_composition_schemas.id'), nullable=True)
-    raster_size_schema_id = Column(ForeignKey('raster_size_schemas.id'), nullable=True)
-    composite_function_schema_id = Column(ForeignKey('composite_function_schemas.id'), nullable=False)
-    grs_schema_id = Column(ForeignKey('grs_schemas.id'), nullable=False)
-    sensor = Column(String(40), nullable=True)
-    geometry_processing = Column(String(16), nullable=True)
-    radiometric_processing = Column(String(40), nullable=True)
-    description = Column(String(250), nullable=False)
-    oauth_scope = Column(String(250), nullable=True)
-    is_cube = Column(Boolean, nullable=True, default=False)
-    bands_quicklook = Column(String(250), nullable=True)
-    license = Column(String(250), nullable=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False, comment='Collection name internally.')
+    title = Column(String(255), nullable=False, comment='A human-readable string naming for collection.')
+    description = Column(Text)
+    temporal_composition_schema = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json')
+    composite_function_schema_id = Column(
+        ForeignKey('composite_function_schemas.id', onupdate='CASCADE', ondelete='CASCADE'),
+        comment='Function schema identifier. Used for data cubes.')
+    grs_schema_id = Column(ForeignKey('grs_schemas.id', onupdate='CASCADE', ondelete='CASCADE'))
+    instrument = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-instrument.json')
+    collection_type = Column(enum_collection_type, nullable=False)
+    datacite = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-datacite.json')
+    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
+    start_date = Column(TIMESTAMP(timezone=True))
+    end = Column(TIMESTAMP(timezone=True))
+    version = Column(Integer, nullable=False)
+    version_predecessor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
+    version_successor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
 
     grs_schema = relationship('GrsSchema')
-    composite_function_schemas = relationship('CompositeFunctionSchema')
-    raster_size_schemas = relationship('RasterSizeSchema')
-    temporal_composition_schema = relationship('TemporalCompositionSchema')
+    composite_function_schema = relationship('CompositeFunctionSchema')
+
+    __table_args__ = (
+        UniqueConstraint('name', 'version'),
+        Index(None, grs_schema_id),
+        Index(None, name),
+    )
+
+
+class CollectionSRC(BaseModel):
+    __tablename__ = 'collection_src'
+
+    collection_id = db.Column('collection_id', db.Integer(),
+              db.ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'),
+              nullable=False)
+
+    collection_src_id = db.Column('collection_src_id', db.Integer(),
+              db.ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'),
+              nullable=False)
+
+    __table_args__ = (
+        PrimaryKeyConstraint(collection_id, collection_src_id),
+    )
+
+
+class CollectionsProviders(BaseModel):
+    __tablename__ = 'collections_providers'
+
+    provider_id = Column('provider_id', db.Integer(),
+                         ForeignKey('providers.id', onupdate='CASCADE', ondelete='CASCADE'),
+                         nullable=False, primary_key=True)
+
+    collection_id = Column('collection_id',
+                           db.Integer(),
+                           ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'),
+                           nullable=False, primary_key=True)
+
+    active = Column(Boolean(), nullable=False, default=True)
+    priority = Column(SmallInteger(), nullable=False)

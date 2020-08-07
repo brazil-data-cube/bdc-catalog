@@ -6,28 +6,45 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, Float, ForeignKey, Integer, String
+from sqlalchemy import Column, Numeric, ForeignKey, Index, Integer, String, Text, Enum
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import JSONB
 
 from .base_sql import BaseModel
+
+name_data_type = 'data_type'
+options_data_type = ('uint8', 'int8', 'uint16', 'int16', 'uint32', 'int32', 'float32', 'float64')
+enum_data_type = Enum(*options_data_type, name=name_data_type)
 
 
 class Band(BaseModel):
     __tablename__ = 'bands'
 
-    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
-    name = Column(String(20), unique=False, primary_key=True)
-    collection_id = Column(ForeignKey('collections.id'), unique=False, primary_key=True)
-    min = Column(Float)
-    max = Column(Float)
-    fill = Column(Integer)
-    scale = Column(String(16))
-    common_name = Column(String(16), nullable=False)
-    data_type = Column(String(16))
-    mime_type = Column(String(16))
-    resolution_x = Column(Float(53), nullable=False)
-    resolution_y = Column(Float(53), nullable=False)
-    resolution_unit = Column(String(16), nullable=False)
-    description = Column(String(64))
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    common_name = Column(String(255), nullable=False)
+    description = Column(Text)
+    min = Column(Numeric)
+    max = Column(Numeric)
+    nodata = Column(Numeric)
+    scale = Column(Numeric)
+    resolution_x = Column(Numeric)
+    resolution_y = Column(Numeric)
+    center_wavelength = Column(Numeric)
+    full_width_half_max = Column(Numeric)
+    collection_id = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
+    resolution_unit_id = Column(ForeignKey('resolution_unit.id', onupdate='CASCADE', ondelete='CASCADE'))
+    data_type = Column(enum_data_type)
+    mime_type_id = Column(ForeignKey('mime_type.id', onupdate='CASCADE', ondelete='CASCADE'))
+    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/band-metadata.json')
 
     collection = relationship('Collection')
+    resolution_unit = relationship('ResolutionUnit')
+    mime_type = relationship('MimeType')
+
+    __table_args__ = (
+        Index(None, collection_id),
+        Index(None, name),
+        Index(None, common_name),
+        Index(None, mime_type_id),
+    )

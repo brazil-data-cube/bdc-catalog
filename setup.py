@@ -45,7 +45,7 @@ install_requires = [
     'Flask-Migrate>=2.5.2',
     'Flask-SQLAlchemy>=2.4.1',
     'GeoAlchemy2>=0.6.2',
-    'SQLAlchemy[postgresql]>=1.3.10',
+    'SQLAlchemy[postgresql_psycopg2binary]>=1.3.10',
     'SQLAlchemy-Utils>=0.34.2',
 ]
 

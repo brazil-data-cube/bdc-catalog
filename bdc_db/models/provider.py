@@ -6,23 +6,21 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, Integer, String, Text, UniqueConstraint
-from sqlalchemy.dialects.postgresql import OID
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Index, Integer, String, Text
+from sqlalchemy.dialects.postgresql import JSONB
 
 from .base_sql import BaseModel
 
 
-class GrsSchema(BaseModel):
-    __tablename__ = 'grs_schemas'
+class Provider(BaseModel):
+    __tablename__ = 'providers'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(255), nullable=False)
+    name = Column(String(64))
     description = Column(Text)
-    table_id = Column(OID, nullable=False)
+    uri = Column(String(255))
+    credentials = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/provider-credentials.json')
 
     __table_args__ = (
-        UniqueConstraint(name),
+        Index(None, name),
     )
-
-    tiles = relationship('Tiles')

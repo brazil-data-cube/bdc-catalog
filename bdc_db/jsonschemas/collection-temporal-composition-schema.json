@@ -1,0 +1,137 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#temporal-composition-schema.json",
+    "type": "object",
+    "title": "Temporal Composition Schema",
+    "description": "Defines the interval and periodicity in which temporation composition are made in data cube.",
+    "examples": [
+        {
+            "schema": "Continuous",
+            "step": 7,
+            "unit": "day"
+        },
+        {
+            "schema": "Cyclic",
+            "step": 7,
+            "unit": "day",
+            "cycle": {
+                "unit": "year",
+                "step": 1
+            }
+        },
+        {
+            "schema": "Cyclic",
+            "step": 7,
+            "unit": "day",
+            "cycle": {
+                "unit": "month",
+                "step": 1
+            }
+        },
+        {
+            "schema": "Cyclic",
+            "step": 7,
+            "unit": "day",
+            "cycle": {
+                "unit": "year",
+                "step": 1
+            },
+            "intervals": [
+                "08-01_10-31"
+            ]
+        }
+    ],
+    "required": [
+        "schema",
+        "step",
+        "unit"
+    ],
+    "additionalProperties": true,
+    "properties": {
+        "schema": {
+            "type": "string",
+            "enum": [
+                "Continuous",
+                "Cyclic"
+            ],
+            "title": "The temporal composition schema.",
+            "description": "The schema (Cyclic or Continuous)",
+            "examples": [
+                "Continuous"
+            ]
+        },
+        "step": {
+            "$ref": "#/definitions/step"
+        },
+        "unit": {
+            "$ref": "#/definitions/unit"
+        },
+        "cycle": {
+            "$ref": "#/definitions/cycle"
+        },
+        "intervals": {
+            "title": "The interval schema",
+            "description": "Allow to define specific periods in a year.",
+            "examples": [
+                "08-01_10-31"
+            ],
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "if": {
+        "properties": {
+            "schema": {
+                "const": "Cyclic"
+            },
+            "unit": {
+                "const": "day"
+            }
+        }
+    },
+    "then": {
+        "required": [
+            "schema",
+            "step",
+            "unit",
+            "cycle"
+        ]
+    },
+    "definitions": {
+        "unit": {
+            "type": "string",
+            "title": "The unit (day/month/year) of period",
+            "enum": [
+                "day",
+                "month",
+                "year"
+            ]
+        },
+        "step": {
+            "type": "integer",
+            "title": "The time step",
+            "minimum": 1,
+            "examples": [
+                7
+            ]
+        },
+        "cycle": {
+            "type": "object",
+            "title": "Define the periodicity",
+            "required": [
+                "unit",
+                "step"
+            ],
+            "properties": {
+                "unit": {
+                    "$ref": "#/definitions/unit"
+                },
+                "step": {
+                    "$ref": "#/definitions/step"
+                }
+            }
+        }
+    }
+}

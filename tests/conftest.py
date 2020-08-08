@@ -13,9 +13,9 @@ from typing import List
 import pytest
 from flask import Flask
 
-from bdc_db.cli import create_app
-from bdc_db.fixtures.cli import load_fixtures
-from bdc_db.models import Collection, Tile, db
+from bdc_catalog.cli import create_app
+from bdc_catalog.fixtures.cli import load_fixtures
+from bdc_catalog.models import Collection, Tile, db
 
 
 @pytest.fixture

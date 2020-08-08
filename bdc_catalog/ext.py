@@ -9,10 +9,11 @@
 from flask import Flask
 from flask_migrate import Migrate
 
-from bdc_db.models import db
+from .cli import cli
+from .models import db
 
 
-class BDCDatabase:
+class BDCCatalog:
     def __init__(self, app=None, **kwargs):
         if app:
             self.init_app(app, **kwargs)
@@ -22,3 +23,4 @@ class BDCDatabase:
         self.migrate = Migrate(app, db, **kwargs)
 
         app.extensions['bdc-db'] = self
+        app.cli.add_command(cli)

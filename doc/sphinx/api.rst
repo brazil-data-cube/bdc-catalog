@@ -10,11 +10,11 @@ Python API
 
 **(Under Development)**
 
-.. currentmodule:: bdc_db
+.. currentmodule:: bdc_catalog
 
-.. autoclass:: bdc_db.models.asset.Asset
+.. autoclass:: bdc_catalog.models.item.Item
     :members:
 
-.. autofunction:: bdc_db.cli.create_cli
+.. autofunction:: bdc_catalog.cli.create_cli
 
-.. autofunction:: bdc_db.cli.create_db
+.. autofunction:: bdc_catalog.cli.create_db

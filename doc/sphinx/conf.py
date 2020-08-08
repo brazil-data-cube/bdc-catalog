@@ -8,7 +8,7 @@
 """Configuration file for the Sphinx documentation builder system."""
 import os
 
-import bdc_db
+import bdc_catalog
 
 # -- Project information -----------------------------------------------------
 
@@ -20,7 +20,7 @@ g = {}
 
 
 # The full version, including alpha/beta/rc tags.
-version = bdc_db.__version__
+version = bdc_catalog.__version__
 release = version
 
 # -- General configuration ---------------------------------------------------

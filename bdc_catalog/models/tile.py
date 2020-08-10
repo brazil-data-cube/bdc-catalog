@@ -19,7 +19,7 @@ class Tile(BaseModel):
     grid_ref_sys_id = Column(ForeignKey('grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     name = Column(String(20), nullable=False)
 
-    grs_schema = relationship('GrsSchema')
+    grs = relationship('GridRefSys')
 
     __table_args__ = (
         Index(None, 'id'),

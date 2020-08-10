@@ -6,6 +6,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+from geoalchemy2 import Geometry
 from sqlalchemy import (Column, ForeignKey, String, Enum, Text, Integer,
                         UniqueConstraint, Index, TIMESTAMP, Boolean, SmallInteger, PrimaryKeyConstraint)
 from sqlalchemy.orm import relationship
@@ -38,6 +39,7 @@ class Collection(BaseModel):
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))
+    extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     version = Column(Integer, nullable=False)
     version_predecessor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
     version_successor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
@@ -49,6 +51,7 @@ class Collection(BaseModel):
         UniqueConstraint('name', 'version'),
         Index(None, grid_ref_sys_id),
         Index(None, name),
+        Index(None, extent, postgresql_using='gist'),
     )
 
 

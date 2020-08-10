@@ -15,8 +15,8 @@ from sqlalchemy.orm import relationship
 from .base_sql import BaseModel, db
 
 
-class GrsSchema(BaseModel):
-    __tablename__ = 'grs_schemas'
+class GridRefSys(BaseModel):
+    __tablename__ = 'grid_ref_sys'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False)

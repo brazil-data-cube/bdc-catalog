@@ -11,8 +11,8 @@ from sqlalchemy import Column, String, Integer, Text, UniqueConstraint
 from .base_sql import BaseModel
 
 
-class CompositeFunctionSchema(BaseModel):
-    __tablename__ = 'composite_function_schemas'
+class CompositeFunction(BaseModel):
+    __tablename__ = 'composite_functions'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(64), nullable=False)

@@ -16,7 +16,7 @@ class Tile(BaseModel):
     __tablename__ = 'tiles'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    grs_schema_id = Column(ForeignKey('grs_schemas.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    grid_ref_sys_id = Column(ForeignKey('grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     name = Column(String(20), nullable=False)
 
     grs_schema = relationship('GrsSchema')
@@ -24,5 +24,5 @@ class Tile(BaseModel):
     __table_args__ = (
         Index(None, 'id'),
         Index(None, name),
-        Index(None, grs_schema_id)
+        Index(None, grid_ref_sys_id)
     )

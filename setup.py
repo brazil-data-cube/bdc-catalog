@@ -52,12 +52,12 @@ install_requires = [
 packages = find_packages()
 
 g = {}
-with open(os.path.join('bdc_db', 'version.py'), 'rt') as fp:
+with open(os.path.join('bdc_catalog', 'version.py'), 'rt') as fp:
     exec(fp.read(), g)
     version = g['__version__']
 
 setup(
-    name='bdc-db',
+    name='bdc-catalog',
     version=version,
     description=__doc__,
     long_description=readme + '\n\n' + history,
@@ -72,7 +72,7 @@ setup(
     platforms='any',
     entry_points={
         'console_scripts': [
-            'bdc-db = bdc_db.cli:cli'
+            'bdc-catalog = bdc_catalog.cli:cli'
         ]
     },
     extras_require=extras_require,

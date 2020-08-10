@@ -14,19 +14,20 @@ from flask.cli import FlaskGroup, with_appcontext
 from flask_migrate.cli import db as flask_migrate_db
 from sqlalchemy_utils.functions import create_database, database_exists
 
-from .ext import BDCDatabase
 from .fixtures.cli import fixtures
 from .models import db
 
 
 def create_app():
+    from .ext import BDCCatalog
+
     app = Flask(__name__)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI',
                                                            'postgresql://postgres:postgres@localhost:5432/bdcdb')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-    BDCDatabase(app)
+    BDCCatalog(app)
 
     return app
 

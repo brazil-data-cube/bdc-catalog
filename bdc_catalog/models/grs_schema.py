@@ -25,4 +25,4 @@ class GrsSchema(BaseModel):
         UniqueConstraint(name),
     )
 
-    tiles = relationship('Tiles')
+    tiles = relationship('Tile')

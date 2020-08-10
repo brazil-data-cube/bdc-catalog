@@ -37,7 +37,7 @@ class Collection(BaseModel):
     datacite = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-datacite.json')
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     start_date = Column(TIMESTAMP(timezone=True))
-    end = Column(TIMESTAMP(timezone=True))
+    end_date = Column(TIMESTAMP(timezone=True))
     version = Column(Integer, nullable=False)
     version_predecessor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
     version_successor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))

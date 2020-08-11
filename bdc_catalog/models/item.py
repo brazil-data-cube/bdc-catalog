@@ -34,7 +34,7 @@ class Item(BaseModel):
 
     collection = relationship('Collection')
     tile = relationship('Tile')
-    data_source = relationship('Provider')
+    provider = relationship('Provider')
     application = relationship('Application')
 
     __table_args__ = (

@@ -14,7 +14,6 @@ from flask.cli import FlaskGroup, with_appcontext
 from flask_migrate.cli import db as flask_migrate_db
 from sqlalchemy_utils.functions import create_database, database_exists
 
-from .fixtures.cli import fixtures
 from .models import db
 
 
@@ -58,7 +57,6 @@ def create_cli(create_app=None):
 
 
 cli = create_cli(create_app=create_app)
-cli.add_command(fixtures)
 
 
 @flask_migrate_db.command()
@@ -75,7 +73,6 @@ def create_db():
         db.session.execute('CREATE EXTENSION IF NOT EXISTS postgis')
 
     db.session.commit()
-
 
 
 def main(as_module=False):

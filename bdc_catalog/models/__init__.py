@@ -10,8 +10,8 @@ from .application import Application
 from .band import Band
 from .base_sql import db
 from .collection import Collection, CollectionSRC, CollectionsProviders
-from .composite_function_schema import CompositeFunctionSchema
-from .grs_schema import GrsSchema
+from .composite_function import CompositeFunction
+from .grid_ref_sys import GridRefSys
 from .item import Item
 from .mime_type import MimeType
 from .provider import Provider
@@ -26,8 +26,8 @@ __all__ = (
     'Collection',
     'CollectionSRC',
     'CollectionsProviders',
-    'CompositeFunctionSchema',
-    'GrsSchema',
+    'CompositeFunction',
+    'GridRefSys',
     'Item',
     'MimeType',
     'Provider',

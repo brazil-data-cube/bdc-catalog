@@ -6,6 +6,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+from geoalchemy2 import Geometry
 from sqlalchemy import (Column, ForeignKey, String, Enum, Text, Integer,
                         UniqueConstraint, Index, TIMESTAMP, Boolean, SmallInteger, PrimaryKeyConstraint)
 from sqlalchemy.orm import relationship
@@ -28,27 +29,29 @@ class Collection(BaseModel):
     title = Column(String(255), nullable=False, comment='A human-readable string naming for collection.')
     description = Column(Text)
     temporal_composition_schema = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json')
-    composite_function_schema_id = Column(
-        ForeignKey('composite_function_schemas.id', onupdate='CASCADE', ondelete='CASCADE'),
+    composite_function_id = Column(
+        ForeignKey('composite_functions.id', onupdate='CASCADE', ondelete='CASCADE'),
         comment='Function schema identifier. Used for data cubes.')
-    grs_schema_id = Column(ForeignKey('grs_schemas.id', onupdate='CASCADE', ondelete='CASCADE'))
+    grid_ref_sys_id = Column(ForeignKey('grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
     instrument = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-instrument.json')
     collection_type = Column(enum_collection_type, nullable=False)
     datacite = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-datacite.json')
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     start_date = Column(TIMESTAMP(timezone=True))
-    end = Column(TIMESTAMP(timezone=True))
+    end_date = Column(TIMESTAMP(timezone=True))
+    extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     version = Column(Integer, nullable=False)
     version_predecessor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
     version_successor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
 
-    grs_schema = relationship('GrsSchema')
-    composite_function_schema = relationship('CompositeFunctionSchema')
+    grs = relationship('GridRefSys')
+    composite_function = relationship('CompositeFunction')
 
     __table_args__ = (
         UniqueConstraint('name', 'version'),
-        Index(None, grs_schema_id),
+        Index(None, grid_ref_sys_id),
         Index(None, name),
+        Index(None, extent, postgresql_using='gist'),
     )
 
 

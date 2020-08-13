@@ -37,6 +37,7 @@ class Collection(BaseModel):
     collection_type = Column(enum_collection_type, nullable=False)
     datacite = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-datacite.json')
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
+    is_public = Column(Boolean(), nullable=False, default=True)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))
     extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))

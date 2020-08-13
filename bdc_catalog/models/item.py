@@ -44,7 +44,7 @@ class Item(BaseModel):
         Index(None, min_convex_hull, postgresql_using='gist'),
         Index(None, name),
         Index(None, provider_id),
-        Index(None, start_date, end_date),
+        Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
         Index(None, start_date.desc()),
     )

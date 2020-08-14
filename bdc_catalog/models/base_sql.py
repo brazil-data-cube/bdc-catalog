@@ -14,6 +14,10 @@ from sqlalchemy.orm import Query
 from sqlalchemy.ext.declarative import declared_attr
 
 
+# Setting default namespace for BDC-Catalog
+db.metadata.schema = 'bdc'
+
+
 class CreatedUpdatedMixin:
     """Define base mixin to add `created` and `updated` fields."""
 

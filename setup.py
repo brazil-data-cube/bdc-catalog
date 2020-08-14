@@ -42,11 +42,11 @@ setup_requires = [
 ]
 
 install_requires = [
-    'Flask-Migrate>=2.5.2',
     'Flask-SQLAlchemy>=2.4.1',
     'GeoAlchemy2>=0.6.2',
     'SQLAlchemy[postgresql_psycopg2binary]>=1.3.10',
     'SQLAlchemy-Utils>=0.34.2',
+    'bdc-db @ git+ssh://git@github.com/brazil-data-cube/bdc-db'
 ]
 
 packages = find_packages()
@@ -71,6 +71,12 @@ setup(
     include_package_data=True,
     platforms='any',
     entry_points={
+        'bdc_db.alembic': [
+            'bdc_catalog = bdc_catalog:alembic'
+        ],
+        'bdc_db.models': [
+            'bdc_catalog = bdc_catalog.models'
+        ],
         'console_scripts': [
             'bdc-catalog = bdc_catalog.cli:cli'
         ]

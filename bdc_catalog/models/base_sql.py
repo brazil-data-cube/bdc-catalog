@@ -8,25 +8,10 @@
 
 from datetime import datetime
 
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, MetaData, TIMESTAMP
+from bdc_db.db import db
+from sqlalchemy import Column, TIMESTAMP
 from sqlalchemy.orm import Query
 from sqlalchemy.ext.declarative import declared_attr
-
-
-# Naming convention for SQLAlchemy constraint keys
-# See more in https://docs.sqlalchemy.org/en/13/core/constraints.html#configuring-constraint-naming-conventions
-NAMING_CONVENTION = {
-  "ix": 'idx_%(column_0_label)s',
-  "uq": "%(table_name)s_%(column_0_name)s_key",
-  "ck": "%(table_name)s_%(constraint_name)s_ckey",
-  "fk": "%(table_name)s_%(column_0_name)s_%(referred_table_name)s_fkey",
-  "pk": "%(table_name)s_pkey"
-}
-
-metadata = MetaData(naming_convention=NAMING_CONVENTION)
-
-db = SQLAlchemy(metadata=metadata)
 
 
 class CreatedUpdatedMixin:

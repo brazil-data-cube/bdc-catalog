@@ -7,10 +7,8 @@
 #
 
 from flask import Flask
-from flask_migrate import Migrate
 
 from .cli import cli
-from .models import db
 
 
 class BDCCatalog:
@@ -19,8 +17,5 @@ class BDCCatalog:
             self.init_app(app, **kwargs)
 
     def init_app(self, app: Flask, **kwargs):
-        db.init_app(app)
-        self.migrate = Migrate(app, db, **kwargs)
-
-        app.extensions['bdc-db'] = self
+        app.extensions['bdc-catalog'] = self
         app.cli.add_command(cli)

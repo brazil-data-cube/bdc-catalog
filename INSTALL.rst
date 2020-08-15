@@ -9,19 +9,16 @@
 Installation
 ============
 
-The ``Brazil Data Cube Database module`` (``bdc-db``) depends essentially on `Flask-Migrate <https://flask-migrate.readthedocs.io/en/latest/>`_ and `Flask-SQLAlchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_. Please, read the instructions below in order to install ``bdc-db``.
+The ``Brazil Data Cube Catalog`` (``BDC-Catalog``) depends essentially on
+`Flask-Alembic <https://flask-alembic.readthedocs.io/en/stable/>`_ and
+`Flask-SQLAlchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_.
+Please, read the instructions below in order to install ``BDC-Catalog``.
 
 
 Production installation
 -----------------------
 
 **Under Development!**
-
-.. Install from `PyPI <https://pypi.org/>`_:
-..
-.. .. code-block:: shell
-..
-..     $ pip3 install bdc-db
 
 
 Development installation
@@ -31,14 +28,14 @@ Clone the software repository:
 
 .. code-block:: shell
 
-        $ git clone https://github.com/brazil-data-cube/bdc-db.git
+        $ git clone https://github.com/brazil-data-cube/bdc-catalog.git
 
 
 Go to the source code folder:
 
 .. code-block:: shell
 
-        $ cd bdc-db
+        $ cd bdc-catalog
 
 
 Install in development mode:

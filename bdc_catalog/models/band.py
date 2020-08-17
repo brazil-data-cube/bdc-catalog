@@ -6,9 +6,10 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, Numeric, ForeignKey, Index, Integer, String, Text, Enum
-from sqlalchemy.orm import relationship
+from sqlalchemy import (Column, Enum, ForeignKey, Index, Integer, Numeric,
+                        String, Text)
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel
 

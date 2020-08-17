@@ -9,10 +9,9 @@
 from datetime import datetime
 
 from bdc_db.db import db
-from sqlalchemy import Column, TIMESTAMP
-from sqlalchemy.orm import Query
+from sqlalchemy import TIMESTAMP, Column
 from sqlalchemy.ext.declarative import declared_attr
-
+from sqlalchemy.orm import Query
 
 # Setting default namespace for BDC-Catalog
 db.metadata.schema = 'bdc'

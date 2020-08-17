@@ -8,7 +8,8 @@
 
 from typing import Union
 
-from sqlalchemy import Column, Integer, String, Table, Text, UniqueConstraint, func, text
+from sqlalchemy import (Column, Integer, String, Table, Text, UniqueConstraint,
+                        func, text)
 from sqlalchemy.dialects.postgresql import OID
 from sqlalchemy.orm import relationship
 

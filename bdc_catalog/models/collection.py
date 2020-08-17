@@ -7,10 +7,11 @@
 #
 
 from geoalchemy2 import Geometry
-from sqlalchemy import (Column, ForeignKey, String, Enum, Text, Integer,
-                        UniqueConstraint, Index, TIMESTAMP, Boolean, SmallInteger, PrimaryKeyConstraint)
-from sqlalchemy.orm import relationship
+from sqlalchemy import (TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
+                        Integer, PrimaryKeyConstraint, SmallInteger, String,
+                        Text, UniqueConstraint)
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel, db
 

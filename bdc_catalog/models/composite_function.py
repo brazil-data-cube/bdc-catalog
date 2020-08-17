@@ -6,7 +6,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, String, Integer, Text, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Text, UniqueConstraint
 
 from .base_sql import BaseModel
 

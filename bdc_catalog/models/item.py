@@ -15,6 +15,13 @@ from sqlalchemy.dialects.postgresql import JSONB
 from .base_sql import BaseModel
 
 
+class SpatialRefSys(BaseModel):
+    __tablename__ = 'spatial_ref_sys'
+    __table_args__ = ({"schema": "public"})
+
+    srid = Column(Integer, primary_key=True)
+
+
 class Item(BaseModel):
     __tablename__ = 'items'
 
@@ -31,6 +38,7 @@ class Item(BaseModel):
     application_id = Column(ForeignKey('applications.id', onupdate='CASCADE', ondelete='CASCADE'))
     geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     min_convex_hull = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
+    srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
 
     collection = relationship('Collection')
     tile = relationship('Tile')

@@ -12,6 +12,7 @@ from .base_sql import db
 from .collection import Collection, CollectionSRC, CollectionsProviders
 from .composite_function import CompositeFunction
 from .grid_ref_sys import GridRefSys
+from .item import SpatialRefSys
 from .item import Item
 from .mime_type import MimeType
 from .provider import Provider
@@ -28,6 +29,7 @@ __all__ = (
     'CollectionsProviders',
     'CompositeFunction',
     'GridRefSys',
+    'SpatialRefSys',
     'Item',
     'MimeType',
     'Provider',

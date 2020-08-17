@@ -76,6 +76,7 @@ See https://bdc-db.readthedocs.io/en/latest/
 License
 =======
 
+
 .. admonition::
     Copyright (C) 2019-2020 INPE.
 

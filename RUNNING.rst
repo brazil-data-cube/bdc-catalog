@@ -51,3 +51,8 @@ Updating the Migration Scripts
 
         SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb" \
         bdc-db alembic revision "my revision" --branch=bdc_catalog
+
+
+.. note::
+
+        Make sure to pass ``--branch=bdc_catalog`` in order to prevent alembic branch tree.

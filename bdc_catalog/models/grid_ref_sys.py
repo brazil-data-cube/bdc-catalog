@@ -8,14 +8,18 @@
 
 """Model for table ``bdc.grid_ref_sys``."""
 
-from typing import Union
+from typing import Dict, Iterable, Union
 
-from sqlalchemy import (Column, Integer, String, Table, Text, UniqueConstraint,
+import geoalchemy2
+from sqlalchemy import (Column, Integer, String, Table, Text, Index,
                         func, text)
 from sqlalchemy.dialects.postgresql import OID
 from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel, db
+
+
+Feature = Dict[str, str]
 
 
 class GridRefSys(BaseModel):
@@ -29,6 +33,56 @@ class GridRefSys(BaseModel):
     table_id = Column(OID, nullable=False)
 
     tiles = relationship('Tile')
+
+    @classmethod
+    def create_geometry_table(cls, table_name: str, features: Iterable[Feature], srid=None) -> 'GridRefSys':
+        """Create an table to store the features and retrieve a respective Grid instance.
+
+        Args:
+            table_name - Grid name (Used as table_name).
+            features - Iterable with tile and geom mapped.
+            srid - SRID for grid. Default is Brazil Data Cube SRID.
+        """
+        grs = cls()
+        grs.name = table_name
+
+        if srid is None:
+            srid = 100001
+
+        grid_table = Table(
+            table_name, db.metadata,
+            db.Column('id', db.Integer(), primary_key=True, autoincrement=True),
+            db.Column('tile', db.String),
+            db.Column('geom', geoalchemy2.Geometry(geometry_type='Polygon', srid=srid, spatial_index=False)),
+            Index(None, 'geom', postgresql_using='gist')
+        )
+
+        if grid_table.exists(db.engine):
+            raise RuntimeError(f'Table {table_name} already exists')
+
+        grid_table.create(bind=db.engine)
+
+        db.session.execute(grid_table.insert().values(features))
+
+        table_id = cls.get_table_id(table_name)
+
+        grs.table_id = table_id
+
+        return grs
+
+    @classmethod
+    def get_table_id(cls, grs_name: str, schema=None) -> str:
+        """Retrieve a Table OID from a Grid name.
+
+        Raises:
+            Exception when there is no table geometry for grid name.
+        """
+        if schema is None:
+            schema = db.metadata.schema or 'public'
+
+        res = db.session.execute(f'SELECT \'{schema}.{grs_name}\'::regclass::oid AS table_id').first()
+
+        return res.table_id
 
     @property
     def crs(self) -> Union[str, None]:

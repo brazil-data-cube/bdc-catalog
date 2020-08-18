@@ -6,13 +6,17 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, ForeignKey, Index, String, Integer
+"""Model for table ``bdc.tile``."""
+
+from sqlalchemy import Column, ForeignKey, Index, Integer, String
 from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel
 
 
 class Tile(BaseModel):
+    """Model for table ``bdc.tile``."""
+
     __tablename__ = 'tiles'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

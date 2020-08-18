@@ -6,16 +6,20 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+"""Model for the image item of a collection."""
+
 from geoalchemy2 import Geometry
-from sqlalchemy import (Column, Index, Integer, ForeignKey,
-                        Numeric, String, TIMESTAMP)
-from sqlalchemy.orm import relationship
+from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index, Integer, Numeric,
+                        String)
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel
 
 
 class SpatialRefSys(BaseModel):
+    """Auxiliary model for the PostGIS spatial_ref_sys table."""
+
     __tablename__ = 'spatial_ref_sys'
     __table_args__ = ({"schema": "public"})
 
@@ -23,6 +27,8 @@ class SpatialRefSys(BaseModel):
 
 
 class Item(BaseModel):
+    """Model for the image item of a collection."""
+
     __tablename__ = 'items'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

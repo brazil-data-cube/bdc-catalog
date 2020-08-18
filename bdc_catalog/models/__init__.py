@@ -6,14 +6,15 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+"""SQLAlchemy model classes for BDC-Catalog."""
+
 from .application import Application
 from .band import Band
 from .base_sql import db
-from .collection import Collection, CollectionSRC, CollectionsProviders
+from .collection import Collection, CollectionsProviders, CollectionSRC
 from .composite_function import CompositeFunction
 from .grid_ref_sys import GridRefSys
-from .item import SpatialRefSys
-from .item import Item
+from .item import Item, SpatialRefSys
 from .mime_type import MimeType
 from .provider import Provider
 from .quicklook import Quicklook
@@ -29,11 +30,11 @@ __all__ = (
     'CollectionsProviders',
     'CompositeFunction',
     'GridRefSys',
-    'SpatialRefSys',
     'Item',
     'MimeType',
     'Provider',
     'Quicklook',
     'ResolutionUnit',
+    'SpatialRefSys',
     'Tile',
 )

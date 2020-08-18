@@ -6,9 +6,12 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, Numeric, ForeignKey, Index, Integer, String, Text, Enum
-from sqlalchemy.orm import relationship
+"""Model for spectral bands and derived indices (table ``bdc.band``)."""
+
+from sqlalchemy import (Column, Enum, ForeignKey, Index, Integer, Numeric,
+                        String, Text)
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel
 
@@ -18,14 +21,16 @@ enum_data_type = Enum(*options_data_type, name=name_data_type)
 
 
 class Band(BaseModel):
+    """Model for spectral bands and derived indices (table ``bdc.band``)."""
+
     __tablename__ = 'bands'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False)
     common_name = Column(String(255), nullable=False)
     description = Column(Text)
-    min = Column(Numeric)
-    max = Column(Numeric)
+    min_value = Column(Numeric)
+    max_value = Column(Numeric)
     nodata = Column(Numeric)
     scale = Column(Numeric)
     resolution_x = Column(Numeric)

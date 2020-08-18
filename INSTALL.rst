@@ -1,55 +1,83 @@
 ..
-    This file is part of Brazil Data Cube Database module.
-    Copyright (C) 2019 INPE.
+    This file is part of BDC-Catalog.
+    Copyright (C) 2019-2020 INPE.
 
-    Brazil Data Cube Database module is free software; you can redistribute it and/or modify it
+    BDC-Catalog is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
 
 
 Installation
 ============
 
-The ``Brazil Data Cube Catalog`` (``BDC-Catalog``) depends essentially on
-`Flask-Alembic <https://flask-alembic.readthedocs.io/en/stable/>`_ and
-`Flask-SQLAlchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_.
-Please, read the instructions below in order to install ``BDC-Catalog``.
-
-
-Production installation
------------------------
-
-**Under Development!**
-
 
 Development installation
 ------------------------
 
-Clone the software repository:
 
-.. code-block:: shell
-
-        $ git clone https://github.com/brazil-data-cube/bdc-catalog.git
+Pre-Requirements
+++++++++++++++++
 
 
-Go to the source code folder:
+The ``Brazil Data Cube Catalog`` (``BDC-Catalog``) depends essentially on:
 
-.. code-block:: shell
+- `BDC-Catalog`.
 
-        $ cd bdc-catalog
+- `Flask-SQLAlchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_: an extension for `Flask <http://flask.pocoo.org/>`_ that adds support for `SQLAlchemy <https://www.sqlalchemy.org/>`_ in applications.
 
-
-Install in development mode:
-
-.. code-block:: shell
-
-        $ pip3 install -e .[all]
+- `Flask-Migrate <https://flask-migrate.readthedocs.io/en/latest/>`_: used to handle `SQLAlchemy <https://www.sqlalchemy.org/>`_ database migrations with `Alembic <https://alembic.sqlalchemy.org/en/latest/index.html>`_.
 
 
-Generate the documentation:
+Clone the software repository
++++++++++++++++++++++++++++++
 
-.. code-block:: shell
 
-        $ python setup.py build_sphinx
+Use ``git`` to clone the software repository::
+
+    git clone https://github.com/brazil-data-cube/bdc-catalog.git
+
+
+Install BDC-Catalog in Development Mode
++++++++++++++++++++++++++++++++++++++++
+
+
+Go to the source code folder::
+
+    cd bdc-catalog
+
+
+Install in development mode::
+
+    pip3 install -e .[all]
+
+
+.. note::
+
+    If you want to create a new *Python Virtual Environment*, please, follow this instruction:
+
+    *1.* Create a new virtual environment linked to Python 3.7::
+
+        python3.7 -m venv venv
+
+
+    **2.** Activate the new environment::
+
+        source venv/bin/activate
+
+
+    **3.** Update pip and setuptools::
+
+        pip3 install --upgrade pip
+
+        pip3 install --upgrade setuptools
+
+
+Build the Documentation
++++++++++++++++++++++++
+
+
+You can generate the documentation based on Sphinx with the following command::
+
+    python setup.py build_sphinx
 
 
 The above command will generate the documentation in HTML and it will place it under:
@@ -57,3 +85,13 @@ The above command will generate the documentation in HTML and it will place it u
 .. code-block:: shell
 
     doc/sphinx/_build/html/
+
+
+The above command will generate the documentation in HTML and it will place it under::
+
+    docs/sphinx/_build/html/
+
+
+You can open the above documentation in your favorite browser, as::
+
+    firefox docs/sphinx/_build/html/index.html

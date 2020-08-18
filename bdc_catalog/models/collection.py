@@ -6,11 +6,14 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+"""Model for the main table of image collections and data cubes."""
+
 from geoalchemy2 import Geometry
-from sqlalchemy import (Column, ForeignKey, String, Enum, Text, Integer,
-                        UniqueConstraint, Index, TIMESTAMP, Boolean, SmallInteger, PrimaryKeyConstraint)
-from sqlalchemy.orm import relationship
+from sqlalchemy import (TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
+                        Integer, PrimaryKeyConstraint, SmallInteger, String,
+                        Text, UniqueConstraint)
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel, db
 
@@ -20,7 +23,7 @@ enum_collection_type = Enum(*options_collection_type, name=name_collection_type)
 
 
 class Collection(BaseModel):
-    """Define the collection structure for Brazil Data Cube."""
+    """Model for the main table of image collections and data cubes."""
 
     __tablename__ = 'collections'
 
@@ -47,6 +50,7 @@ class Collection(BaseModel):
 
     grs = relationship('GridRefSys')
     composite_function = relationship('CompositeFunction')
+    bands = relationship('Band')
 
     __table_args__ = (
         UniqueConstraint('name', 'version'),
@@ -57,6 +61,8 @@ class Collection(BaseModel):
 
 
 class CollectionSRC(BaseModel):
+    """Model for collection provenance/lineage."""
+
     __tablename__ = 'collection_src'
 
     collection_id = db.Column('collection_id', db.Integer(),
@@ -73,6 +79,8 @@ class CollectionSRC(BaseModel):
 
 
 class CollectionsProviders(BaseModel):
+    """Track the available data providers for an image collection."""
+
     __tablename__ = 'collections_providers'
 
     provider_id = Column('provider_id', db.Integer(),

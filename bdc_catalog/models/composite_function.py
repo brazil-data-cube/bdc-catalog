@@ -6,20 +6,19 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-from sqlalchemy import Column, String, Integer, Text, UniqueConstraint
+"""Model for table ``bdc.composite_functions``."""
+
+from sqlalchemy import Column, Integer, String, Text, UniqueConstraint
 
 from .base_sql import BaseModel
 
 
 class CompositeFunction(BaseModel):
+    """Model for table ``bdc.composite_functions``."""
+
     __tablename__ = 'composite_functions'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(64), nullable=False)
+    name = Column(String(64), nullable=False, unique=True)
     description = Column(Text, nullable=False)
-    alias = Column(String(6), nullable=False)
-
-    __table_args__ = (
-        UniqueConstraint(alias),
-        UniqueConstraint(name),
-    )
+    alias = Column(String(6), nullable=False, unique=True)

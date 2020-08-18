@@ -6,9 +6,12 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+"""Model for table ``bdc.grid_ref_sys``."""
+
 from typing import Union
 
-from sqlalchemy import Column, Integer, String, Table, Text, UniqueConstraint, func, text
+from sqlalchemy import (Column, Integer, String, Table, Text, UniqueConstraint,
+                        func, text)
 from sqlalchemy.dialects.postgresql import OID
 from sqlalchemy.orm import relationship
 
@@ -16,16 +19,14 @@ from .base_sql import BaseModel, db
 
 
 class GridRefSys(BaseModel):
+    """Model for table ``bdc.grid_ref_sys``."""
+
     __tablename__ = 'grid_ref_sys'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False, unique=True)
     description = Column(Text)
     table_id = Column(OID, nullable=False)
-
-    __table_args__ = (
-        UniqueConstraint(name),
-    )
 
     tiles = relationship('Tile')
 
@@ -57,10 +58,10 @@ class GridRefSys(BaseModel):
             It does not raise error when GRID name does not exist.
 
         Args:
-            grs_name - The GRID name
+            grs_name: The GRID name
 
         Returns:
-            Table - A SQLAlchemy table reference to GRID geometry table.
+            Table: A SQLAlchemy table reference to GRID geometry table.
         """
         expr = text('SELECT relname AS table_name, '
                     'relnamespace::regnamespace::text AS schema '

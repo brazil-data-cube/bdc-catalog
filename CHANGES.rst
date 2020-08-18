@@ -15,7 +15,7 @@ Version 0.4.0
 -------------
 
 
-Released 2020-08-17
+Released 2020-08-18
 
 
 - Improved data model:
@@ -29,7 +29,7 @@ Released 2020-08-17
     - general JSON metadata field
     - provider association.
     - collection versioning.
-    - collection provenance: datasets used to create collection, lineage (successor and predecessor), algorithm processors.
+    - collection provenance/lineage: datasets used to create collection, lineage (successor and predecessor), algorithm processors.
 
   - Table ``items``:
 

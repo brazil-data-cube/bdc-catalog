@@ -6,6 +6,8 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+"""Base classes for SQLAlchemy database models in BDC-Catalog."""
+
 from datetime import datetime
 
 from bdc_db.db import db
@@ -17,36 +19,43 @@ from sqlalchemy.orm import Query
 db.metadata.schema = 'bdc'
 
 
-class CreatedUpdatedMixin:
-    """Define base mixin to add `created` and `updated` fields."""
+class Timestamp:
+    """Base timestamp model mixin to add the ``created`` and ``updated`` fields."""
 
     @declared_attr
     def created(self):
-        return Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+        """Define a special declarative member to record the creation of a table row."""
+        return Column(TIMESTAMP(timezone=True), default=datetime.utcnow,
+                      nullable=False)
 
     @declared_attr
     def updated(self):
-        return Column(TIMESTAMP(timezone=True), default=datetime.utcnow)
+        """Define a special declarative member to record the update of a table row."""
+        return Column(TIMESTAMP(timezone=True), default=datetime.utcnow,
+                      nullable=False)
 
 
-class BaseModel(db.Model, CreatedUpdatedMixin):
+class BaseModel(db.Model, Timestamp):
+    """Base model class for BDC-Catalog classes."""
+
     __abstract__ = True
 
     @classmethod
     def query(cls) -> Query:
+        """Return a query object according to the class model."""
         return db.session.query(cls)
 
     @classmethod
     def save_all(cls, objects):
-        """Save list of objects in database"""
+        """Save list of objects in database."""
         db.session.bulk_save_objects(objects)
         db.session.commit()
 
     def save(self, commit=True):
-        """Save record in database
+        """Save record in database.
 
         Args:
-            commit (bool) - Auto commit. Default is True
+            commit (bool): Auto commit. Default is True
         """
         with db.session.begin_nested():
             db.session.add(self)

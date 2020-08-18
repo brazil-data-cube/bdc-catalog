@@ -6,10 +6,13 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+"""Unit-test for BDC-Catalog."""
 
 def test_load_tiles(tiles):
+    """Mock."""
     assert len(tiles) > 0
 
 
 def test_load_database(collections):
+    """Mock."""
     assert len(collections) > 0

@@ -6,7 +6,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-pydocstyle bdc_catalog tests setup.py && \
+pydocstyle --match-dir="^bdc_catalog/alembic" bdc_catalog tests/*.py setup.py && \
 isort bdc_catalog tests setup.py --check-only --diff && \
 check-manifest --ignore ".travis-*" --ignore ".readthedocs.*" && \
 sphinx-build -qnW --color -b doctest docs/sphinx/ docs/sphinx/_build/doctest && \

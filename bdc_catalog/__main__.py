@@ -7,6 +7,7 @@
 #
 
 """Allows the client command interface to be run from the package."""
+
 from .cli import main
 
 if __name__ == '__main__':

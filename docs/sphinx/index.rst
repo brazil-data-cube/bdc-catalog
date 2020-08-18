@@ -1,25 +1,37 @@
 ..
-    This file is part of Brazil Data Cube Database module.
-    Copyright (C) 2019 INPE.
+    This file is part of BDC-Catalog.
+    Copyright (C) 2019-2020 INPE.
 
-    Brazil Data Cube Database module is free software; you can redistribute it and/or modify it
+    BDC-Catalog is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
 
 .. include:: ../../README.rst
    :end-before: Installation
 
 
-Documentation
-=============
+BDC-Catalog
+===========
+
+
+.. toctree::
+    :hidden:
+
+    self
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: API Reference
 
    installation
    api
-   license
 
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Additional Notes
+
+    license
 
 
 Indices and tables

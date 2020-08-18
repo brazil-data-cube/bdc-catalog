@@ -6,6 +6,8 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+"""Model for collection QuickLook info."""
+
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
@@ -13,6 +15,8 @@ from .base_sql import BaseModel
 
 
 class Quicklook(BaseModel):
+    """Model for collection QuickLook info."""
+
     __tablename__ = 'quicklook'
 
     collection_id = Column(ForeignKey('collections.id'), primary_key=True)

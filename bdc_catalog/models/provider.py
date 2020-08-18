@@ -6,6 +6,8 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
+"""Model for table ``bdc.providers``."""
+
 from sqlalchemy import Column, Index, Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB
 
@@ -13,6 +15,8 @@ from .base_sql import BaseModel
 
 
 class Provider(BaseModel):
+    """Model for table ``bdc.providers``."""
+
     __tablename__ = 'providers'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

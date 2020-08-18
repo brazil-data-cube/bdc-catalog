@@ -6,7 +6,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-"""Define file for testing bdc-db client."""
+"""Unit-test for BDC-Catalog CLI."""
 
 import subprocess
 
@@ -17,7 +17,6 @@ from bdc_catalog.cli import cli
 
 def test_basic_cli():
     """Test basic cli usage."""
-
     res = CliRunner().invoke(cli)
 
     assert res.exit_code == 0

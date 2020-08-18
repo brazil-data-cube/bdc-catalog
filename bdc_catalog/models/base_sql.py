@@ -19,7 +19,7 @@ from sqlalchemy.orm import Query
 db.metadata.schema = 'bdc'
 
 
-class Timestamp:
+class TimestampMixin:
     """Base timestamp model mixin to add the ``created`` and ``updated`` fields."""
 
     @declared_attr
@@ -35,7 +35,7 @@ class Timestamp:
                       nullable=False)
 
 
-class BaseModel(db.Model, Timestamp):
+class BaseModel(db.Model, TimestampMixin):
     """Base model class for BDC-Catalog classes."""
 
     __abstract__ = True

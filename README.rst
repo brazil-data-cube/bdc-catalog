@@ -53,31 +53,15 @@ About
 BDC-Catalog is an image metadata storage module for Earth Observation imagery. The module handles Earth Observation image collections and data cubes. The following diagram shows the tables used to store the metadata and their relationships:
 
 
-.. image:: https://github.com/brazil-data-cube/bdc-db/raw/master/doc/model/db-schema.png
-        :target: https://github.com/brazil-data-cube/bdc-db/tree/master/doc/model
+.. image:: https://github.com/brazil-data-cube/bdc-catalog/raw/master/docs/model/db-schema.png
+        :target: https://github.com/brazil-data-cube/bdc-catalog/tree/master/docs/model
         :width: 90%
         :alt: Database Schema
 
 
 In the above diagram, for every column of type JSON there is a specific JSONSchema:
 
-- (**TODO**) `provider-credentials.json <./bdc_catalog/jsonschemas/provider-credentials.json>`_: Data provider (INPE, USGS, ESA, AWS).
-
-- `application-metadata.json <./bdc_catalog/jsonschemas/application-metadata.json>`_.
-
-- `collection-temporal-composition-schema.json <./bdc_catalog/jsonschemas/collection-temporal-composition-schema.json>`_.
-
-- `collection-instrument.json <./bdc_catalog/jsonschemas/collection-instrument.json>`_.
-
-- `collection-datacite.json <./bdc_catalog/jsonschemas/collection-datacite.json>`_.
-
-- `collection-metadata.json <./bdc_catalog/jsonschemas/collection-metadata.json>`_.
-
-- `band-metadata.json <./bdc_catalog/jsonschemas/band-metadata.json>`_
-
-- `item-assets.json <./bdc_catalog/jsonschemas/item-assets.json>`_.
-
-- `item-metadata.json <./bdc_catalog/jsonschemas/item-metadata.json>`_.
+- (**TODO**)
 
 
 This is the base package for other softwares in the Brazil Data Cube project. For instance, the `Brazil Data Cube Spatiotemporal Asset Catalog implementation <https://github.com/brazil-data-cube/bdc-stac>`_ and the `Brazil Data Cube Collection Builder <https://github.com/brazil-data-cube/bdc-collection-builder>`_ rely on it.

@@ -11,13 +11,11 @@
 from typing import Dict, Iterable, Union
 
 import geoalchemy2
-from sqlalchemy import (Column, Integer, String, Table, Text, Index,
-                        func, text)
+from sqlalchemy import Column, Index, Integer, String, Table, Text, func, text
 from sqlalchemy.dialects.postgresql import OID
 from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel, db
-
 
 Feature = Dict[str, str]
 

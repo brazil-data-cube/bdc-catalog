@@ -6,9 +6,9 @@
     under the terms of the MIT License; see LICENSE file for more details.
 
 
-================================
-Brazil Data Cube Database module
-================================
+=======================================
+Brazil Data Cube Image Metadata Catalog
+=======================================
 
 
 .. image:: https://img.shields.io/badge/license-MIT-green
@@ -59,9 +59,7 @@ BDC-Catalog is an image metadata storage module for Earth Observation imagery. T
         :alt: Database Schema
 
 
-In the above diagram, for every column of type JSON there is a specific JSONSchema:
-
-- (**TODO**)
+In the above diagram, for every column of type JSON there is a specific JSONSchema. See the folder `bdc_catalog/jsonschemas <https://github.com/brazil-data-cube/bdc-catalog/tree/master/bdc_catalog/jsonschemas>`_.
 
 
 This is the base package for other softwares in the Brazil Data Cube project. For instance, the `Brazil Data Cube Spatiotemporal Asset Catalog implementation <https://github.com/brazil-data-cube/bdc-stac>`_ and the `Brazil Data Cube Collection Builder <https://github.com/brazil-data-cube/bdc-collection-builder>`_ rely on it.

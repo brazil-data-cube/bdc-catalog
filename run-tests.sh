@@ -7,7 +7,7 @@
 #
 
 pydocstyle --match-dir="^bdc_catalog/alembic" bdc_catalog tests/*.py setup.py && \
-isort bdc_catalog tests setup.py --check-only --diff && \
+isort bdc_catalog tests setup.py --check-only --diff --skip-glob "bdc_catalog/alembic/*" && \
 check-manifest --ignore ".travis-*" --ignore ".readthedocs.*" && \
 sphinx-build -qnW --color -b doctest docs/sphinx/ docs/sphinx/_build/doctest && \
 pytest

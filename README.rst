@@ -12,7 +12,7 @@ Brazil Data Cube Image Metadata Catalog
 
 
 .. image:: https://img.shields.io/badge/license-MIT-green
-        :target: https://github.com/brazil-data-cube/bdc-db/blob/master/LICENSE
+        :target: https://github.com/brazil-data-cube/bdc-catalog/blob/master/LICENSE
         :alt: Software License
 
 
@@ -83,7 +83,7 @@ Developer Documentation
 =======================
 
 
-See https://bdc-db.readthedocs.io/en/latest/
+See https://bdc-catalog.readthedocs.io/en/latest/
 
 
 License
@@ -93,5 +93,5 @@ License
 .. admonition::
     Copyright (C) 2019-2020 INPE.
 
-    Brazil Data Cube Database module is free software; you can redistribute it and/or modify it
+    BDC-Catalog is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.

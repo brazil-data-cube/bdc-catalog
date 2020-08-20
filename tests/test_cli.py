@@ -24,13 +24,6 @@ def test_basic_cli():
 
 def test_database_creation():
     """Test cli database creation."""
-    exit_status = subprocess.call('bdc-catalog db create-db', shell=True)
-
-    assert exit_status == 0
-
-
-def test_fixtures_init(app):
-    """Test cli fixtures init."""
-    exit_status = subprocess.call('bdc-catalog fixtures init', shell=True)
+    exit_status = subprocess.call('bdc-catalog db init', shell=True)
 
     assert exit_status == 0

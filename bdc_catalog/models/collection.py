@@ -36,9 +36,7 @@ class Collection(BaseModel):
         ForeignKey('composite_functions.id', onupdate='CASCADE', ondelete='CASCADE'),
         comment='Function schema identifier. Used for data cubes.')
     grid_ref_sys_id = Column(ForeignKey('grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
-    instrument = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-instrument.json')
     collection_type = Column(enum_collection_type, nullable=False)
-    datacite = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-datacite.json')
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     is_public = Column(Boolean(), nullable=False, default=True)
     start_date = Column(TIMESTAMP(timezone=True))

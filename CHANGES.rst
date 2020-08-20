@@ -37,6 +37,7 @@ Released 2020-08-18
     - ``min_convex_hull`` column besides the footprint geometry.
     - track application that recorded the item.
     - track the data provider of the collection.
+    - Assets now have a checksum field and the number of bytes field.
 
   - Table ``bands``:
 

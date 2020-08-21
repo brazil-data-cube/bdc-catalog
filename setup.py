@@ -72,7 +72,7 @@ setup(
     license='MIT',
     author='Brazil Data Cube Team',
     author_email='brazildatacube@inpe.br',
-    url='https://github.com/brazil-data-cube/bdc-db',
+    url='https://github.com/brazil-data-cube/bdc-catalog',
     packages=packages,
     zip_safe=False,
     include_package_data=True,

@@ -20,6 +20,7 @@ from .provider import Provider
 from .quicklook import Quicklook
 from .resolution_unit import ResolutionUnit
 from .tile import Tile
+from .timeline import Timeline
 
 __all__ = (
     'db',
@@ -37,4 +38,5 @@ __all__ = (
     'ResolutionUnit',
     'SpatialRefSys',
     'Tile',
+    'Timeline',
 )

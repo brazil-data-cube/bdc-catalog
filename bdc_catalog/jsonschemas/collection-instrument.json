@@ -9,10 +9,24 @@
             "$ref": "#/definitions/platform"
         }
     ],
+    "examples": [
+        {
+            "code": "Landsat-8",
+            "instruments": [
+                "OLI",
+                "TIRS"
+            ]
+        }
+    ],
     "definitions": {
         "platform": {
             "type": "object",
-            "required": [],
+            "required": [
+                "code",
+                "instruments",
+                "geometry_processing",
+                "radiometry_processing"
+            ],
             "properties": {
                 "code": {
                     "title": "Code / Name",
@@ -32,43 +46,25 @@
                         "Aqua"
                     ]
                 },
-                "instrument": {
+                "instruments": {
                     "title": "Instrument / Sensor",
                     "description": "Describes the satellite sensor",
-                    "type": "string",
-                    "enum": [
-                        "TM",
-                        "ETM",
-                        "OLI",
-                        "TIRS",
-                        "OLI/TIRS",
-                        "MSI",
-                        "PAN",
-                        "MUX",
-                        "WFI",
-                        "AWFI",
-                        "MODIS"
-                    ]
-                },
-                "geometry_processing": {
-                    "title": "Geometry Processing",
-                    "description": "",
-                    "type": "string",
-                    "enum": [
-                        "ortho"
-                    ]
-                },
-                "radiometry_processing": {
-                    "title": "Radiometry Processing",
-                    "description": "Describes the radiometric processing level",
-                    "type": "string",
-                    "enum": [
-                        "DN",
-                        "TOA",
-                        "SR",
-                        "BT",
-                        "ST"
-                    ]
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "TM",
+                            "ETM",
+                            "OLI",
+                            "TIRS",
+                            "MSI",
+                            "PAN",
+                            "MUX",
+                            "WFI",
+                            "AWFI",
+                            "MODIS"
+                        ]
+                    }
                 }
             }
         }

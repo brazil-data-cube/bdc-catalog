@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#item-metadata.json",
+    "type": "object",
+    "title": "Image item metadata field",
+    "description": "Defines the metadata field in the table items of Brazil Data Cube Data Model.",
+    "examples": [
+    ],
+    "required": [],
+    "additionalProperties": true,
+    "properties": {
+
+    }
+}

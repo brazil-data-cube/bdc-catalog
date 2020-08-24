@@ -8,7 +8,7 @@
 
 """Model for table ``bdc.applications``."""
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -27,3 +27,7 @@ class Application(BaseModel):
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/application-metadata.json')
 
     items = relationship('Item')
+
+    __table_args__ = (
+        UniqueConstraint(name, version),
+    )

@@ -1,17 +1,17 @@
-"""v0_4_0
+"""add v0.4
 
-Revision ID: 149deb59082a
+Revision ID: df75becb04b2
 Revises: 
-Create Date: 2020-08-20 11:36:48.189330
+Create Date: 2020-08-18 08:52:56.543144
 
 """
 from alembic import op
+import geoalchemy2
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
-import geoalchemy2
 
 # revision identifiers, used by Alembic.
-revision = '149deb59082a'
+revision = 'df75becb04b2'
 down_revision = None
 branch_labels = ('bdc_catalog',)
 depends_on = None
@@ -93,7 +93,9 @@ def upgrade():
     sa.Column('temporal_composition_schema', postgresql.JSONB(astext_type=sa.Text()), nullable=True, comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json'),
     sa.Column('composite_function_id', sa.Integer(), nullable=True, comment='Function schema identifier. Used for data cubes.'),
     sa.Column('grid_ref_sys_id', sa.Integer(), nullable=True),
+    sa.Column('instrument', postgresql.JSONB(astext_type=sa.Text()), nullable=True, comment='Follow the JSONSchema @jsonschemas/collection-instrument.json'),
     sa.Column('collection_type', sa.Enum('cube', 'collection', name='collection_type'), nullable=False),
+    sa.Column('datacite', postgresql.JSONB(astext_type=sa.Text()), nullable=True, comment='Follow the JSONSchema @jsonschemas/collection-datacite.json'),
     sa.Column('metadata', postgresql.JSONB(astext_type=sa.Text()), nullable=True, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json'),
     sa.Column('is_public', sa.Boolean(), nullable=False),
     sa.Column('start_date', sa.TIMESTAMP(timezone=True), nullable=True),

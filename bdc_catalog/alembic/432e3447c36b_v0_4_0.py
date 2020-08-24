@@ -1,17 +1,17 @@
-"""v0_4_0
+"""v0.4.0
 
-Revision ID: 149deb59082a
+Revision ID: 432e3447c36b
 Revises: 
-Create Date: 2020-08-20 11:36:48.189330
+Create Date: 2020-08-24 18:59:50.823614
 
 """
 from alembic import op
+import geoalchemy2
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
-import geoalchemy2
 
 # revision identifiers, used by Alembic.
-revision = '149deb59082a'
+revision = '432e3447c36b'
 down_revision = None
 branch_labels = ('bdc_catalog',)
 depends_on = None
@@ -28,6 +28,7 @@ def upgrade():
     sa.Column('created', sa.TIMESTAMP(timezone=True), nullable=False),
     sa.Column('updated', sa.TIMESTAMP(timezone=True), nullable=False),
     sa.PrimaryKeyConstraint('id', name=op.f('applications_pkey')),
+    sa.UniqueConstraint('name', 'version', name=op.f('applications_name_key')),
     schema='bdc'
     )
     op.create_table('composite_functions',
@@ -99,7 +100,7 @@ def upgrade():
     sa.Column('start_date', sa.TIMESTAMP(timezone=True), nullable=True),
     sa.Column('end_date', sa.TIMESTAMP(timezone=True), nullable=True),
     sa.Column('extent', geoalchemy2.types.Geometry(geometry_type='POLYGON', srid=4326, spatial_index=False, from_text='ST_GeomFromEWKT', name='geometry'), nullable=True),
-    sa.Column('version', sa.Integer(), nullable=False),
+    sa.Column('version', sa.String(length=3), nullable=False),
     sa.Column('version_predecessor', sa.Integer(), nullable=True),
     sa.Column('version_successor', sa.Integer(), nullable=True),
     sa.Column('created', sa.TIMESTAMP(timezone=True), nullable=False),

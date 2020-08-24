@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "asset.json#",
-    "title": "",
+    "title": "Assets metadata",
     "type": "object",
     "description": "This object represents the metadata for an asset in a Brazil Data Cube Database.",
     "allOf": [
@@ -22,10 +22,12 @@
             "type": "object",
             "required": [
                 "href",
+                "type",
                 "created",
                 "updated",
-                "type",
-                "roles"
+                "roles",
+                "checksum:multihash",
+                "size"
             ],
             "properties": {
                 "href": {
@@ -81,7 +83,8 @@
                             "thumbnail",
                             "overview",
                             "data",
-                            "metadata"
+                            "metadata",
+                            "other"
                         ]
                     }
                 },
@@ -93,7 +96,7 @@
                 },
                 "size": {
                     "title": "Asset size",
-                    "description": "Size of the referenced asset (in MB)",
+                    "description": "Size of the referenced asset (in bytes)",
                     "type": "number"
                 },
                 "raster_size": {
@@ -133,5 +136,18 @@
                 }
             }
         }
-    }
+    },
+    "examples": [
+        {
+            "thumbnail": {
+                "type": "image/png",
+                "href": "/Repository/Archive/LC8SR/2020-05/220068/LC08_L1TP_220068_20200506_20200509_01_T1.png",
+                "created": "2020-07-01T23:59:59",
+                "updated": "2020-07-01T23:59:59",
+                "roles": ["thumbnail"],
+                "checksum:multihash":  "10dcba59b727a08f937a235d759d894d61c14b3dd237edb638189c281902a6fb",
+                "size": 2048
+            }
+        }
+    ]
 }

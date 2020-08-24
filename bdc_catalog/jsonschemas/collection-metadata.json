@@ -6,26 +6,36 @@
     "description": "Defines the metadata field in the table collections of Brazil Data Cube Data Model.",
     "examples": [
         {
-            "processor": {
-                "name": "LaSRC",
-                "version": "2.0",
-                "uri": "https://espa.cr.usgs.gov/"
-            },
-            "cloud_processor": {
-                "name": "Function of Mask (Fmask)",
-                "version": "4.2",
-                "uri": "https://github.com/GERSL/Fmask"
-            }
+            "processors": [
+                {
+                    "name": "LaSRC",
+                    "version": "2.0",
+                    "uri": "https://espa.cr.usgs.gov/"
+                },
+                {
+                    "name": "Function of Mask (Fmask)",
+                    "version": "4.2",
+                    "uri": "https://github.com/GERSL/Fmask"
+                }
+            ]
         }
     ],
     "required": [],
     "additionalProperties": true,
     "properties": {
-        "processor": {
-            "$ref": "#/definitions/processor_type"
+        "processors": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/processor_type"
+            }
         },
-        "cloud_processor": {
-            "$ref": "#/definitions/processor_type"
+        "platform": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "datacite": {
+            "type": "object",
+            "additionalProperties": true
         }
     },
     "definitions": {
@@ -36,6 +46,11 @@
                     "type": "string",
                     "title": "The processor algorithm applied in collection.",
                     "description": "The processor algorithm used in collection.",
+                    "enum": [
+                        "LaSRC",
+                        "Sen2Cor",
+                        "Function of Mask (Fmask)"
+                    ],
                     "examples": [
                         "LaSRC",
                         "Sen2Cor",

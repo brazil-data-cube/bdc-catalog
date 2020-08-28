@@ -48,7 +48,7 @@ class GridRefSys(BaseModel):
             srid = 100001
 
         grid_table = Table(
-            table_name, db.metadata,
+            table_name.lower(), db.metadata,
             db.Column('id', db.Integer(), primary_key=True, autoincrement=True),
             db.Column('tile', db.String),
             db.Column('geom', geoalchemy2.Geometry(geometry_type='Polygon', srid=srid, spatial_index=False)),
@@ -78,7 +78,7 @@ class GridRefSys(BaseModel):
         if schema is None:
             schema = db.metadata.schema or 'public'
 
-        res = db.session.execute(f'SELECT \'{schema}.{grs_name}\'::regclass::oid AS table_id').first()
+        res = db.session.execute(f'SELECT \'{schema}.{grs_name.lower()}\'::regclass::oid AS table_id').first()
 
         return res.table_id
 
@@ -120,7 +120,7 @@ class GridRefSys(BaseModel):
                     'FROM bdc.grid_ref_sys, pg_class '
                     'WHERE bdc.grid_ref_sys.table_id = pg_class.oid AND '
                     'bdc.grid_ref_sys.name = :table_name')
-        res = db.session.execute(expr.bindparams(table_name=grs_name)).fetchone()
+        res = db.session.execute(expr.bindparams(table_name=grs_name.lower())).fetchone()
 
         if res:
             return Table(res.table_name, db.metadata, schema=res.schema, autoload=True, autoload_with=db.engine)

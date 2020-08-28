@@ -24,7 +24,10 @@ class SpatialRefSys(BaseModel):
     __table_args__ = ({"schema": "public"})
 
     srid = Column(Integer, primary_key=True)
-
+    auth_name = Column(String)
+    auth_srid = Column(Integer)
+    srtext = Column(String)
+    proj4text = Column(String)
 
 class Item(BaseModel):
     """Model for the image item of a collection."""

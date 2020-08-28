@@ -117,9 +117,9 @@ class GridRefSys(BaseModel):
         """
         expr = text('SELECT relname AS table_name, '
                     'relnamespace::regnamespace::text AS schema '
-                    'FROM bdc.grs_schemas, pg_class '
-                    'WHERE bdc.grs_schemas.table_id = pg_class.oid AND '
-                    'bdc.grs_schemas.name = :table_name')
+                    'FROM bdc.grid_ref_sys, pg_class '
+                    'WHERE bdc.grid_ref_sys.table_id = pg_class.oid AND '
+                    'bdc.grid_ref_sys.name = :table_name')
         res = db.session.execute(expr.bindparams(table_name=grs_name)).fetchone()
 
         if res:

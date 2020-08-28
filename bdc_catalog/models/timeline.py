@@ -8,7 +8,8 @@
 
 """Model for table ``bdc.timeline``."""
 
-from sqlalchemy import Column, ForeignKey, Index, TIMESTAMP, PrimaryKeyConstraint
+from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index,
+                        PrimaryKeyConstraint)
 from sqlalchemy.orm import relationship
 
 from .base_sql import BaseModel

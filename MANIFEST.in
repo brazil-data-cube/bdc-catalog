@@ -23,6 +23,7 @@ recursive-include docs *.css
 recursive-include docs *.ico
 recursive-include docs *.png
 recursive-include docs *.py
+recursive-include bdc_catalog *.sql
 recursive-include docs *.rst
 recursive-include docs Makefile
 recursive-include examples *.py

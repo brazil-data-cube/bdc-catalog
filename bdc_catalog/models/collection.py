@@ -50,6 +50,7 @@ class Collection(BaseModel):
     composite_function = relationship('CompositeFunction')
     bands = relationship('Band')
     quicklook = relationship('Quicklook')
+    timeline = relationship('Timeline')
 
     __table_args__ = (
         UniqueConstraint('name', 'version'),

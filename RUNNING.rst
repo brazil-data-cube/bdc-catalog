@@ -13,9 +13,7 @@ Running BDC-Catalog in the Command Line
 Creating database definition
 ----------------------------
 
-**1.** Create a PostgreSQL database and enable the PostGIS extension:
-
-.. code-block:: shell
+**1.** Create a PostgreSQL database and enable the PostGIS extension::
 
         SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb" \
         bdc-db db init
@@ -27,12 +25,28 @@ Creating database definition
         bdc-db db create-extension-postgis
 
 
-**2.** After that, run ``BDC-DB`` command to prepare the Brazil Data Cube data model:
-
-.. code-block:: shell
+**2.** After that, run ``BDC-DB`` command to prepare the Brazil Data Cube data model::
 
         SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb" \
         bdc-db alembic upgrade
+
+
+**3.** The ``BDC-Catalog`` uses `PostgreSQL Triggers <https://www.postgresql.org/docs/12/plpgsql-trigger.html>`_ along database definition. Use the following command line to create default triggers::
+
+        SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb" \
+        bdc-db db create-triggers
+
+
+.. note::
+
+        You can also check the available triggers with command::
+
+                bdc-db db show-triggers
+
+                Available triggers in "bdc_catalog.triggers"
+                  -> /home/user/bdc-catalog/bdc_catalog/triggers/band_metadata_expression.sql
+                  -> /home/user/bdc-catalog/bdc_catalog/triggers/collection_statistics.sql
+                  -> /home/user/bdc-catalog/bdc_catalog/triggers/timeline.sql
 
 
 Updating an Existing Data Model

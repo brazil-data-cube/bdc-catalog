@@ -53,7 +53,7 @@ install_requires = [
     'SQLAlchemy[postgresql_psycopg2binary]>=1.3.10',
     'SQLAlchemy-Utils>=0.36.0',
     'alembic>=1.4.0',
-    'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@master'
+    'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@v0.4.0'
 ]
 
 packages = find_packages()

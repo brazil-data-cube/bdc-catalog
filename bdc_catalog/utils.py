@@ -42,7 +42,7 @@ def multihash_checksum_sha256(file_path: str):
     We use `sha256` as described in ``check_sum``. The multihash spec defines the code `0x12` for `sha256` and
     must have `0x20` (32 chars) length.
 
-    See more in https://github.com/multiformats/py-multihash/blob/master/multihash/constants.py#L82
+    See more in https://github.com/multiformats/py-multihash/blob/master/multihash/constants.py#L4
 
     Args:
         file_path - Path to the file

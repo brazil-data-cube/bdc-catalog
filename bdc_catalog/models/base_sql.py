@@ -11,7 +11,7 @@
 from datetime import datetime
 
 from bdc_db.db import db
-from sqlalchemy import TIMESTAMP, Column
+from sqlalchemy import TIMESTAMP, Column, func
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import Query
 
@@ -25,13 +25,13 @@ class TimestampMixin:
     @declared_attr
     def created(self):
         """Define a special declarative member to record the creation of a table row."""
-        return Column(TIMESTAMP(timezone=True), default=datetime.utcnow,
+        return Column(TIMESTAMP(timezone=True), default=datetime.utcnow, server_default=func.now(),
                       nullable=False)
 
     @declared_attr
     def updated(self):
         """Define a special declarative member to record the update of a table row."""
-        return Column(TIMESTAMP(timezone=True), default=datetime.utcnow,
+        return Column(TIMESTAMP(timezone=True), default=datetime.utcnow, server_default=func.now(),
                       nullable=False)
 
 

@@ -21,8 +21,8 @@ def upgrade():
     op.create_table('timeline',
     sa.Column('collection_id', sa.Integer(), nullable=False),
     sa.Column('time_inst', sa.TIMESTAMP(timezone=True), nullable=False),
-    sa.Column('created', sa.TIMESTAMP(timezone=True), nullable=False),
-    sa.Column('updated', sa.TIMESTAMP(timezone=True), nullable=False),
+    sa.Column('created', sa.TIMESTAMP(timezone=True), nullable=False, server_default=sa.text('now()')),
+    sa.Column('updated', sa.TIMESTAMP(timezone=True), nullable=False, server_default=sa.text('now()')),
     sa.ForeignKeyConstraint(['collection_id'], ['bdc.collections.id'], name=op.f('timeline_collection_id_collections_fkey'), onupdate='CASCADE', ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('collection_id', 'time_inst', name=op.f('timeline_pkey')),
     schema='bdc'

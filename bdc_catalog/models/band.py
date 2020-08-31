@@ -62,14 +62,14 @@ class BandSRC(BaseModel):
 
     band_id = Column(
         'collection_id', Integer(),
-        ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'),
+        ForeignKey(Band.id, onupdate='CASCADE', ondelete='CASCADE'),
         nullable=False
     )
 
     band_src_id = Column(
         'band_src_id',
         Integer(),
-        ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'),
+        ForeignKey(Band.id, onupdate='CASCADE', ondelete='CASCADE'),
         nullable=False
     )
 

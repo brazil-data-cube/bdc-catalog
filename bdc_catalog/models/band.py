@@ -61,7 +61,7 @@ class BandSRC(BaseModel):
     __tablename__ = 'band_src'
 
     band_id = Column(
-        'collection_id', Integer(),
+        'band_id', Integer(),
         ForeignKey(Band.id, onupdate='CASCADE', ondelete='CASCADE'),
         nullable=False
     )

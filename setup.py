@@ -53,6 +53,7 @@ install_requires = [
     'SQLAlchemy[postgresql_psycopg2binary]>=1.3.10',
     'SQLAlchemy-Utils>=0.36.0',
     'alembic>=1.4.0',
+    'py-multihash>=0.2,<1',
     'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@v0.4.0'
 ]
 
@@ -68,7 +69,7 @@ setup(
     version=version,
     description=__doc__,
     long_description=readme + '\n\n' + history,
-    keywords=['database', 'postgresq', 'image collection', 'Earth Observation Data Cubes'],
+    keywords=['database', 'postgresql', 'image collection', 'Earth Observation Data Cubes'],
     license='MIT',
     author='Brazil Data Cube Team',
     author_email='brazildatacube@inpe.br',
@@ -84,11 +85,11 @@ setup(
         'bdc_db.models': [
             'bdc_catalog = bdc_catalog.models'
         ],
-        'console_scripts': [
-            'bdc-catalog = bdc_catalog.cli:cli'
-        ],
         'bdc_db.triggers': [
             'bdc-catalog = bdc_catalog.triggers'
+        ],
+        'console_scripts': [
+            'bdc-catalog = bdc_catalog.cli:cli'
         ]
     },
     extras_require=extras_require,

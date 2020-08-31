@@ -9,7 +9,7 @@
 """SQLAlchemy model classes for BDC-Catalog."""
 
 from .application import Application
-from .band import Band
+from .band import Band, BandSRC
 from .base_sql import db
 from .collection import Collection, CollectionsProviders, CollectionSRC
 from .composite_function import CompositeFunction
@@ -26,6 +26,7 @@ __all__ = (
     'db',
     'Application',
     'Band',
+    'BandSRC',
     'Collection',
     'CollectionSRC',
     'CollectionsProviders',

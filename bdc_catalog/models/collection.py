@@ -42,7 +42,7 @@ class Collection(BaseModel):
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))
     extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
-    version = Column(String(3), nullable=False)
+    version = Column(Integer, nullable=False)
     version_predecessor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
     version_successor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
 

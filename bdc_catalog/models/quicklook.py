@@ -19,7 +19,7 @@ class Quicklook(BaseModel):
 
     __tablename__ = 'quicklook'
 
-    collection_id = Column(ForeignKey('collections.id'), primary_key=True)
+    collection_id = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
     red = Column(ForeignKey('bands.id', onupdate='CASCADE', ondelete='CASCADE'))
     green = Column(ForeignKey('bands.id', onupdate='CASCADE', ondelete='CASCADE'))
     blue = Column(ForeignKey('bands.id', onupdate='CASCADE', ondelete='CASCADE'))

@@ -49,6 +49,7 @@ class Collection(BaseModel):
     grs = relationship('GridRefSys')
     composite_function = relationship('CompositeFunction')
     bands = relationship('Band')
+    quicklook = relationship('Quicklook')
     timeline = relationship('Timeline')
 
     __table_args__ = (

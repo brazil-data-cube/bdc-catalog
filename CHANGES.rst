@@ -10,6 +10,21 @@
 Changes
 =======
 
+Version 0.4.1
+-------------
+
+
+Released 2020-08-31
+
+
+- Minor fixes:
+
+  - Create Grid geometry table as lowered case. #83
+  
+  - Add cascade in the quicklook table. #80
+  
+  - Fix bug in get_geom_table (grid_ref_sys). #79
+
 
 Version 0.4.0
 -------------

@@ -14,10 +14,10 @@ from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index, Integer, Numeric,
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
-from .base_sql import BaseModel
+from .base_sql import BaseModel, db
 
 
-class SpatialRefSys(BaseModel):
+class SpatialRefSys(db.Model):
     """Auxiliary model for the PostGIS spatial_ref_sys table."""
 
     __tablename__ = 'spatial_ref_sys'
@@ -28,6 +28,7 @@ class SpatialRefSys(BaseModel):
     auth_srid = Column(Integer)
     srtext = Column(String)
     proj4text = Column(String)
+
 
 class Item(BaseModel):
     """Model for the image item of a collection."""

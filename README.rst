@@ -38,7 +38,7 @@ Brazil Data Cube Database module
 :raw-html:`<br />`
 This is the storage module for the Brazil Data Cube catalog metadata tables. The module relies on SQLAlchemy and Flask related packages in order to store and retrieve data items related to the catalog. All the imagery collections are recorded in tables according to the following schema:
 
-.. image:: https://raw.githubusercontent.com/brazil-data-cube/bdc-catalog/b-0.2/doc/model/db-schema.png
+.. image:: https://github.com/brazil-data-cube/bdc-catalog/raw/b-0.2/doc/model/db-schema.png
         :target: https://github.com/brazil-data-cube/bdc-catalog/tree/b-0.2/doc/model
         :width: 90%
         :alt: Database Schema

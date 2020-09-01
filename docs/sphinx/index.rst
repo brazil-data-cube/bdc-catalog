@@ -9,10 +9,6 @@
    :end-before: Installation
 
 
-BDC-Catalog
-===========
-
-
 .. toctree::
     :hidden:
 
@@ -20,11 +16,12 @@ BDC-Catalog
 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: API Reference
+    :maxdepth: 1
+    :caption: Documentation
 
-   installation
-   api
+    installation
+    usage
+    api
 
 
 .. toctree::

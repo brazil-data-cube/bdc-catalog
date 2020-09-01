@@ -9,7 +9,7 @@
 """Model for spectral bands and derived indices (table ``bdc.band``)."""
 
 from sqlalchemy import (Column, Enum, ForeignKey, Index, Integer, Numeric,
-                        String, Text)
+                        PrimaryKeyConstraint, String, Text)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -52,4 +52,27 @@ class Band(BaseModel):
         Index(None, name),
         Index(None, common_name),
         Index(None, mime_type_id),
+    )
+
+
+class BandSRC(BaseModel):
+    """Model for band provenance/lineage."""
+
+    __tablename__ = 'band_src'
+
+    band_id = Column(
+        'band_id', Integer(),
+        ForeignKey(Band.id, onupdate='CASCADE', ondelete='CASCADE'),
+        nullable=False
+    )
+
+    band_src_id = Column(
+        'band_src_id',
+        Integer(),
+        ForeignKey(Band.id, onupdate='CASCADE', ondelete='CASCADE'),
+        nullable=False
+    )
+
+    __table_args__ = (
+        PrimaryKeyConstraint(band_id, band_src_id),
     )

@@ -39,6 +39,9 @@ Released 2020-09-01
   - Better support for the PostGIS table ``spatial_ref_sys``.
 
 
+- Improved usage documentation.
+
+
 Version 0.4.1
 -------------
 

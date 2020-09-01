@@ -15,15 +15,14 @@ include LICENSE
 include pytest.ini
 recursive-exclude docs/model *
 recursive-exclude docs/sphinx/_build *
-recursive-exclude migrations *
 recursive-include bdc_catalog *.json
 recursive-include bdc_catalog *.py
+recursive-include bdc_catalog *.sql
 recursive-include docs *.bat
 recursive-include docs *.css
 recursive-include docs *.ico
 recursive-include docs *.png
 recursive-include docs *.py
-recursive-include bdc_catalog *.sql
 recursive-include docs *.rst
 recursive-include docs Makefile
 recursive-include examples *.py

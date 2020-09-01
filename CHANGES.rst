@@ -11,6 +11,34 @@ Changes
 =======
 
 
+Version 0.6.0
+-------------
+
+
+Released 2020-09-01
+
+
+- Data model improvements:
+
+  - Added a ``timeline`` table to speedup data cube temporal dimension queries.
+
+  - Added database triggers to pre-compute the timeline, extent and data range of image collections.
+
+  - Added ``band_src`` table to track the origin of data bands.
+
+
+- New features:
+
+  - Add utility functions for dealing with file check-sum and multihash format.
+
+
+- Code improvement:
+
+  - Timestamp columns use database ``now()`` function.
+
+  - Better support for the PostGIS table ``spatial_ref_sys``.
+
+
 Version 0.4.1
 -------------
 

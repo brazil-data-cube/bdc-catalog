@@ -119,7 +119,7 @@ class GridRefSys(BaseModel):
                     'relnamespace::regnamespace::text AS schema '
                     'FROM bdc.grid_ref_sys, pg_class '
                     'WHERE bdc.grid_ref_sys.table_id = pg_class.oid AND '
-                    'bdc.grid_ref_sys.name = :table_name')
+                    'LOWER(bdc.grid_ref_sys.name) = :table_name')
         res = db.session.execute(expr.bindparams(table_name=grs_name.lower())).fetchone()
 
         if res:

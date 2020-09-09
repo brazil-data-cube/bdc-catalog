@@ -11,6 +11,17 @@ Changes
 =======
 
 
+Version 0.6.1
+-------------
+
+
+Released 2020-09-09
+
+
+- Bug fix: fix grid CRS retrieval (#112)
+
+
+
 Version 0.6.0
 -------------
 

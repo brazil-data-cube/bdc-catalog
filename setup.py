@@ -54,7 +54,7 @@ install_requires = [
     'SQLAlchemy-Utils>=0.36.0',
     'alembic>=1.4.0',
     'py-multihash>=0.2,<1',
-    'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@v0.4.0'
+    'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@v0.4.1'
 ]
 
 packages = find_packages()

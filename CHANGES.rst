@@ -11,6 +11,16 @@ Changes
 =======
 
 
+Version 0.6.2
+-------------
+
+
+Released 2020-09-20
+
+
+- Bug fix: trigger update_collection (#116)
+
+
 Version 0.6.1
 -------------
 

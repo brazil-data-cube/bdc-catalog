@@ -21,8 +21,7 @@ git:
 branches:
     only:
         - master
-        - b-0.2
-        - b-0.4
+        - /^b-\d+\.\d+/
 
 dist: bionic
 

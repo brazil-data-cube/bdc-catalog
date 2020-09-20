@@ -9,4 +9,4 @@
 """Version information for BDC-Catalog."""
 
 
-__version__ = '0.8.0a'
+__version__ = '0.6.2'

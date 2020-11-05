@@ -11,6 +11,16 @@ Changes
 =======
 
 
+Version 0.6.3
+-------------
+
+
+Released 2020-11-05
+
+
+- Bug fix: update GeoAlchemy version dependency (#118)
+
+
 Version 0.6.2
 -------------
 

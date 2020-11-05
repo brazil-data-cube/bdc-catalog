@@ -11,6 +11,16 @@ Changes
 =======
 
 
+Version 0.6.3
+-------------
+
+
+Released 2020-11-05
+
+
+- Bug fix: update GeoAlchemy version dependency (#118)
+
+
 Version 0.6.2
 -------------
 
@@ -58,6 +68,9 @@ Released 2020-09-01
   - Timestamp columns use database ``now()`` function.
 
   - Better support for the PostGIS table ``spatial_ref_sys``.
+
+
+- Improved usage documentation.
 
 
 Version 0.4.1

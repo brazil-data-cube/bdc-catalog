@@ -23,21 +23,21 @@ Version 0.6.3 (2020-11-05)
 --------------------------
 
 
-- Bug fix: update GeoAlchemy version dependency (#118)
+- Bug fix: update GeoAlchemy version dependency (`#118 <https://github.com/brazil-data-cube/bdc-catalog/issues/118>`_)
 
 
 Version 0.6.2 (2020-09-20)
 --------------------------
 
 
-- Bug fix: trigger update_collection (#116)
+- Bug fix: trigger update_collection (`#116 <https://github.com/brazil-data-cube/bdc-catalog/issues/116>`_)
 
 
 Version 0.6.1 (2020-09-09)
 --------------------------
 
 
-- Bug fix: fix grid CRS retrieval (#112)
+- Bug fix: fix grid CRS retrieval (`#112 <https://github.com/brazil-data-cube/bdc-catalog/issues/112>`_)
 
 
 
@@ -75,11 +75,11 @@ Version 0.4.1 (2020-08-31)
 
 - Minor fixes:
 
-  - Create Grid geometry table as lowered case. #83
+  - Create Grid geometry table as lowered case. `#83 <https://github.com/brazil-data-cube/bdc-catalog/issues/83>`_
 
-  - Add cascade in the quicklook table. #80
+  - Add cascade in the quicklook table. `#80 <https://github.com/brazil-data-cube/bdc-catalog/issues/80>`_
 
-  - Fix bug in get_geom_table (grid_ref_sys). #79
+  - Fix bug in get_geom_table (grid_ref_sys). `#79 <https://github.com/brazil-data-cube/bdc-catalog/issues/79>`_
 
 
 Version 0.4.0 (2020-08-18)

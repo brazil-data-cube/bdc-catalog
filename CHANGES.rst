@@ -11,42 +11,38 @@ Changes
 =======
 
 
-Version 0.6.3
--------------
+Version 0.6.4 (2020-11-30)
+--------------------------
 
 
-Released 2020-11-05
+- Added new collection types: ``classification`` and ``mosaic`` (`#127 <https://github.com/brazil-data-cube/bdc-catalog/pull/127>`_)
+
+
+
+Version 0.6.3 (2020-11-05)
+--------------------------
 
 
 - Bug fix: update GeoAlchemy version dependency (#118)
 
 
-Version 0.6.2
--------------
-
-
-Released 2020-09-20
+Version 0.6.2 (2020-09-20)
+--------------------------
 
 
 - Bug fix: trigger update_collection (#116)
 
 
-Version 0.6.1
--------------
-
-
-Released 2020-09-09
+Version 0.6.1 (2020-09-09)
+--------------------------
 
 
 - Bug fix: fix grid CRS retrieval (#112)
 
 
 
-Version 0.6.0
--------------
-
-
-Released 2020-09-01
+Version 0.6.0 (2020-09-01)
+--------------------------
 
 
 - Data model improvements:
@@ -73,11 +69,8 @@ Released 2020-09-01
 - Improved usage documentation.
 
 
-Version 0.4.1
--------------
-
-
-Released 2020-08-31
+Version 0.4.1 (2020-08-31)
+--------------------------
 
 
 - Minor fixes:
@@ -89,11 +82,8 @@ Released 2020-08-31
   - Fix bug in get_geom_table (grid_ref_sys). #79
 
 
-Version 0.4.0
--------------
-
-
-Released 2020-08-18
+Version 0.4.0 (2020-08-18)
+--------------------------
 
 
 - Improved data model:
@@ -132,22 +122,17 @@ Released 2020-08-18
 - Use of `BDC-DB Extension Version 0.2.0 <https://github.com/brazil-data-cube/bdc-db>`_.
 
 
-Version 0.2.1
--------------
+Version 0.2.1 (2020-02-20)
+--------------------------
 
-
-Released 2020-02-20
 
 - Added fixtures commands to the CLI.
 
 - Added new test cases.
 
 
-Version 0.2.0
--------------
-
-
-Released 2020-02-18
+Version 0.2.0 (2020-02-18)
+--------------------------
 
 
 - First experimental version.

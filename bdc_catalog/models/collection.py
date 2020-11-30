@@ -18,7 +18,7 @@ from sqlalchemy.orm import relationship
 from .base_sql import BaseModel, db
 
 name_collection_type = 'collection_type'
-options_collection_type = ('cube', 'collection')
+options_collection_type = ('cube', 'collection', 'classification', 'mosaic')
 enum_collection_type = Enum(*options_collection_type, name=name_collection_type)
 
 

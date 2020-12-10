@@ -15,6 +15,7 @@ from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
+from .collection import Collection
 
 name_data_type = 'data_type'
 options_data_type = ('uint8', 'int8', 'uint16', 'int16', 'uint32', 'int32', 'float32', 'float64')
@@ -44,7 +45,7 @@ class Band(BaseModel):
     mime_type_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.mime_type.id', onupdate='CASCADE', ondelete='CASCADE'))
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/band-metadata.json')
 
-    collection = relationship('Collection')
+    collection = relationship(Collection)
     resolution_unit = relationship('ResolutionUnit')
     mime_type = relationship('MimeType')
 

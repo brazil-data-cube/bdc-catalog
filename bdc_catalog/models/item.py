@@ -16,6 +16,7 @@ from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
+from .collection import Collection
 
 
 class SpatialRefSys(db.Model):
@@ -51,7 +52,7 @@ class Item(BaseModel):
     min_convex_hull = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
 
-    collection = relationship('Collection')
+    collection = relationship(Collection)
     tile = relationship('Tile')
     provider = relationship('Provider')
     application = relationship('Application')

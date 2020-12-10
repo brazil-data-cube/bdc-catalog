@@ -9,6 +9,7 @@
 """Model for the main table of image collections and data cubes."""
 
 from geoalchemy2 import Geometry
+from lccs_db.models import LucClassificationSystem
 from sqlalchemy import (TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
                         Integer, PrimaryKeyConstraint, SmallInteger, String,
                         Text, UniqueConstraint)
@@ -38,6 +39,7 @@ class Collection(BaseModel):
         ForeignKey(f'{BDC_CATALOG_SCHEMA}.composite_functions.id', onupdate='CASCADE', ondelete='CASCADE'),
         comment='Function schema identifier. Used for data cubes.')
     grid_ref_sys_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
+    classification_system_id = Column(ForeignKey(LucClassificationSystem.id, onupdate='CASCADE', ondelete='CASCADE'))
     collection_type = Column(enum_collection_type, nullable=False)
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     is_public = Column(Boolean(), nullable=False, default=True)
@@ -53,6 +55,8 @@ class Collection(BaseModel):
     bands = relationship('Band')
     quicklook = relationship('Quicklook')
     timeline = relationship('Timeline')
+    # Joined Eager Loading. Default is Left Outer Join to lead object that does not refer to a related row.
+    classification_system = relationship('LucClassificationSystem', lazy='joined')
 
     __table_args__ = (
         UniqueConstraint('name', 'version'),

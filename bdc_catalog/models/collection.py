@@ -17,8 +17,6 @@ from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
-from .composite_function import CompositeFunction
-from .grid_ref_sys import GridRefSys
 from .provider import Provider
 
 name_collection_type = 'collection_type'
@@ -37,9 +35,9 @@ class Collection(BaseModel):
     description = Column(Text)
     temporal_composition_schema = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json')
     composite_function_id = Column(
-        ForeignKey(CompositeFunction.id, onupdate='CASCADE', ondelete='CASCADE'),
+        ForeignKey(f'{BDC_CATALOG_SCHEMA}.composite_functions.id', onupdate='CASCADE', ondelete='CASCADE'),
         comment='Function schema identifier. Used for data cubes.')
-    grid_ref_sys_id = Column(ForeignKey(GridRefSys.id, onupdate='CASCADE', ondelete='CASCADE'))
+    grid_ref_sys_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
     collection_type = Column(enum_collection_type, nullable=False)
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     is_public = Column(Boolean(), nullable=False, default=True)

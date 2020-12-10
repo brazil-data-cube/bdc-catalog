@@ -13,7 +13,6 @@ from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
-from .grid_ref_sys import GridRefSys
 
 
 class Tile(BaseModel):
@@ -22,7 +21,7 @@ class Tile(BaseModel):
     __tablename__ = 'tiles'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    grid_ref_sys_id = Column(ForeignKey(GridRefSys.id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    grid_ref_sys_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     name = Column(String(20), nullable=False)
 
     grs = relationship('GridRefSys')

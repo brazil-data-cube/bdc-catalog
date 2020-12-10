@@ -8,8 +8,9 @@
 
 """Model for table ``bdc.resolution_unit``."""
 
-from sqlalchemy import Column, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Text
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
 
 
@@ -17,6 +18,9 @@ class ResolutionUnit(BaseModel):
     """Model for table ``bdc.resolution_unit``."""
 
     __tablename__ = 'resolution_unit'
+    __table_args__ = dict(
+        schema=BDC_CATALOG_SCHEMA
+    )
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(20), nullable=False, unique=True)

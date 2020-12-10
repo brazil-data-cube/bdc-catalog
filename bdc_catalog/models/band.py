@@ -13,6 +13,7 @@ from sqlalchemy import (Column, Enum, ForeignKey, Index, Integer, Numeric,
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
 
 name_data_type = 'data_type'
@@ -37,10 +38,10 @@ class Band(BaseModel):
     resolution_y = Column(Numeric)
     center_wavelength = Column(Numeric)
     full_width_half_max = Column(Numeric)
-    collection_id = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
-    resolution_unit_id = Column(ForeignKey('resolution_unit.id', onupdate='CASCADE', ondelete='CASCADE'))
+    collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'))
+    resolution_unit_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.resolution_unit.id', onupdate='CASCADE', ondelete='CASCADE'))
     data_type = Column(enum_data_type)
-    mime_type_id = Column(ForeignKey('mime_type.id', onupdate='CASCADE', ondelete='CASCADE'))
+    mime_type_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.mime_type.id', onupdate='CASCADE', ondelete='CASCADE'))
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/band-metadata.json')
 
     collection = relationship('Collection')
@@ -52,6 +53,7 @@ class Band(BaseModel):
         Index(None, name),
         Index(None, common_name),
         Index(None, mime_type_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )
 
 
@@ -75,4 +77,5 @@ class BandSRC(BaseModel):
 
     __table_args__ = (
         PrimaryKeyConstraint(band_id, band_src_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )

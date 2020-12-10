@@ -15,7 +15,11 @@ from sqlalchemy import (TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
+from .composite_function import CompositeFunction
+from .grid_ref_sys import GridRefSys
+from .provider import Provider
 
 name_collection_type = 'collection_type'
 options_collection_type = ('cube', 'collection', 'classification', 'mosaic')
@@ -33,9 +37,9 @@ class Collection(BaseModel):
     description = Column(Text)
     temporal_composition_schema = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json')
     composite_function_id = Column(
-        ForeignKey('composite_functions.id', onupdate='CASCADE', ondelete='CASCADE'),
+        ForeignKey(CompositeFunction.id, onupdate='CASCADE', ondelete='CASCADE'),
         comment='Function schema identifier. Used for data cubes.')
-    grid_ref_sys_id = Column(ForeignKey('grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
+    grid_ref_sys_id = Column(ForeignKey(GridRefSys.id, onupdate='CASCADE', ondelete='CASCADE'))
     collection_type = Column(enum_collection_type, nullable=False)
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     is_public = Column(Boolean(), nullable=False, default=True)
@@ -43,8 +47,8 @@ class Collection(BaseModel):
     end_date = Column(TIMESTAMP(timezone=True))
     extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     version = Column(Integer, nullable=False)
-    version_predecessor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
-    version_successor = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'))
+    version_predecessor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
+    version_successor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
 
     grs = relationship('GridRefSys')
     composite_function = relationship('CompositeFunction')
@@ -57,6 +61,7 @@ class Collection(BaseModel):
         Index(None, grid_ref_sys_id),
         Index(None, name),
         Index(None, extent, postgresql_using='gist'),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )
 
 
@@ -75,6 +80,7 @@ class CollectionSRC(BaseModel):
 
     __table_args__ = (
         PrimaryKeyConstraint(collection_id, collection_src_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )
 
 
@@ -82,9 +88,12 @@ class CollectionsProviders(BaseModel):
     """Track the available data providers for an image collection."""
 
     __tablename__ = 'collections_providers'
+    __table_args__ = dict(
+        schema=BDC_CATALOG_SCHEMA
+    )
 
     provider_id = Column('provider_id', db.Integer(),
-                         ForeignKey('providers.id', onupdate='CASCADE', ondelete='CASCADE'),
+                         ForeignKey(Provider.id, onupdate='CASCADE', ondelete='CASCADE'),
                          nullable=False, primary_key=True)
 
     collection_id = Column('collection_id',

@@ -15,6 +15,7 @@ from sqlalchemy import Column, Index, Integer, String, Table, Text, func, text
 from sqlalchemy.dialects.postgresql import OID
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
 
 Feature = Dict[str, str]
@@ -24,6 +25,9 @@ class GridRefSys(BaseModel):
     """Model for table ``bdc.grid_ref_sys``."""
 
     __tablename__ = 'grid_ref_sys'
+    __table_args__ = dict(
+        schema=BDC_CATALOG_SCHEMA
+    )
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False, unique=True)

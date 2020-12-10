@@ -12,6 +12,7 @@ from sqlalchemy import Column, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
 
 
@@ -30,4 +31,5 @@ class Application(BaseModel):
 
     __table_args__ = (
         UniqueConstraint(name, version),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )

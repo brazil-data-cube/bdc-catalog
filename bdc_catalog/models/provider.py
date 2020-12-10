@@ -11,6 +11,7 @@
 from sqlalchemy import Column, Index, Integer, String, Text
 from sqlalchemy.dialects.postgresql import JSONB
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
 
 
@@ -27,4 +28,5 @@ class Provider(BaseModel):
 
     __table_args__ = (
         Index(None, name),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )

@@ -11,17 +11,23 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
+from .band import Band
 from .base_sql import BaseModel
+from .collection import Collection
 
 
 class Quicklook(BaseModel):
     """Model for collection QuickLook info."""
 
     __tablename__ = 'quicklook'
+    __table_args__ = dict(
+        schema=BDC_CATALOG_SCHEMA
+    )
 
-    collection_id = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
-    red = Column(ForeignKey('bands.id', onupdate='CASCADE', ondelete='CASCADE'))
-    green = Column(ForeignKey('bands.id', onupdate='CASCADE', ondelete='CASCADE'))
-    blue = Column(ForeignKey('bands.id', onupdate='CASCADE', ondelete='CASCADE'))
+    collection_id = Column(ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
+    red = Column(ForeignKey(Band.id, onupdate='CASCADE', ondelete='CASCADE'))
+    green = Column(ForeignKey(Band.id, onupdate='CASCADE', ondelete='CASCADE'))
+    blue = Column(ForeignKey(Band.id, onupdate='CASCADE', ondelete='CASCADE'))
 
     collection = relationship('Collection')

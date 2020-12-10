@@ -15,9 +15,6 @@ from sqlalchemy import TIMESTAMP, Column, func
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import Query
 
-# Setting default namespace for BDC-Catalog
-db.metadata.schema = 'bdc'
-
 
 class TimestampMixin:
     """Base timestamp model mixin to add the ``created`` and ``updated`` fields."""

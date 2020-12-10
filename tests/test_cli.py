@@ -9,6 +9,7 @@
 """Unit-test for BDC-Catalog CLI."""
 
 import subprocess
+import sys
 
 from click.testing import CliRunner
 
@@ -20,6 +21,13 @@ def test_basic_cli():
     res = CliRunner().invoke(cli)
 
     assert res.exit_code == 0
+
+
+def test_cli_module():
+    """Test the BDCCatalog invoked as a module."""
+    res = subprocess.call(f'{sys.executable} -m bdc_catalog', shell=True)
+
+    assert res == 0
 
 
 def test_database_creation():

@@ -11,7 +11,9 @@
 from sqlalchemy import Column, ForeignKey, Index, Integer, String
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
+from .grid_ref_sys import GridRefSys
 
 
 class Tile(BaseModel):
@@ -20,7 +22,7 @@ class Tile(BaseModel):
     __tablename__ = 'tiles'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    grid_ref_sys_id = Column(ForeignKey('grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    grid_ref_sys_id = Column(ForeignKey(GridRefSys.id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     name = Column(String(20), nullable=False)
 
     grs = relationship('GridRefSys')
@@ -28,5 +30,6 @@ class Tile(BaseModel):
     __table_args__ = (
         Index(None, 'id'),
         Index(None, name),
-        Index(None, grid_ref_sys_id)
+        Index(None, grid_ref_sys_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )

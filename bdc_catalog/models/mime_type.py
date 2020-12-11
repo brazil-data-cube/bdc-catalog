@@ -8,9 +8,10 @@
 
 """Model for table ``bdc.mime_type``."""
 
-from sqlalchemy import Column, Integer, Text, UniqueConstraint
+from sqlalchemy import Column, Integer, Text
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
 
 
@@ -18,6 +19,9 @@ class MimeType(BaseModel):
     """Model for table ``bdc.providers``."""
 
     __tablename__ = 'mime_type'
+    __table_args__ = dict(
+        schema=BDC_CATALOG_SCHEMA
+    )
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(Text, nullable=False, unique=True)

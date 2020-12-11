@@ -12,7 +12,9 @@ from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index,
                         PrimaryKeyConstraint)
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
+from .collection import Collection
 
 
 class Timeline(BaseModel):
@@ -24,7 +26,7 @@ class Timeline(BaseModel):
 
     __tablename__ = 'timeline'
 
-    collection_id = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    collection_id = Column(ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     time_inst = Column(TIMESTAMP(timezone=True), nullable=False)
 
     collection = relationship('Collection')
@@ -33,4 +35,5 @@ class Timeline(BaseModel):
         PrimaryKeyConstraint(collection_id, time_inst),
         # Index with collection_id & time instant reverse order (same as STAC)
         Index(None, collection_id, time_inst.desc()),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )

@@ -14,6 +14,7 @@ from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index, Integer, Numeric,
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
+from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
 
 
@@ -37,15 +38,15 @@ class Item(BaseModel):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
-    collection_id = Column(ForeignKey('collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
-    tile_id = Column(ForeignKey('tiles.id', onupdate='CASCADE', ondelete='CASCADE'))
+    collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
+    tile_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.tiles.id', onupdate='CASCADE', ondelete='CASCADE'))
     start_date = Column(TIMESTAMP(timezone=True), nullable=False)
     end_date = Column(TIMESTAMP(timezone=True), nullable=False)
     cloud_cover = Column(Numeric)
     assets = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/item-assets.json')
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
-    provider_id = Column(ForeignKey('providers.id', onupdate='CASCADE', ondelete='CASCADE'))
-    application_id = Column(ForeignKey('applications.id', onupdate='CASCADE', ondelete='CASCADE'))
+    provider_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.providers.id', onupdate='CASCADE', ondelete='CASCADE'))
+    application_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.applications.id', onupdate='CASCADE', ondelete='CASCADE'))
     geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     min_convex_hull = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
@@ -65,4 +66,5 @@ class Item(BaseModel):
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
         Index(None, start_date.desc()),
+        dict(schema=BDC_CATALOG_SCHEMA),
     )

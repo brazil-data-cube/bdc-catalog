@@ -54,7 +54,7 @@ install_requires = [
     'SQLAlchemy-Utils>=0.36.0',
     'alembic>=1.4.0',
     'py-multihash>=0.2,<1',
-    'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@v0.4.1'
+    'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@v0.4.2'
 ]
 
 packages = find_packages()
@@ -87,6 +87,9 @@ setup(
         ],
         'bdc_db.triggers': [
             'bdc-catalog = bdc_catalog.triggers'
+        ],
+        'bdc_db.namespaces': [
+            'bdc_catalog = bdc_catalog.config:BDC_CATALOG_SCHEMA'
         ],
         'console_scripts': [
             'bdc-catalog = bdc_catalog.cli:cli'

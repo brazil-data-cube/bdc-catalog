@@ -63,6 +63,7 @@ class Collection(BaseModel):
         Index(None, grid_ref_sys_id),
         Index(None, name),
         Index(None, extent, postgresql_using='gist'),
+        Index(None, classification_system_id),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
 

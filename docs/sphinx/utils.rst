@@ -6,18 +6,9 @@
     under the terms of the MIT License; see LICENSE file for more details.
 
 
-BDC-Catalog API
-===============
+bdc_catalog.utils
+=================
 
-.. automodule:: bdc_catalog
+.. autofunction:: bdc_catalog.utils.check_sum
 
-.. toctree::
-    :maxdepth: 1
-    :caption: Files
-
-    models
-    utils
-
-
-.. currentmodule:: bdc_catalog
-
+.. autofunction:: bdc_catalog.utils.multihash_checksum_sha256

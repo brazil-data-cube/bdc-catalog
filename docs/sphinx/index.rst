@@ -22,6 +22,8 @@
     installation
     usage
     api
+    repository
+    history
 
 
 .. toctree::

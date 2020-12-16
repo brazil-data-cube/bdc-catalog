@@ -6,18 +6,8 @@
     under the terms of the MIT License; see LICENSE file for more details.
 
 
-BDC-Catalog API
-===============
+bdc_catalog.models
+==================
 
-.. automodule:: bdc_catalog
-
-.. toctree::
-    :maxdepth: 1
-    :caption: Files
-
-    models
-    utils
-
-
-.. currentmodule:: bdc_catalog
-
+.. automodule:: bdc_catalog.models
+    :members:

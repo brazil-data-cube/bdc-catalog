@@ -20,11 +20,15 @@ Pre-Requirements
 
 The ``Brazil Data Cube Catalog`` (``BDC-Catalog``) depends essentially on:
 
-- `BDC-Catalog`.
+- `BDC-DB <https://bdc-db.readthedocs.io/en/latest/>`_: a database management extension for Brazil Data Cube Applications and Services.
 
 - `Flask-SQLAlchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_: an extension for `Flask <http://flask.pocoo.org/>`_ that adds support for `SQLAlchemy <https://www.sqlalchemy.org/>`_ in applications.
 
-- `Flask-Migrate <https://flask-migrate.readthedocs.io/en/latest/>`_: used to handle `SQLAlchemy <https://www.sqlalchemy.org/>`_ database migrations with `Alembic <https://alembic.sqlalchemy.org/en/latest/index.html>`_.
+- `Flask-Alembic <https://flask-alembic.readthedocs.io/en/stable/>`_: an extension that provides a configurable `Alembic <https://alembic.sqlalchemy.org/en/latest/>`_ migration environment around a Flask-SQLAlchemy database.
+
+- `GeoAlchemy <https://geoalchemy-2.readthedocs.io/en/latest/>`_: an extension for SQLAlchemy for working with spatial databases.
+
+- `py-multihash <https://multihash.readthedocs.io/en/latest/>`_: the Multihash Implementation in Python.
 
 
 Clone the software repository
@@ -95,3 +99,4 @@ The above command will generate the documentation in HTML and it will place it u
 You can open the above documentation in your favorite browser, as::
 
     firefox docs/sphinx/_build/html/index.html
+

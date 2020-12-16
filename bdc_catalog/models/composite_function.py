@@ -15,7 +15,13 @@ from .base_sql import BaseModel
 
 
 class CompositeFunction(BaseModel):
-    """Model for table ``bdc.composite_functions``."""
+    """Model for table ``bdc.composite_functions``.
+
+    A composition function consists in a function that chooses a pixel value,
+    according to a heuristic, from a set of pixels contained within a time interval.
+
+    The functions `Stack`, `Median` and `Identity` are offered by default in Brazil Data Cube.
+    """
 
     __tablename__ = 'composite_functions'
     __table_args__ = dict(

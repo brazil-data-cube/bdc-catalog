@@ -22,7 +22,10 @@ enum_data_type = Enum(*options_data_type, name=name_data_type)
 
 
 class Band(BaseModel):
-    """Model for spectral bands and derived indices (table ``bdc.band``)."""
+    """Model for spectral bands and derived indices (table ``bdc.band``).
+
+    A band consists in description of the matrix band values and data storage.
+    """
 
     __tablename__ = 'bands'
 

@@ -69,4 +69,5 @@ Updating the Migration Scripts
 
 .. note::
 
-        Make sure to pass ``--branch=bdc_catalog`` in order to prevent alembic branch tree.
+        Make sure to pass ``--branch=bdc_catalog`` in order to generate the alembic migration into
+        the same ``BDC-Catalog`` branch tree.

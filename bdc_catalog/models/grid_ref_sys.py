@@ -22,7 +22,13 @@ Feature = Dict[str, str]
 
 
 class GridRefSys(BaseModel):
-    """Model for table ``bdc.grid_ref_sys``."""
+    """Model for table ``bdc.grid_ref_sys``.
+
+    A GridRefSys (GRS - Grid Reference System) ia a geographic reference system that divides
+    the space into regions (TILE) and uses a code system, specified by a set of numbers,
+    letters, or symbols, to identify an unique region, as defined
+    in `BDC-Concepts <https://brazil-data-cube.github.io/products/specifications/concepts.html>`_.
+    """
 
     __tablename__ = 'grid_ref_sys'
     __table_args__ = dict(

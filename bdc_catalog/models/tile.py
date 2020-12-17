@@ -16,13 +16,17 @@ from .base_sql import BaseModel
 
 
 class Tile(BaseModel):
-    """Model for table ``bdc.tile``."""
+    """Model for table ``bdc.tile``.
+
+    A tile is an element of a GRS, associated with a unique code, that represents a geographic region.
+    """
 
     __tablename__ = 'tiles'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     grid_ref_sys_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     name = Column(String(20), nullable=False)
+    """The tile name (path row) identifier."""
 
     grs = relationship('GridRefSys')
 

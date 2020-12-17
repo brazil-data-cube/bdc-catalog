@@ -20,6 +20,8 @@ from .collection import Collection
 class Timeline(BaseModel):
     """Model for timeline.
 
+    Track the entire time line for a collection.
+
     Notes:
         This table is filled with trigger event on `Item`.
     """

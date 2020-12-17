@@ -32,7 +32,50 @@ class SpatialRefSys(db.Model):
 
 
 class Item(BaseModel):
-    """Model for the image item of a collection."""
+    """Model for the image item of a collection.
+
+    An item is usually defined in Brazil Data Cube concept as a data product scene.
+
+    The assets property follows the JSONSchema spec defined in :exc:`bdc_catalog.jsonschemas.item.assets.json`,
+    which uses the function :meth:`bdc_catalog.utils.multihash_checksum_sha256` to generate the file checksum.
+
+    The following example describes an published item of a Sentinel-2 data product scene ``S2A_MSIL1C_20191018T134211_N0208_R124_T22MFS_20191018T152053``::
+
+        {
+            "id": 423658,
+            "name": "S2A_MSIL1C_20191018T134211_N0208_R124_T22MFS_20191018T152053",
+            "collection_id": 23, # Collection S2_L1C
+            "start_date": "2019-10-18T13:42:11",
+            "end_date": "2019-10-18T13:42:11",
+            "geom": "POLYGON((-49.09545 -8.225985,-49.099896 -7.233321,-50.094195 -7.236384,-50.092074 -8.229473,-49.09545 -8.225985))",
+            "min_convex_hull": "POLYGON((-50.094208 -7.23638395134798,-49.099884 -7.23332135700407,-49.09546 -8.22598479222442,-50.09207 -8.22947294680053,-50.094208 -7.23638395134798))",
+            "srid": 4326,
+            "assets": {
+                "thumbnail": {
+                    "href": "/Repository/Archive/S2_L1C/v001/22/M/FS/2019/S2A_MSIL1C_20191018T134211_N0208_R124_T22MFS_20191018T152053/S2A_MSIL1C_20191018T134211_N0208_R124_T22MFS_20191018T152053.png",
+                    "type": "image/png",
+                    "roles": [
+                        "thumbnail"
+                    ],
+                    "created": "2020-12-16T18:50:05",
+                    "updated": "2020-12-16T18:50:05",
+                    "bdc:size": 183439,
+                    "checksum:multihash": "1220476cf4b62525f99e9891634acdd3c4fbfc151e407e762ee8b32ce7ba72824a41"
+                },
+                "asset": {
+                    "href": "/Repository/Archive/S2_L1C/v001/22/M/FS/2019/S2A_MSIL1C_20191018T134211_N0208_R124_T22MFS_20191018T152053/S2A_MSIL1C_20191018T134211_N0208_R124_T22MFS_20191018T152053.zip",
+                    "type": "application/zip",
+                    "roles": [
+                        "data"
+                    ],
+                    "created": "2020-12-16T18:50:05",
+                    "updated": "2020-12-16T18:50:05",
+                    "bdc:size": 789501813,
+                    "checksum:multihash": "1220f1cebeff261104a35b7ce68083777cf3449a733acf240120ccf949d5c758e31a"
+                }
+            }
+        }
+    """
 
     __tablename__ = 'items'
 

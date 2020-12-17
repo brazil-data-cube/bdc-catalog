@@ -56,8 +56,6 @@ class BDCCatalog:
     def db(self) -> SQLAlchemy:
         """Retrieve instance Flask-SQLALchemy instance.
 
-        TODO: Check if module was initialized before.
-
         Notes:
             Make sure to initialize the `BDCCatalog` before.
         """

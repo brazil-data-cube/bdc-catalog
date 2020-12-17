@@ -16,7 +16,12 @@ from .base_sql import BaseModel
 
 
 class Provider(BaseModel):
-    """Model for table ``bdc.providers``."""
+    """Model for table ``bdc.providers``.
+
+    A provider consists in a maintainer, organization that offer the data to be downloaded.
+    In the Brazil Data Cube context, they may be: ``USGS``, ``Copernicus``, ``Google Public Datasets``, etc.
+    Each provider should have their own credentials associated to be automatically configurable
+    by BDC tools."""
 
     __tablename__ = 'providers'
 

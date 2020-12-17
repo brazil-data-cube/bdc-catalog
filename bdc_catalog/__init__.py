@@ -6,7 +6,20 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-"""Image catalog extension for Brazil Data Cube applications and services."""
+"""Image catalog extension for Brazil Data Cube applications and services.
+
+You can initialize this extension as following::
+
+    from flask import Flask
+    from bdc_catalog import BDCCatalog
+
+    app = Flask(__name__)
+
+    with app.app_context():
+        ext = BDCCatalog(app)
+
+To see all models offered by BDC-Catalog module, navigate to :exc:`bdc_catalog.models`.
+"""
 
 from .ext import BDCCatalog
 from .version import __version__

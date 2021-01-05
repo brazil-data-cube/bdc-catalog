@@ -14,6 +14,7 @@ from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
+from .item import Item
 
 
 class Application(BaseModel):
@@ -27,7 +28,7 @@ class Application(BaseModel):
     uri = Column(String(255))
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/application-metadata.json')
 
-    items = relationship('Item')
+    items = relationship(Item)
 
     __table_args__ = (
         UniqueConstraint(name, version),

@@ -11,6 +11,19 @@ Changes
 =======
 
 
+Version 0.8.0 (2021-01-07)
+--------------------------
+
+- Integrate the catalog data model with LCCS data model (`#45 <https://github.com/brazil-data-cube/bdc-catalog/issues/45>`_, `#131 <https://github.com/brazil-data-cube/bdc-catalog/issues/131>`_).
+
+- Add prefix bdc to assets metadata specific to Brazil Data Cube (`#115 <https://github.com/brazil-data-cube/bdc-catalog/issues/115>`_).
+
+- ``check_sum`` enhancement: (`#134 <https://github.com/brazil-data-cube/bdc-catalog/issues/134>`_, `#135 <https://github.com/brazil-data-cube/bdc-catalog/issues/135>`_).
+
+- Improve Sphinx documentation (`#27 <https://github.com/brazil-data-cube/bdc-catalog/issues/27>`_, `#133 <https://github.com/brazil-data-cube/bdc-catalog/issues/133>`_).
+
+
+
 Version 0.6.4 (2020-11-30)
 --------------------------
 

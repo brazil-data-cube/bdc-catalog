@@ -23,8 +23,8 @@ def check_sum(file_path: Union[str, BytesIO], chunk_size=16384) -> bytes:
         IOError when could not open given file.
 
     Args:
-        file_path - Path to the file
-        chunk_size - Size in bytes to read per iteration. Default is 16384 (16KB).
+        file_path (str|BytesIo): Path to the file
+        chunk_size (int): Size in bytes to read per iteration. Default is 16384 (16KB).
 
     Returns:
         The digest value in bytes.
@@ -54,7 +54,7 @@ def multihash_checksum_sha256(file_path: Union[str, BytesIO]):
     See more in https://github.com/multiformats/py-multihash/blob/master/multihash/constants.py#L4
 
     Args:
-        file_path - Path to the file
+        file_path (str|BytesIo): Path to the file
 
     Returns:
         A string-like hash in hex-decimal

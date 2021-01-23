@@ -43,12 +43,13 @@ class GridRefSys(BaseModel):
     tiles = relationship('Tile')
 
     @classmethod
-    def create_geometry_table(cls, table_name: str, features: Iterable[Feature], srid=None) -> 'GridRefSys':
+    def create_geometry_table(cls, table_name: str, features: Iterable[Feature], srid=None, **kwargs) -> 'GridRefSys':
         """Create an table to store the features and retrieve a respective Grid instance.
 
         Args:
             table_name - Grid name (Used as table_name).
             features - Iterable with tile and geom mapped.
+            schema - Table schema. Default is value associated in `db.metadata`.
             srid - SRID for grid. Default is Brazil Data Cube SRID.
         """
         grs = cls()
@@ -57,12 +58,15 @@ class GridRefSys(BaseModel):
         if srid is None:
             srid = 100001
 
+        opts = kwargs.copy()
+
         grid_table = Table(
             table_name.lower(), db.metadata,
             db.Column('id', db.Integer(), primary_key=True, autoincrement=True),
             db.Column('tile', db.String),
             db.Column('geom', geoalchemy2.Geometry(geometry_type='Polygon', srid=srid, spatial_index=False)),
-            Index(None, 'geom', postgresql_using='gist')
+            Index(None, 'geom', postgresql_using='gist'),
+            **opts
         )
 
         if grid_table.exists(db.engine):
@@ -72,7 +76,7 @@ class GridRefSys(BaseModel):
 
         db.session.execute(grid_table.insert().values(features))
 
-        table_id = cls.get_table_id(table_name)
+        table_id = cls.get_table_id(table_name, schema=opts.get('schema'))
 
         grs.table_id = table_id
 

@@ -16,13 +16,13 @@ Brazil Data Cube Image Metadata Catalog
         :alt: Software License
 
 
-.. image:: https://travis-ci.org/brazil-data-cube/bdc-catalog.svg?branch=master
-        :target: https://travis-ci.org/brazil-data-cube/bdc-catalog
+.. image:: https://drone.dpi.inpe.br/api/badges/brazil-data-cube/bdc-catalog/status.svg
+        :target: https://drone.dpi.inpe.br/brazil-data-cube/bdc-catalog
         :alt: Build Status
 
 
-.. image:: https://coveralls.io/repos/github/brazil-data-cube/bdc-catalog/badge.svg?branch=master
-        :target: https://coveralls.io/github/brazil-data-cube/bdc-catalog?branch=master
+.. image:: https://codecov.io/gh/brazil-data-cube/bdc-catalog/branch/master/graph/badge.svg?token=KJRQHUU8AO
+        :target: https://codecov.io/gh/brazil-data-cube/bdc-catalog
         :alt: Code Coverage Test
 
 

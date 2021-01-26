@@ -7,3 +7,28 @@
 #
 
 """Config test fixtures."""
+
+import subprocess
+
+import pytest
+from flask import Flask
+
+
+@pytest.fixture
+def app():
+    """Create and initialize BDC-Catalog extension."""
+    _app = Flask(__name__)
+
+    with _app.app_context():
+        yield _app
+
+
+def pytest_sessionstart(session):
+    """Load BDC-Catalog and prepare database environment."""
+    for command in ['init', 'create-namespaces', 'create-extension-postgis', 'create-schema']:
+        subprocess.call(f'bdc-catalog db {command}', shell=True)
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """Destroy database created."""
+    subprocess.call(f'bdc-catalog db destroy --force', shell=True)

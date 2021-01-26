@@ -28,7 +28,7 @@ steps:
       - push
   settings:
     token:
-      from_secret: CODECOV_TOKEN
+      from_secret: codecov_token
     files:
       - coverage.xml
       - .coverage

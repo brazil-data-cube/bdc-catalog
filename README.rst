@@ -21,7 +21,7 @@ Brazil Data Cube Image Metadata Catalog
         :alt: Build Status
 
 
-.. image:: https://codecov.io/gh/brazil-data-cube/bdc-catalog/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/brazil-data-cube/bdc-catalog/branch/master/graph/badge.svg?token=KJRQHUU8AO
         :target: https://codecov.io/gh/brazil-data-cube/bdc-catalog
         :alt: Code Coverage Test
 

@@ -9,8 +9,8 @@
 """Model for the image item of a collection."""
 
 from geoalchemy2 import Geometry
-from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index, Integer, Numeric,
-                        String)
+from sqlalchemy import (TIMESTAMP, Boolean, Column, ForeignKey, Index, Integer,
+                        Numeric, String)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -94,6 +94,7 @@ class Item(BaseModel):
     geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     min_convex_hull = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
+    is_public = Column(Boolean(), nullable=False, default=True)
 
     collection = relationship(Collection)
     tile = relationship('Tile')
@@ -110,5 +111,6 @@ class Item(BaseModel):
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
         Index(None, start_date.desc()),
+        Index(None, is_public),
         dict(schema=BDC_CATALOG_SCHEMA),
     )

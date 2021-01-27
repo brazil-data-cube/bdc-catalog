@@ -12,7 +12,7 @@ import sqlalchemy as sa
 revision = 'c68b17b1860b'
 down_revision = '566a05da999d'
 branch_labels = ()
-depends_on = None
+depends_on = 'e8b12ba52665'  # LCCS-DB reference id
 
 
 def upgrade():

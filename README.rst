@@ -53,7 +53,7 @@ About
 BDC-Catalog is an image metadata storage module for Earth Observation imagery. The module handles Earth Observation image collections and data cubes. The following diagram shows the tables used to store the metadata and their relationships:
 
 
-.. image:: https://github.com/brazil-data-cube/bdc-catalog/raw/b-0.6/docs/model/db-schema.png
+.. image:: https://github.com/brazil-data-cube/bdc-catalog/raw/master/docs/model/db-schema.png
         :target: https://github.com/brazil-data-cube/bdc-catalog/tree/master/docs/model
         :width: 90%
         :alt: Database Schema

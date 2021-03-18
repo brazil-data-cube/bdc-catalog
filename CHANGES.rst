@@ -11,6 +11,16 @@ Changes
 =======
 
 
+Version 0.8.1 (2021-03-17)
+--------------------------
+
+- Upgrade BDC-DB dependency to 0.4.3 to keep SQLAlchemy in version 1.3 until SQLAlchemyUtils is updated for SQLAlchemy 1.4. (`#150 <https://github.com/brazil-data-cube/bdc-catalog/issues/150>`_).
+
+- Fix default database schema "bdc" when creating a new GridRefSys (`#148 <https://github.com/brazil-data-cube/bdc-catalog/issues/148>`_).
+
+- Fix migration relation with LCCS-DB (`#147 <https://github.com/brazil-data-cube/bdc-catalog/issues/147>`_).
+
+
 Version 0.8.0 (2021-01-07)
 --------------------------
 

@@ -50,12 +50,12 @@ install_requires = [
     'Flask-SQLAlchemy>=2.4.0',
     'Flask-Alembic>=2.0.0',
     'GeoAlchemy2>=0.8.4',
-    'SQLAlchemy[postgresql_psycopg2binary]>=1.3.10',
+    'SQLAlchemy[postgresql_psycopg2binary]>=1.3,<1.4',
     'SQLAlchemy-Utils>=0.36.0',
     'alembic>=1.4.0',
     'py-multihash>=0.2,<1',
-    'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@v0.4.2',
-    'lccs-db @ git+git://github.com/brazil-data-cube/lccs-db@v0.4.0',
+    'bdc-db @ git+git://github.com/brazil-data-cube/bdc-db@v0.4.3',
+    'lccs-db @ git+git://github.com/brazil-data-cube/lccs-db@v0.4.1',
 ]
 
 packages = find_packages()

@@ -55,14 +55,13 @@ exclude_patterns = [
 html_theme = 'sphinx_rtd_theme'
 
 html_theme_options = {
-    #'canonical_url': 'https://brazil-data-cube.github.io/',
+    'html_baseurl': 'https://brazil-data-cube.github.io/',
     'analytics_id': 'XXXXXXXXXX',
     'logo_only': False,
     'display_version': True,
     'prev_next_buttons_location': 'both',
     'style_external_links': True,
-    #'vcs_pageview_mode': 'edit',
-    #'github_url': 'https://github.com/brazil-data-cube/docs-bdc',
+    'github_url': 'https://github.com/brazil-data-cube/bdc-catalog',
     'style_nav_header_background': '#2980B9',
     'collapse_navigation': True,
     'sticky_navigation': False,
@@ -71,9 +70,9 @@ html_theme_options = {
     'titles_only': False
 }
 
-#html_theme_path = ''
+# html_theme_path = ''
 
-#html_style = ''
+# html_style = ''
 
 html_title = 'BDC-Catalog'
 
@@ -84,7 +83,7 @@ html_context = {
     'github_user': 'brazil-data-cube',
     'github_repo': 'bdc-db',
     'last_updated': False,
-    #'commit': False,
+    # 'commit': False,
 }
 
 html_show_sourcelink = False
@@ -93,7 +92,7 @@ html_logo = './img/logo-bdc.png'
 
 html_favicon = './img/favicon.ico'
 
-#html_static_path = ['_static']
+# html_static_path = ['_static']
 
 html_css_files = [ ]
 
@@ -112,10 +111,10 @@ numfig_format = {
     'section': 'Section %s.'
 }
 
-#def setup(app):
-#    app.add_stylesheet('bdc-db.css')
+# def setup(app):
+#     app.add_stylesheet('bdc-db.css')
 
 
-#todo_include_todos = True
-#todo_emit_warnings = True
+# todo_include_todos = True
+# todo_emit_warnings = True
 master_doc = 'index'

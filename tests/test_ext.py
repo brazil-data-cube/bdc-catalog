@@ -6,6 +6,12 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 #
 
-[pytest]
-addopts = --color=auto --cov=bdc_catalog --cov-report=term-missing -v --cov-report=xml:coverage.xml
-testpaths = tests
+"""Unit-test for extension BDC-Catalog."""
+
+from bdc_catalog import BDCCatalog
+
+
+def test_ext_creation(app):
+    ext = BDCCatalog(app)
+
+    assert app.extensions['bdc-catalog'] == ext

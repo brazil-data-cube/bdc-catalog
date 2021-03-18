@@ -16,13 +16,13 @@ Brazil Data Cube Image Metadata Catalog
         :alt: Software License
 
 
-.. image:: https://travis-ci.org/brazil-data-cube/bdc-catalog.svg?branch=master
-        :target: https://travis-ci.org/brazil-data-cube/bdc-catalog
+.. image:: https://drone.dpi.inpe.br/api/badges/brazil-data-cube/bdc-catalog/status.svg
+        :target: https://drone.dpi.inpe.br/brazil-data-cube/bdc-catalog
         :alt: Build Status
 
 
-.. image:: https://coveralls.io/repos/github/brazil-data-cube/bdc-catalog/badge.svg?branch=master
-        :target: https://coveralls.io/github/brazil-data-cube/bdc-catalog?branch=master
+.. image:: https://codecov.io/gh/brazil-data-cube/bdc-catalog/branch/master/graph/badge.svg?token=KJRQHUU8AO
+        :target: https://codecov.io/gh/brazil-data-cube/bdc-catalog
         :alt: Code Coverage Test
 
 
@@ -53,7 +53,7 @@ About
 BDC-Catalog is an image metadata storage module for Earth Observation imagery. The module handles Earth Observation image collections and data cubes. The following diagram shows the tables used to store the metadata and their relationships:
 
 
-.. image:: https://github.com/brazil-data-cube/bdc-catalog/raw/b-0.6/docs/model/db-schema.png
+.. image:: https://github.com/brazil-data-cube/bdc-catalog/raw/master/docs/model/db-schema.png
         :target: https://github.com/brazil-data-cube/bdc-catalog/tree/master/docs/model
         :width: 90%
         :alt: Database Schema

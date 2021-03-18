@@ -22,6 +22,8 @@ The ``Brazil Data Cube Catalog`` (``BDC-Catalog``) depends essentially on:
 
 - `BDC-DB <https://bdc-db.readthedocs.io/en/latest/>`_: a database management extension for Brazil Data Cube Applications and Services.
 
+- `LCCS-DB <https://lccs-db.readthedocs.io/en/latest/>`_: the underlying Land Cover Classification System database model.
+
 - `Flask-SQLAlchemy <https://flask-sqlalchemy.palletsprojects.com/en/2.x/>`_: an extension for `Flask <http://flask.pocoo.org/>`_ that adds support for `SQLAlchemy <https://www.sqlalchemy.org/>`_ in applications.
 
 - `Flask-Alembic <https://flask-alembic.readthedocs.io/en/stable/>`_: an extension that provides a configurable `Alembic <https://alembic.sqlalchemy.org/en/latest/>`_ migration environment around a Flask-SQLAlchemy database.

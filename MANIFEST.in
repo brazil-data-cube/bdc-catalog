@@ -11,6 +11,7 @@ exclude docs/model
 include *.rst
 include *.sh
 include *.txt
+include *.yml
 include LICENSE
 include pytest.ini
 recursive-exclude docs/model *

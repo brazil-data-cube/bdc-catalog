@@ -28,10 +28,3 @@ def test_cli_module():
     res = subprocess.call(f'{sys.executable} -m bdc_catalog', shell=True)
 
     assert res == 0
-
-
-def test_database_creation():
-    """Test cli database creation."""
-    exit_status = subprocess.call('bdc-catalog db init', shell=True)
-
-    assert exit_status == 0

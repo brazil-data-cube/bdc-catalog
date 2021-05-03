@@ -59,6 +59,7 @@ class GridRefSys(BaseModel):
             srid = 100001
 
         opts = kwargs.copy()
+        opts['schema'] = BDC_CATALOG_SCHEMA
 
         grid_table = Table(
             table_name.lower(), db.metadata,

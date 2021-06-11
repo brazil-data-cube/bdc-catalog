@@ -1,0 +1,24 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "item-quality-control.json",
+    "title": "Quality Control metadata",
+    "description": "This object represents the metadata for the quality control column.",
+    "type": "object",
+    "properties": {
+        "operator_id": {
+            "description": "The operator identifier who has controlled the item",
+            "type": "integer"
+        },
+        "cloud_cover_method": {
+            "description": "Which method has been used to control the item",
+            "type": "string",
+            "enum": ["manual", "automatic"]
+        },
+        "controlled_at": {
+            "description": "Date and time when the item has been controlled",
+            "type": "string",
+            "format": "date-time"
+        }
+    },
+    "required": [ "operator_id", "cloud_cover_method", "controlled_at" ]
+}

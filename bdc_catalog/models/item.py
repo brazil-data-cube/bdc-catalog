@@ -94,6 +94,7 @@ class Item(BaseModel):
     geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     min_convex_hull = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
+    quality_control = Column('quality_control', JSONB, default='{"operator_id": null, "cloud_cover_method": null, "controlled_at": null}')
     is_public = Column(Boolean(), nullable=False, default=True)
 
     collection = relationship(Collection)

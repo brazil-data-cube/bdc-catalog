@@ -49,6 +49,7 @@ install_requires = [
     'Flask>=1.1.0',
     'Flask-SQLAlchemy>=2.4.0',
     'Flask-Alembic>=2.0.0',
+    'invenio-jsonschemas==1.1.3',
     'GeoAlchemy2>=0.8.4',
     'SQLAlchemy[postgresql_psycopg2binary]>=1.3,<1.4',
     'SQLAlchemy-Utils>=0.36.0',
@@ -91,6 +92,9 @@ setup(
         ],
         'bdc_db.namespaces': [
             'bdc_catalog = bdc_catalog.config:BDC_CATALOG_SCHEMA'
+        ],
+        'bdc.schemas': [
+            'bdc_catalog = bdc_catalog.jsonschemas'
         ],
         'console_scripts': [
             'bdc-catalog = bdc_catalog.cli:cli'

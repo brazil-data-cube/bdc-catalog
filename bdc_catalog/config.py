@@ -7,6 +7,7 @@
 #
 
 """Configuration file for BDC-Catalog."""
+import os
 
 BDC_CATALOG_SCHEMA = 'bdc'
 """Define the database schema prefix for BDC-Catalog models.
@@ -14,3 +15,6 @@ BDC_CATALOG_SCHEMA = 'bdc'
 TODO: Get it as environment variable. We should take care of migrations schema before do it.
       Check the issue https://github.com/brazil-data-cube/bdc-catalog/issues/123
 """
+
+JSONSCHEMAS_HOST = os.getenv('JSONSCHEMAS_HOST', 'brazildatacube.org')
+"""Define the hostname for BDC Catalog schemas."""

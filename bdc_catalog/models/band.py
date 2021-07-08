@@ -10,10 +10,10 @@
 
 from sqlalchemy import (Column, Enum, ForeignKey, Index, Integer, Numeric,
                         PrimaryKeyConstraint, String, Text)
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
+from ..types import JSONSchemaType
 from .base_sql import BaseModel
 from .collection import Collection
 
@@ -46,7 +46,9 @@ class Band(BaseModel):
     resolution_unit_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.resolution_unit.id', onupdate='CASCADE', ondelete='CASCADE'))
     data_type = Column(enum_data_type)
     mime_type_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.mime_type.id', onupdate='CASCADE', ondelete='CASCADE'))
-    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/band-metadata.json')
+    _metadata = Column('metadata',
+                       JSONSchemaType('band-metadata.json'),
+                       comment='Follow the JSONSchema @jsonschemas/band-metadata.json')
 
     collection = relationship(Collection)
     resolution_unit = relationship('ResolutionUnit')

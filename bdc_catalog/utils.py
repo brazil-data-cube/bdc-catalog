@@ -11,9 +11,11 @@
 import hashlib
 from io import BytesIO
 from pathlib import Path
-from typing import Union
+from typing import Any, Union
 
+import jsonschema
 import multihash as _multihash
+from flask import current_app
 
 
 def check_sum(file_path: Union[str, BytesIO], chunk_size=16384) -> bytes:
@@ -65,3 +67,23 @@ def multihash_checksum_sha256(file_path: Union[str, BytesIO]):
     _hash = _multihash.encode(digest=check_sum(file_path), code=sha256, length=sha256_length)
 
     return _multihash.to_hex_string(_hash)
+
+
+def validate_schema(schema_key: str, value: Any, draft_checker=jsonschema.draft7_format_checker) -> Any:
+    """Validate a JSONSchema according a json model.
+
+    Note:
+        This method works under a Flask Application Context since it seeks for JSONSchema
+        loaded into :func:`~bdc_catalog.ext.BDCCatalog`
+
+    Args:
+        schema_key (str): The schema key path reference to the `jsonschemas` folder.
+        value (Any): The model value to be validated.
+        draft_checker (jsonschema.FormatChecker): The format checker validation for schemas.
+    """
+    extension = current_app.extensions['bdc-catalog']
+
+    schema = extension.schemas.get_schema(schema_key)
+    jsonschema.validate(instance=value, schema=schema, format_checker=draft_checker)
+
+    return value

@@ -11,10 +11,10 @@
 from geoalchemy2 import Geometry
 from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index, Integer, Numeric,
                         String)
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
+from ..types import JSONSchemaType
 from .base_sql import BaseModel, db
 from .collection import Collection
 
@@ -87,8 +87,8 @@ class Item(BaseModel):
     start_date = Column(TIMESTAMP(timezone=True), nullable=False)
     end_date = Column(TIMESTAMP(timezone=True), nullable=False)
     cloud_cover = Column(Numeric)
-    assets = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/item-assets.json')
-    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
+    assets = Column(JSONSchemaType('item-assets.json'), comment='Follow the JSONSchema @jsonschemas/item-assets.json')
+    _metadata = Column('metadata', JSONSchemaType('item-metadata.json'), comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
     provider_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.providers.id', onupdate='CASCADE', ondelete='CASCADE'))
     application_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.applications.id', onupdate='CASCADE', ondelete='CASCADE'))
     geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))

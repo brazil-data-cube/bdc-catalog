@@ -13,10 +13,10 @@ from lccs_db.models import LucClassificationSystem
 from sqlalchemy import (TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
                         Integer, PrimaryKeyConstraint, SmallInteger, String,
                         Text, UniqueConstraint)
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
+from ..types import JSONSchemaType
 from .base_sql import BaseModel, db
 from .provider import Provider
 
@@ -34,14 +34,16 @@ class Collection(BaseModel):
     name = Column(String(255), nullable=False, comment='Collection name internally.')
     title = Column(String(255), nullable=False, comment='A human-readable string naming for collection.')
     description = Column(Text)
-    temporal_composition_schema = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json')
+    temporal_composition_schema = Column(
+        JSONSchemaType('collection-temporal-composition-schema.json'),
+        comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json')
     composite_function_id = Column(
         ForeignKey(f'{BDC_CATALOG_SCHEMA}.composite_functions.id', onupdate='CASCADE', ondelete='CASCADE'),
         comment='Function schema identifier. Used for data cubes.')
     grid_ref_sys_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
     classification_system_id = Column(ForeignKey(LucClassificationSystem.id, onupdate='CASCADE', ondelete='CASCADE'))
     collection_type = Column(enum_collection_type, nullable=False)
-    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
+    _metadata = Column('metadata', JSONSchemaType('collection-metadata.json'), comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     is_public = Column(Boolean(), nullable=False, default=True)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))

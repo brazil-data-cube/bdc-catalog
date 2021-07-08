@@ -11,7 +11,9 @@
 from bdc_db.ext import BrazilDataCubeDB
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from invenio_jsonschemas import InvenioJSONSchemas
 
+from . import config
 from .cli import cli
 from .models.base_sql import db as _db
 
@@ -31,6 +33,7 @@ class BDCCatalog:
 
     # Reference to BrazilDataCubeDB app instance
     _db_ext = None
+    schemas: InvenioJSONSchemas = None
 
     def __init__(self, app=None):
         """Initialize the catalog extension.
@@ -47,10 +50,18 @@ class BDCCatalog:
         Args:
             app: Flask application
         """
+        self.init_config(app)
+
         self._db_ext = BrazilDataCubeDB(app)
+        self.schemas = InvenioJSONSchemas(app, entry_point_group='bdc.schemas')
         app.extensions['bdc-catalog'] = self
 
         app.cli.add_command(cli)
+
+    def init_config(self, app: Flask):
+        """Initialize configuration file."""
+        for config_key in dir(config):
+            app.config.setdefault(config_key, getattr(config, config_key))
 
     @property
     def db(self) -> SQLAlchemy:

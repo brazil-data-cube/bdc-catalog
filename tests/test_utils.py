@@ -14,7 +14,8 @@ from tempfile import TemporaryDirectory
 
 import multihash
 
-from bdc_catalog.utils import multihash_checksum_sha256
+from bdc_catalog.ext import BDCCatalog
+from bdc_catalog.utils import multihash_checksum_sha256, validate_schema
 
 
 def test_check_sum_sha256():
@@ -39,3 +40,23 @@ def test_check_sum_sha256():
 
         # Ensure digest is a multihash
         assert multihash.is_valid(digest)
+
+
+def test_validate_json_schema(app):
+    """Test minimal json schema validator."""
+    _ = BDCCatalog(app)
+
+    date_str = "2020-01-01T00:00:00"
+    assets = dict(
+        thumbnail={
+            'href': 'http://fakehost/file.png',
+            'type': 'image/png',
+            'created': date_str,
+            'updated': date_str,
+            'roles': ['thumbnail'],
+            'checksum:multihash': '1208abcd',
+            'bdc:size': 0
+        }
+    )
+
+    validate_schema('item-assets.json', assets)

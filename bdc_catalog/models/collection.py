@@ -46,7 +46,7 @@ class Collection(BaseModel):
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))
     extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
-    version = Column(Integer, nullable=False)
+    version = Column(String, nullable=False)
     version_predecessor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
     version_successor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))

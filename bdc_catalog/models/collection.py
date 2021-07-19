@@ -49,6 +49,7 @@ class Collection(BaseModel):
     version = Column(Integer, nullable=False)
     version_predecessor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
     version_successor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
+    srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
 
     grs = relationship('GridRefSys')
     composite_function = relationship('CompositeFunction')
@@ -64,6 +65,7 @@ class Collection(BaseModel):
         Index(None, name),
         Index(None, extent, postgresql_using='gist'),
         Index(None, classification_system_id),
+        Index(None, srid),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
 

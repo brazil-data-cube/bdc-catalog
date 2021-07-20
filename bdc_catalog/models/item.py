@@ -10,7 +10,7 @@
 
 from geoalchemy2 import Geometry
 from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index, Integer, Numeric,
-                        String)
+                        String, UniqueConstraint)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -48,8 +48,8 @@ class Item(BaseModel):
             "collection_id": 23, # Collection S2_L1C
             "start_date": "2019-10-18T13:42:11",
             "end_date": "2019-10-18T13:42:11",
-            "geom": "POLYGON((-49.09545 -8.225985,-49.099896 -7.233321,-50.094195 -7.236384,-50.092074 -8.229473,-49.09545 -8.225985))",
-            "min_convex_hull": "POLYGON((-50.094208 -7.23638395134798,-49.099884 -7.23332135700407,-49.09546 -8.22598479222442,-50.09207 -8.22947294680053,-50.094208 -7.23638395134798))",
+            "geom": POLYGON((-50.094208 -7.23638395134798,-49.099884 -7.23332135700407,-49.09546 -8.22598479222442,-50.09207 -8.22947294680053,-50.094208 -7.23638395134798))",
+            "bbox": "POLYGON((-49.09545 -8.225985,-49.099896 -7.233321,-50.094195 -7.236384,-50.092074 -8.229473,-49.09545 -8.225985))",
             "srid": 4326,
             "assets": {
                 "thumbnail": {
@@ -92,7 +92,7 @@ class Item(BaseModel):
     provider_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.providers.id', onupdate='CASCADE', ondelete='CASCADE'))
     application_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.applications.id', onupdate='CASCADE', ondelete='CASCADE'))
     geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
-    min_convex_hull = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
+    bbox = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
 
     collection = relationship(Collection)
@@ -101,14 +101,16 @@ class Item(BaseModel):
     application = relationship('Application')
 
     __table_args__ = (
+        UniqueConstraint(name, collection_id),
         Index(None, cloud_cover),
         Index(None, collection_id),
-        Index(None, 'geom', postgresql_using='gist'),
-        Index(None, min_convex_hull, postgresql_using='gist'),
+        Index(None, geom, postgresql_using='gist'),
+        Index(None, bbox, postgresql_using='gist'),
         Index(None, name),
         Index(None, provider_id),
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
         Index(None, start_date.desc()),
+        Index(None, application_id),
         dict(schema=BDC_CATALOG_SCHEMA),
     )

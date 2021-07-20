@@ -21,7 +21,7 @@ BEGIN
     UPDATE bdc.collections
        SET start_date = stats.min_date,
            end_date = stats.max_date,
-           extent = stats.extent
+           spatial_extent = stats.extent
       FROM (
         SELECT min(start_date) AS min_date,
                max(end_date) AS max_date,

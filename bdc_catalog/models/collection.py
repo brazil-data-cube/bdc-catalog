@@ -46,7 +46,7 @@ class Collection(BaseModel):
     is_public = Column(Boolean(), nullable=False, default=True)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))
-    extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
+    spatial_extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     version = Column(String, nullable=False)
     version_predecessor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
     version_successor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
@@ -64,7 +64,7 @@ class Collection(BaseModel):
         UniqueConstraint('name', 'version'),
         Index(None, grid_ref_sys_id),
         Index(None, name),
-        Index(None, extent, postgresql_using='gist'),
+        Index(None, spatial_extent, postgresql_using='gist'),
         Index(None, classification_system_id),
         Index(None, srid),
         dict(schema=BDC_CATALOG_SCHEMA),

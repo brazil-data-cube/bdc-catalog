@@ -94,6 +94,7 @@ class Item(BaseModel):
     geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     bbox = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
+    properties = Column('properties', JSONB, comment='Contains the properties offered by STAC Items')
 
     collection = relationship(Collection)
     tile = relationship('Tile')

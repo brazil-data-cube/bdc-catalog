@@ -42,6 +42,7 @@ class Collection(BaseModel):
     classification_system_id = Column(ForeignKey(LucClassificationSystem.id, onupdate='CASCADE', ondelete='CASCADE'))
     collection_type = Column(enum_collection_type, nullable=False)
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
+    properties = Column('properties', JSONB, comment='Contains the properties offered by STAC collections')
     is_public = Column(Boolean(), nullable=False, default=True)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))

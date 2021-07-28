@@ -30,6 +30,7 @@ tests_require = [
     'pytest-pep8>=1.0',
     'pydocstyle>=4.0',
     'shapely>=1.7,<2',
+    'pyproj>=3',
     'isort>4.3',
     'check-manifest>=0.40',
 ]

@@ -8,8 +8,11 @@
 
 """Config test fixtures."""
 
+import json
 import subprocess
+from pathlib import Path
 
+import pkg_resources
 import pytest
 from flask import Flask
 
@@ -21,6 +24,38 @@ def app():
 
     with _app.app_context():
         yield _app
+
+
+@pytest.fixture
+def json_data():
+    """Load JSON data files for testing purposes."""
+    json_dir = pkg_resources.resource_filename(__name__, 'data/')
+    files = dict()
+    for entry in Path(json_dir).rglob('*.json'):
+        with entry.open():
+            data = json.loads(entry.read_text())
+        parent = str(entry.relative_to(json_dir))
+
+        files[parent] = data
+    return files
+
+
+@pytest.fixture
+def collections_data(json_data):
+    """Retrieve the JSON data related with collections."""
+    return {k: v for k, v in json_data.items() if k.startswith('collections/')}
+
+
+@pytest.fixture
+def grids_data(json_data):
+    """Retrieve the JSON data related with Grids."""
+    return {k: v for k, v in json_data.items() if k.startswith('grids/')}
+
+
+@pytest.fixture
+def composite_functions_data(json_data):
+    """Retrieve the JSON data related with collections."""
+    return {k: v for k, v in json_data.items() if k.startswith('composite_functions/')}
 
 
 def pytest_sessionstart(session):

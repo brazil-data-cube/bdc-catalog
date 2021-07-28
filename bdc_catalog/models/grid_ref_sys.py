@@ -43,7 +43,7 @@ class GridRefSys(BaseModel):
     tiles = relationship('Tile')
 
     @classmethod
-    def create_geometry_table(cls, table_name: str, features: Iterable[Feature], srid=None, **kwargs) -> 'GridRefSys':
+    def create_geometry_table(cls, table_name: str, features: Iterable[Feature], srid=100001, **kwargs) -> 'GridRefSys':
         """Create an table to store the features and retrieve a respective Grid instance.
 
         Args:
@@ -54,9 +54,6 @@ class GridRefSys(BaseModel):
         """
         grs = cls()
         grs.name = table_name
-
-        if srid is None:
-            srid = 100001
 
         opts = kwargs.copy()
         opts['schema'] = BDC_CATALOG_SCHEMA

@@ -9,8 +9,8 @@
 """Model for the image item of a collection."""
 
 from geoalchemy2 import Geometry
-from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index, Integer, Numeric,
-                        String, UniqueConstraint)
+from sqlalchemy import (TIMESTAMP, Boolean, Column, ForeignKey, Index, Integer,
+                        Numeric, String, UniqueConstraint)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -82,6 +82,7 @@ class Item(BaseModel):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
+    is_public = Column(Boolean, default=True)
     collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     tile_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.tiles.id', onupdate='CASCADE', ondelete='CASCADE'))
     start_date = Column(TIMESTAMP(timezone=True), nullable=False)
@@ -108,6 +109,7 @@ class Item(BaseModel):
         Index(None, geom, postgresql_using='gist'),
         Index(None, bbox, postgresql_using='gist'),
         Index(None, name),
+        Index(None, is_public),
         Index(None, provider_id),
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),

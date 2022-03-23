@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "#band-metadata.json",
+    "$id": "band-metadata.json",
     "type": "object",
     "title": "Bands Metadata field",
     "description": "Defines the metadata field in the table bands of Brazil Data Cube Data Model.",

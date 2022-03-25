@@ -13,8 +13,10 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import multihash
+from geoalchemy2.elements import WKBElement
+from shapely.geometry import Polygon
 
-from bdc_catalog.utils import multihash_checksum_sha256
+from bdc_catalog.utils import geom_to_wkb, multihash_checksum_sha256
 
 
 def test_check_sum_sha256():
@@ -39,3 +41,18 @@ def test_check_sum_sha256():
 
         # Ensure digest is a multihash
         assert multihash.is_valid(digest)
+
+
+def test_geom_to_wkb():
+    """Test the creation of EWKB geometries and if the values are kept."""
+    geom = Polygon([
+        (2609666.347361833, 11854042.174822256),
+        (2777726.39537163, 11854042.174822256),
+        (2777726.39537163, 11963904.01588614),
+        (2609666.347361833, 11963904.01588614),
+        (2609666.347361833, 11854042.174822256),
+    ])
+    srid = 100001
+    wkb = geom_to_wkb(geom, srid=srid)
+    assert isinstance(wkb, WKBElement)
+    assert wkb.srid == srid

@@ -11,6 +11,13 @@ Changes
 =======
 
 
+Version 0.8.2 (2022-03-25)
+--------------------------
+
+- Fix dependency related git protocol deprecation (`#161 <https://github.com/brazil-data-cube/bdc-catalog/issues/161>`_).
+- Add helper utility to deal with WKB geometries.
+
+
 Version 0.8.1 (2021-03-17)
 --------------------------
 

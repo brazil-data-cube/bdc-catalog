@@ -9,11 +9,11 @@
 """Model for the main table of image collections and data cubes."""
 
 from geoalchemy2 import Geometry
+from bdc_db.sqltypes import JSONB
 from lccs_db.models import LucClassificationSystem
-from sqlalchemy import (TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
+from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
                         Integer, PrimaryKeyConstraint, SmallInteger, String,
                         Text, UniqueConstraint)
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
@@ -34,16 +34,25 @@ class Collection(BaseModel):
     name = Column(String(255), nullable=False, comment='Collection name internally.')
     title = Column(String(255), nullable=False, comment='A human-readable string naming for collection.')
     description = Column(Text)
-    temporal_composition_schema = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json')
+    temporal_composition_schema = Column(JSONB('bdc-catalog/collection-temporal-composition-schema.json'),
+                                         comment='Follow the JSONSchema @jsonschemas/collection-temporal-composition-schema.json')
     composite_function_id = Column(
         ForeignKey(f'{BDC_CATALOG_SCHEMA}.composite_functions.id', onupdate='CASCADE', ondelete='CASCADE'),
         comment='Function schema identifier. Used for data cubes.')
     grid_ref_sys_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
     classification_system_id = Column(ForeignKey(LucClassificationSystem.id, onupdate='CASCADE', ondelete='CASCADE'))
     collection_type = Column(enum_collection_type, nullable=False)
-    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
-    properties = Column('properties', JSONB, comment='Contains the properties offered by STAC collections')
+    _metadata = Column('metadata', JSONB('bdc-catalog/collection-metadata.json'),
+                       comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
+    keywords = Column('keywords', ARRAY(String))
+    properties = Column('properties', JSONB('bdc-catalog/collection-properties.json'),
+                        comment='Contains the properties offered by STAC collections')
+    summaries = Column('summaries', JSONB('bdc-catalog/collection-summaries.json'),
+                       comment='Contains the STAC Collection summaries.')
+    item_assets = Column('item_assets', JSONB('bdc-catalog/collection-item-assets.json'),
+                         comment='Contains the STAC Extension Item Assets.')
     is_public = Column(Boolean(), nullable=False, default=True)
+    is_available = Column(Boolean(), nullable=False, default=False)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))
     spatial_extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
@@ -109,3 +118,21 @@ class CollectionsProviders(BaseModel):
 
     active = Column(Boolean(), nullable=False, default=True)
     priority = Column(SmallInteger(), nullable=False)
+
+
+class CollectionLocation(BaseModel):
+    """Model for table ``bdc.collection_locations``."""
+
+    __tablename__ = 'collection_locations'
+
+    location_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.locations.id', onupdate='CASCADE', ondelete='CASCADE'),
+                         nullable=False)
+    collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'),
+                           nullable=False)
+    active = Column(Boolean(), nullable=False, default=True)
+
+    __table_args__ = (
+        PrimaryKeyConstraint(location_id, collection_id),
+        Index(None, active),
+        dict(schema=BDC_CATALOG_SCHEMA),
+    )

@@ -92,8 +92,8 @@ class Item(BaseModel):
     _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
     provider_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.providers.id', onupdate='CASCADE', ondelete='CASCADE'))
     application_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.applications.id', onupdate='CASCADE', ondelete='CASCADE'))
-    geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     bbox = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
+    footprint = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
     properties = Column('properties', JSONB, comment='Contains the properties offered by STAC Items')
 
@@ -106,8 +106,8 @@ class Item(BaseModel):
         UniqueConstraint(name, collection_id),
         Index(None, cloud_cover),
         Index(None, collection_id),
-        Index(None, geom, postgresql_using='gist'),
         Index(None, bbox, postgresql_using='gist'),
+        Index(None, footprint, postgresql_using='gist'),
         Index(None, name),
         Index(None, is_public),
         Index(None, provider_id),

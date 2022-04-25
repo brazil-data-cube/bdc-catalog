@@ -8,14 +8,14 @@
 
 """SQLAlchemy model classes for BDC-Catalog."""
 
-from .application import Application
 from .band import Band, BandSRC
 from .base_sql import db
 from .collection import Collection, CollectionsProviders, CollectionSRC
 from .composite_function import CompositeFunction
 from .grid_ref_sys import GridRefSys
-from .item import Item, SpatialRefSys
+from .item import Item, ItemsProcessors, SpatialRefSys
 from .mime_type import MimeType
+from .processor import Processor
 from .provider import Provider
 from .quicklook import Quicklook
 from .resolution_unit import ResolutionUnit
@@ -24,7 +24,6 @@ from .timeline import Timeline
 
 __all__ = (
     'db',
-    'Application',
     'Band',
     'BandSRC',
     'Collection',
@@ -33,7 +32,9 @@ __all__ = (
     'CompositeFunction',
     'GridRefSys',
     'Item',
+    'ItemsProcessors',
     'MimeType',
+    'Processor',
     'Provider',
     'Quicklook',
     'ResolutionUnit',

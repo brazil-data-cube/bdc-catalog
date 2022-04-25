@@ -31,7 +31,7 @@ class Timeline(BaseModel):
     collection_id = Column(ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     time_inst = Column(TIMESTAMP(timezone=True), nullable=False)
 
-    collection = relationship('Collection')
+    collection = relationship('Collection', back_populates='timeline')
 
     __table_args__ = (
         PrimaryKeyConstraint(collection_id, time_inst),

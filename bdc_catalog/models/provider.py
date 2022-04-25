@@ -9,7 +9,6 @@
 """Model for table ``bdc.providers``."""
 
 from sqlalchemy import Column, Index, Integer, String, Text
-from sqlalchemy.dialects.postgresql import JSONB
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
@@ -18,18 +17,18 @@ from .base_sql import BaseModel
 class Provider(BaseModel):
     """Model for table ``bdc.providers``.
 
-    A provider consists in a maintainer, organization that offer the data to be downloaded.
-    In the Brazil Data Cube context, they may be: ``USGS``, ``Copernicus``, ``Google Public Datasets``, etc.
-    Each provider should have their own credentials associated to be automatically configurable
-    by BDC tools."""
+    This model provides information about the provider. A provider is any of the organizations that captures, procecesses
+    or host the content of the collection.
+
+    See more in `STAC Provider Object <https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#provider-object>`_
+    """
 
     __tablename__ = 'providers'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(64))
     description = Column(Text)
-    uri = Column(String(255))
-    credentials = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/provider-credentials.json')
+    url = Column(String(255))
 
     __table_args__ = (
         Index(None, name),

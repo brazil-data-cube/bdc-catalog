@@ -13,12 +13,159 @@
                 ],
                 "value": "10000. * ((band5 - band4) / (band5 + band4))"
             }
+        },
+        {
+            "eo": {
+                "eo:cloud_cover": 13.47,
+                "eo:bands":
+            }
         }
     ],
     "required": [],
     "additionalProperties": true,
     "properties": {
         "expression": {
+            "$ref": "#/definitions/expression_model"
+        },
+        "eo": {
+            "$ref": "#/definitions/eo_model"
+        },
+        "sar": {
+            "$ref": "#/definitions/sar_model"
+        }
+    },
+    "definitions": {
+        "eo_model": {
+            "type": "object",
+            "properties": {
+                "eo:cloud_cover": {
+                    "title": "Cloud Cover",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                },
+                "eo:bands": {
+                    "bands": {
+                        "title": "Bands",
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "title": "Band",
+                            "type": "object",
+                            "minProperties": 1,
+                            "properties": {
+
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "sar_model": {
+            "type": "object",
+            "properties": {
+                "sar:instrument_mode": {
+                    "title": "Instrument Mode",
+                    "type": "string",
+                    "examples": [
+                        "WV"
+                    ],
+                    "minLength": 1,
+                    "example": "WV"
+                },
+                "sar:frequency_band": {
+                    "title": "Frequency Band",
+                    "type": "string",
+                    "enum": [
+                        "P",
+                        "L",
+                        "S",
+                        "C",
+                        "X",
+                        "Ku",
+                        "K",
+                        "Ka"
+                    ]
+                },
+                "sar:center_frequency": {
+                    "title": "Center Frequency (GHz)",
+                    "type": "number"
+                },
+                "sar:polarizations": {
+                    "title": "Polarizations",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "HH",
+                            "VV",
+                            "HV",
+                            "VH"
+                        ]
+                    }
+                },
+                "sar:product_type": {
+                    "title": "Product type",
+                    "type": "string",
+                    "minLength": 1,
+                    "examples": [
+                        "SSC",
+                        "MGD",
+                        "SGC"
+                    ]
+                },
+                "sar:resolution_range": {
+                    "title": "Resolution range (m)",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "sar:resolution_azimuth": {
+                    "title": "Resolution azimuth (m)",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "sar:pixel_spacing_range": {
+                    "title": "Pixel spacing range (m)",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "sar:pixel_spacing_azimuth": {
+                    "title": "Pixel spacing azimuth (m)",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "sar:looks_range": {
+                    "title": "Looks range",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "sar:looks_azimuth": {
+                    "title": "Looks azimuth",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "sar:looks_equivalent_number": {
+                    "title": "Equivalent number of looks (ENL)",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "sar:observation_direction": {
+                    "title": "Antenna pointing direction",
+                    "type": "string",
+                    "enum": [
+                        "left",
+                        "right"
+                    ]
+                }
+            },
+            "patternProperties": {
+                "^(?!sar:)": {
+                    "$comment": "Do not allow unspecified fields prefixed with sar:"
+                }
+            }
+        },
+        "expression_model": {
             "type": "object",
             "title": "Define the metadata to generate custom bands in run time.",
             "required": [
@@ -41,29 +188,6 @@
                         "(band5 - band4) / (band5 + band4)"
                     ]
                 }
-            }
-        },
-        "geometry_processing": {
-            "title": "Geometry Processing",
-            "description": "",
-            "type": "string",
-            "enum": [
-                "ortho"
-            ]
-        },
-        "radiometry_processing": {
-            "title": "Radiometry Processing",
-            "description": "Describes the radiometric processing level",
-            "type": "array",
-            "items": {
-                "type": "string",
-                "enum": [
-                    "DN",
-                    "TOA",
-                    "SR",
-                    "BT",
-                    "ST"
-                ]
             }
         }
     }

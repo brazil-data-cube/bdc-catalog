@@ -8,11 +8,13 @@
 
 """Model for the main table of image collections and data cubes."""
 
+from typing import Optional
+
 from geoalchemy2 import Geometry
 from bdc_db.sqltypes import JSONB
 from lccs_db.models import LucClassificationSystem
 from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
-                        Integer, PrimaryKeyConstraint, SmallInteger, String,
+                        Integer, PrimaryKeyConstraint, String,
                         Text, UniqueConstraint)
 from sqlalchemy.orm import relationship
 
@@ -23,6 +25,8 @@ from .provider import Provider
 name_collection_type = 'collection_type'
 options_collection_type = ('cube', 'collection', 'classification', 'mosaic')
 enum_collection_type = Enum(*options_collection_type, name=name_collection_type)
+enum_provider_role_type = Enum('licensor', 'producer', 'processor', 'host', name='provider_role_type')
+enum_collection_category = Enum('eo', 'sar', 'lidar', 'unknown', name='collection_category_type')
 
 
 class Collection(BaseModel):
@@ -42,7 +46,7 @@ class Collection(BaseModel):
     grid_ref_sys_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
     classification_system_id = Column(ForeignKey(LucClassificationSystem.id, onupdate='CASCADE', ondelete='CASCADE'))
     collection_type = Column(enum_collection_type, nullable=False)
-    _metadata = Column('metadata', JSONB('bdc-catalog/collection-metadata.json'),
+    metadata_ = Column('metadata', JSONB('bdc-catalog/collection-metadata.json'),
                        comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     keywords = Column('keywords', ARRAY(String))
     properties = Column('properties', JSONB('bdc-catalog/collection-properties.json'),
@@ -53,17 +57,17 @@ class Collection(BaseModel):
                          comment='Contains the STAC Extension Item Assets.')
     is_public = Column(Boolean(), nullable=False, default=True)
     is_available = Column(Boolean(), nullable=False, default=False)
+    category = Column(enum_collection_category, nullable=False)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))
     spatial_extent = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     version = Column(String, nullable=False)
     version_predecessor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
     version_successor = Column(ForeignKey(id, onupdate='CASCADE', ondelete='CASCADE'))
-    srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
 
     grs = relationship('GridRefSys')
     composite_function = relationship('CompositeFunction')
-    bands = relationship('Band')
+    bands = relationship('Band', back_populates='collection')
     quicklook = relationship('Quicklook')
     timeline = relationship('Timeline')
     # Joined Eager Loading. Default is Left Outer Join to lead object that does not refer to a related row.
@@ -75,7 +79,8 @@ class Collection(BaseModel):
         Index(None, name),
         Index(None, spatial_extent, postgresql_using='gist'),
         Index(None, classification_system_id),
-        Index(None, srid),
+        Index(None, category),
+        Index(None, start_date, end_date),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
 
@@ -100,7 +105,9 @@ class CollectionSRC(BaseModel):
 
 
 class CollectionsProviders(BaseModel):
-    """Track the available data providers for an image collection."""
+    """Track the available data providers for an image collection.
+
+    This model integrates with STAC Providers spec."""
 
     __tablename__ = 'collections_providers'
     __table_args__ = dict(
@@ -116,23 +123,7 @@ class CollectionsProviders(BaseModel):
                            ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'),
                            nullable=False, primary_key=True)
 
-    active = Column(Boolean(), nullable=False, default=True)
-    priority = Column(SmallInteger(), nullable=False)
+    roles = Column(ARRAY(enum_provider_role_type), nullable=False)
 
-
-class CollectionLocation(BaseModel):
-    """Model for table ``bdc.collection_locations``."""
-
-    __tablename__ = 'collection_locations'
-
-    location_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.locations.id', onupdate='CASCADE', ondelete='CASCADE'),
-                         nullable=False)
-    collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'),
-                           nullable=False)
-    active = Column(Boolean(), nullable=False, default=True)
-
-    __table_args__ = (
-        PrimaryKeyConstraint(location_id, collection_id),
-        Index(None, active),
-        dict(schema=BDC_CATALOG_SCHEMA),
-    )
+    provider = relationship(Provider)
+    collection = relationship(Collection)

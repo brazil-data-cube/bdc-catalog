@@ -10,7 +10,7 @@
 
 from geoalchemy2 import Geometry
 from sqlalchemy import (TIMESTAMP, Boolean, Column, ForeignKey, Index, Integer,
-                        Numeric, String, UniqueConstraint)
+                        Numeric, PrimaryKeyConstraint, String, UniqueConstraint)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -23,7 +23,7 @@ class SpatialRefSys(db.Model):
     """Auxiliary model for the PostGIS spatial_ref_sys table."""
 
     __tablename__ = 'spatial_ref_sys'
-    __table_args__ = ({"schema": "public"})
+    __table_args__ = ({"schema": "public", "extend_existing": True})
 
     srid = Column(Integer, primary_key=True)
     auth_name = Column(String)
@@ -83,27 +83,24 @@ class Item(BaseModel):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
     is_public = Column(Boolean, default=True)
+    is_available = Column(Boolean, default=False)
     collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     tile_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.tiles.id', onupdate='CASCADE', ondelete='CASCADE'))
     start_date = Column(TIMESTAMP(timezone=True), nullable=False)
     end_date = Column(TIMESTAMP(timezone=True), nullable=False)
     cloud_cover = Column(Numeric)
-    assets = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/item-assets.json')
-    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
+    assets = Column(JSONB('bdc-catalog/item-assets.json'), comment='Follow the JSONSchema @jsonschemas/item-assets.json')
+    metadata_ = Column('metadata', JSONB('bdc-catalog/item-metadata.json'),
+                       comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
     provider_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.providers.id', onupdate='CASCADE', ondelete='CASCADE'))
-    application_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.applications.id', onupdate='CASCADE', ondelete='CASCADE'))
     bbox = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     footprint = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
-    properties = Column('properties', JSONB, comment='Contains the properties offered by STAC Items')
 
     collection = relationship(Collection)
     tile = relationship('Tile')
-    provider = relationship('Provider')
-    application = relationship('Application')
 
     __table_args__ = (
-        UniqueConstraint(name, collection_id),
         Index(None, cloud_cover),
         Index(None, collection_id),
         Index(None, bbox, postgresql_using='gist'),
@@ -114,6 +111,28 @@ class Item(BaseModel):
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
         Index(None, start_date.desc()),
-        Index(None, application_id),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
+
+
+class ItemsProcessors(BaseModel):
+    """Represent model to integrate with STAC Extension Processing.
+
+    See More in `Processing Extension Specification <https://github.com/stac-extensions/processing>`_.
+    """
+
+    __tablename__ = 'items_processors'
+
+    item_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.items.id', onupdate='CASCADE', ondelete='CASCADE'),
+                           nullable=False)
+    processor_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.processors.id', onupdate='CASCADE', ondelete='CASCADE'),
+                          nullable=False)
+
+    item = relationship(Item)
+    processor = relationship('Processor')
+
+    __table_args__ = (
+        PrimaryKeyConstraint(item_id, processor_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
+    )
+

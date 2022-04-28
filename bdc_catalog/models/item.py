@@ -8,6 +8,8 @@
 
 """Model for the image item of a collection."""
 
+from typing import List
+
 from geoalchemy2 import Geometry
 from sqlalchemy import (TIMESTAMP, Boolean, Column, ForeignKey, Index, Integer,
                         Numeric, PrimaryKeyConstraint, String, UniqueConstraint)
@@ -17,6 +19,7 @@ from sqlalchemy.orm import relationship
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
 from .collection import Collection
+from .processor import Processor
 
 
 class SpatialRefSys(db.Model):
@@ -111,8 +114,14 @@ class Item(BaseModel):
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
         Index(None, start_date.desc()),
+        Index(None, metadata_),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
+
+    @property
+    def processors(self):
+        """The processors used that the item were generated."""
+        return ItemsProcessors.get_processors(self.id)
 
 
 class ItemsProcessors(BaseModel):
@@ -129,10 +138,20 @@ class ItemsProcessors(BaseModel):
                           nullable=False)
 
     item = relationship(Item)
-    processor = relationship('Processor')
+    processor = relationship(Processor)
 
     __table_args__ = (
         PrimaryKeyConstraint(item_id, processor_id),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
 
+    @classmethod
+    def get_processors(cls, item_id: int) -> List[Processor]:
+        """Retrieve the processors related to Item."""
+        entries = (
+            db.session.query(Processor)
+            .join(ItemsProcessors, ItemsProcessors.processor_id == Processor.id)
+            .filter(ItemsProcessors.item_id == item_id)
+            .all()
+        )
+        return entries

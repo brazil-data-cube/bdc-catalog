@@ -8,7 +8,7 @@
 
 """Model for the main table of image collections and data cubes."""
 
-from typing import Optional
+from typing import List, Optional, Union
 
 from geoalchemy2 import Geometry
 from bdc_db.sqltypes import JSONB
@@ -17,6 +17,7 @@ from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey, Ind
                         Integer, PrimaryKeyConstraint, String,
                         Text, UniqueConstraint)
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.functions import func
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
@@ -84,6 +85,11 @@ class Collection(BaseModel):
         dict(schema=BDC_CATALOG_SCHEMA),
     )
 
+    @property
+    def providers(self):
+        """The list of providers relationship of Collection."""
+        return CollectionsProviders.get_providers(self.id)
+
 
 class CollectionSRC(BaseModel):
     """Model for collection provenance/lineage."""
@@ -110,9 +116,6 @@ class CollectionsProviders(BaseModel):
     This model integrates with STAC Providers spec."""
 
     __tablename__ = 'collections_providers'
-    __table_args__ = dict(
-        schema=BDC_CATALOG_SCHEMA
-    )
 
     provider_id = Column('provider_id', db.Integer(),
                          ForeignKey(Provider.id, onupdate='CASCADE', ondelete='CASCADE'),
@@ -125,5 +128,43 @@ class CollectionsProviders(BaseModel):
 
     roles = Column(ARRAY(enum_provider_role_type), nullable=False)
 
+    __table_args__ = (
+        Index(None, roles),
+        dict(schema=BDC_CATALOG_SCHEMA),
+    )
+
     provider = relationship(Provider)
     collection = relationship(Collection)
+
+    @classmethod
+    def get_providers(cls, collection_id: Union[int, str]) -> List['CollectionsProviders']:
+        """Retrieve the Providers related to the given collection.
+
+        Note:
+            You may use both Collection.id or `CollectionName-Version` as identifier.
+        """
+        join = []
+        if isinstance(collection_id, str):
+            where = [func.concat(Collection.name, '-', Collection.version) == collection_id]
+            join.append((Collection, CollectionsProviders.collection_id == Collection.id))
+        else:
+            where = [CollectionsProviders.collection_id == collection_id]
+
+        query = (
+            db.session.query(CollectionsProviders)
+        )
+        for model, condition in join:
+            query = query.join(model, condition)
+
+        entries = query.filter(*where).all()
+
+        return entries
+
+    def to_dict(self) -> dict:
+        """Retrieve the relationship as Python Dictionary.
+
+        Note:
+            The properties follows the STAC specification in `Provider Object <https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/collection-spec.md#provider-object>`_.
+        """
+        return dict(name=self.provider.name, description=self.provider.description,
+                    url=self.provider.url, roles=self.roles)

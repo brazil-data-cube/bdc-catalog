@@ -10,11 +10,9 @@
 
 from sqlalchemy import Column, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
-from .item import Item
 
 
 class Processor(BaseModel):

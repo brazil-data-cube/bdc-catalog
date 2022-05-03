@@ -11,9 +11,11 @@
 import hashlib
 from io import BytesIO
 from pathlib import Path
-from typing import Union
+from typing import Any, Union
 
+import geoalchemy2
 import multihash as _multihash
+from geoalchemy2.shape import from_shape
 
 
 def check_sum(file_path: Union[str, BytesIO], chunk_size=16384) -> bytes:
@@ -65,3 +67,18 @@ def multihash_checksum_sha256(file_path: Union[str, BytesIO]):
     _hash = _multihash.encode(digest=check_sum(file_path), code=sha256, length=sha256_length)
 
     return _multihash.to_hex_string(_hash)
+
+
+def geom_to_wkb(geom: Any, srid: int = None) -> geoalchemy2.WKBElement:
+    """Create a WKB geometry from a shapely.geometry.Geometry.
+
+    This helper uses the GeoAlchemy2 helper to ensure to create a extended WKB element (EWKB).
+    It forces the SQLAlchemy field to load the Geometry into database with EWKB instead WKT
+    to avoid any bit error precision.
+
+    Args:
+        geom: A shapely Geometry
+        srid: The Geometry SRID associated.
+    """
+    # Use extended=True to available the Geometry as EWKB
+    return from_shape(geom, srid=-1 if srid is None else srid, extended=True)

@@ -12,9 +12,10 @@ from typing import List
 
 from geoalchemy2 import Geometry
 from sqlalchemy import (TIMESTAMP, Boolean, Column, ForeignKey, Index, Integer,
-                        Numeric, PrimaryKeyConstraint, String, UniqueConstraint)
+                        Numeric, PrimaryKeyConstraint, String)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import expression
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
@@ -51,7 +52,7 @@ class Item(BaseModel):
             "collection_id": 23, # Collection S2_L1C
             "start_date": "2019-10-18T13:42:11",
             "end_date": "2019-10-18T13:42:11",
-            "geom": POLYGON((-50.094208 -7.23638395134798,-49.099884 -7.23332135700407,-49.09546 -8.22598479222442,-50.09207 -8.22947294680053,-50.094208 -7.23638395134798))",
+            "footprint": POLYGON((-50.094208 -7.23638395134798,-49.099884 -7.23332135700407,-49.09546 -8.22598479222442,-50.09207 -8.22947294680053,-50.094208 -7.23638395134798))",
             "bbox": "POLYGON((-49.09545 -8.225985,-49.099896 -7.233321,-50.094195 -7.236384,-50.092074 -8.229473,-49.09545 -8.225985))",
             "srid": 4326,
             "assets": {
@@ -85,8 +86,8 @@ class Item(BaseModel):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
-    is_public = Column(Boolean, default=True)
-    is_available = Column(Boolean, default=False)
+    is_public = Column(Boolean, default=True, nullable=False, server_default=expression.true())
+    is_available = Column(Boolean, default=False, nullable=False, server_default=expression.false())
     collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     tile_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.tiles.id', onupdate='CASCADE', ondelete='CASCADE'))
     start_date = Column(TIMESTAMP(timezone=True), nullable=False)
@@ -110,6 +111,7 @@ class Item(BaseModel):
         Index(None, footprint, postgresql_using='gist'),
         Index(None, name),
         Index(None, is_public),
+        Index(None, is_available),
         Index(None, provider_id),
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),

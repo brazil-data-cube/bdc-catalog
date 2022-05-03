@@ -81,6 +81,8 @@ class Collection(BaseModel):
         Index(None, spatial_extent, postgresql_using='gist'),
         Index(None, classification_system_id),
         Index(None, category),
+        Index(None, is_public),
+        Index(None, is_available),
         Index(None, start_date, end_date),
         dict(schema=BDC_CATALOG_SCHEMA),
     )

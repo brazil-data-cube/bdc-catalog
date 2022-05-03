@@ -28,6 +28,7 @@ BEGIN
                ST_SetSRID(ST_Envelope(ST_Extent(bbox)), 4326) AS extent
           FROM bdc.items
          WHERE collection_id = NEW.collection_id
+           AND bdc.items.is_available = 't'
       ) stats
       WHERE id = NEW.collection_id;
 

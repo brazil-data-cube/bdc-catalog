@@ -13,9 +13,9 @@ CREATE OR REPLACE FUNCTION update_timeline()
 RETURNS trigger AS $$
 BEGIN
     -- Once Item update/insert, calculate the min/max time and update in collections.
-    IF NOT EXISTS (SELECT * FROM bdc.timeline WHERE collection_id = NEW.collection_id AND (time_inst = NEW.start_date OR time_inst = NEW.end_date)) THEN
+    IF NOT EXISTS (SELECT * FROM bdc.timeline WHERE collection_id = NEW.collection_id AND time_inst = NEW.start_date) THEN
         INSERT INTO bdc.timeline (collection_id, time_inst, created, updated)
-             VALUES (NEW.collection_id, NEW.start_date, now(), now()), (NEW.collection_id, NEW.end_date, now(), now())
+             VALUES (NEW.collection_id, NEW.start_date, now(), now())
                  ON CONFLICT DO NOTHING;
     END IF;
 

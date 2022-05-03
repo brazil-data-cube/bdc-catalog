@@ -10,25 +10,27 @@
 
 from sqlalchemy import Column, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
-from .item import Item
 
 
-class Application(BaseModel):
-    """Define an application to catalog items on Brazil Data Cube model."""
+class Processor(BaseModel):
+    """Represent the STAC extension for Processing: Processor.
 
-    __tablename__ = 'applications'
+    See More in `Processing Extension Specification <https://github.com/stac-extensions/processing>`_.
+    """
+
+    __tablename__ = 'processors'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(64), nullable=False)
+    facility = Column(String(255), nullable=False)
+    level = Column(String(32), nullable=False)
     version = Column(String(32), nullable=False)
     uri = Column(String(255))
-    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/application-metadata.json')
-
-    items = relationship(Item)
+    metadata_ = Column('metadata', JSONB('bdc-catalog/processor.json'),
+                       comment='Follow the JSONSchema @jsonschemas/application-metadata.json')
 
     __table_args__ = (
         UniqueConstraint(name, version),

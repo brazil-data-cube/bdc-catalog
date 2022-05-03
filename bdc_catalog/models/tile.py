@@ -28,7 +28,7 @@ class Tile(BaseModel):
     name = Column(String(20), nullable=False)
     """The tile name (path row) identifier."""
 
-    grs = relationship('GridRefSys')
+    grs = relationship('GridRefSys', back_populates='tiles')
 
     __table_args__ = (
         Index(None, 'id'),

@@ -8,22 +8,26 @@
 
 """Model for the image item of a collection."""
 
+from typing import List
+
 from geoalchemy2 import Geometry
-from sqlalchemy import (TIMESTAMP, Column, ForeignKey, Index, Integer, Numeric,
-                        String)
+from sqlalchemy import (TIMESTAMP, Boolean, Column, ForeignKey, Index, Integer,
+                        Numeric, PrimaryKeyConstraint, String)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import expression
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
 from .collection import Collection
+from .processor import Processor
 
 
 class SpatialRefSys(db.Model):
     """Auxiliary model for the PostGIS spatial_ref_sys table."""
 
     __tablename__ = 'spatial_ref_sys'
-    __table_args__ = ({"schema": "public"})
+    __table_args__ = ({"schema": "public", "extend_existing": True})
 
     srid = Column(Integer, primary_key=True)
     auth_name = Column(String)
@@ -48,8 +52,8 @@ class Item(BaseModel):
             "collection_id": 23, # Collection S2_L1C
             "start_date": "2019-10-18T13:42:11",
             "end_date": "2019-10-18T13:42:11",
-            "geom": "POLYGON((-49.09545 -8.225985,-49.099896 -7.233321,-50.094195 -7.236384,-50.092074 -8.229473,-49.09545 -8.225985))",
-            "min_convex_hull": "POLYGON((-50.094208 -7.23638395134798,-49.099884 -7.23332135700407,-49.09546 -8.22598479222442,-50.09207 -8.22947294680053,-50.094208 -7.23638395134798))",
+            "footprint": POLYGON((-50.094208 -7.23638395134798,-49.099884 -7.23332135700407,-49.09546 -8.22598479222442,-50.09207 -8.22947294680053,-50.094208 -7.23638395134798))",
+            "bbox": "POLYGON((-49.09545 -8.225985,-49.099896 -7.233321,-50.094195 -7.236384,-50.092074 -8.229473,-49.09545 -8.225985))",
             "srid": 4326,
             "assets": {
                 "thumbnail": {
@@ -82,33 +86,74 @@ class Item(BaseModel):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
+    is_public = Column(Boolean, default=True, nullable=False, server_default=expression.true())
+    is_available = Column(Boolean, default=False, nullable=False, server_default=expression.false())
     collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     tile_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.tiles.id', onupdate='CASCADE', ondelete='CASCADE'))
     start_date = Column(TIMESTAMP(timezone=True), nullable=False)
     end_date = Column(TIMESTAMP(timezone=True), nullable=False)
     cloud_cover = Column(Numeric)
-    assets = Column(JSONB, comment='Follow the JSONSchema @jsonschemas/item-assets.json')
-    _metadata = Column('metadata', JSONB, comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
+    assets = Column(JSONB('bdc-catalog/item-assets.json'), comment='Follow the JSONSchema @jsonschemas/item-assets.json')
+    metadata_ = Column('metadata', JSONB('bdc-catalog/item-metadata.json'),
+                       comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
     provider_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.providers.id', onupdate='CASCADE', ondelete='CASCADE'))
-    application_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.applications.id', onupdate='CASCADE', ondelete='CASCADE'))
-    geom = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
-    min_convex_hull = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
+    bbox = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
+    footprint = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     srid = Column(Integer, ForeignKey('public.spatial_ref_sys.srid', onupdate='CASCADE', ondelete='CASCADE'))
 
     collection = relationship(Collection)
     tile = relationship('Tile')
-    provider = relationship('Provider')
-    application = relationship('Application')
 
     __table_args__ = (
         Index(None, cloud_cover),
         Index(None, collection_id),
-        Index(None, 'geom', postgresql_using='gist'),
-        Index(None, min_convex_hull, postgresql_using='gist'),
+        Index(None, bbox, postgresql_using='gist'),
+        Index(None, footprint, postgresql_using='gist'),
         Index(None, name),
+        Index(None, is_public),
+        Index(None, is_available),
         Index(None, provider_id),
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
         Index(None, start_date.desc()),
+        Index(None, metadata_),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
+
+    @property
+    def processors(self):
+        """The processors used that the item were generated."""
+        return ItemsProcessors.get_processors(self.id)
+
+
+class ItemsProcessors(BaseModel):
+    """Represent model to integrate with STAC Extension Processing.
+
+    See More in `Processing Extension Specification <https://github.com/stac-extensions/processing>`_.
+    """
+
+    __tablename__ = 'items_processors'
+
+    item_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.items.id', onupdate='CASCADE', ondelete='CASCADE'),
+                           nullable=False)
+    processor_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.processors.id', onupdate='CASCADE', ondelete='CASCADE'),
+                          nullable=False)
+
+    item = relationship(Item)
+    processor = relationship(Processor)
+
+    __table_args__ = (
+        PrimaryKeyConstraint(item_id, processor_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
+    )
+
+    @classmethod
+    def get_processors(cls, item_id: int) -> List[Processor]:
+        """Retrieve the processors related to Item."""
+        entries = (
+            db.session.query(Processor)
+            .join(ItemsProcessors, ItemsProcessors.processor_id == Processor.id)
+            .filter(ItemsProcessors.item_id == item_id)
+            .all()
+        )
+        return entries

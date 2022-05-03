@@ -1,0 +1,8 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "collection-properties.json",
+    "type": "object",
+    "title": "STAC Collection properties field Representation.",
+    "description": "Represent the STAC Collection Summaries field, according to JSONSchema https://github.com/radiantearth/stac-spec/blob/v1.0.0/collection-spec/json-schema/collection.json.",
+    "$ref": "https://schemas.stacspec.org/v1.0.0/collection-spec/json-schema/collection.json#/definitions/collection"
+}

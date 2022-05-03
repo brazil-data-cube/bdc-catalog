@@ -28,4 +28,4 @@ class Quicklook(BaseModel):
     green = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.bands.id', onupdate='CASCADE', ondelete='CASCADE'))
     blue = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.bands.id', onupdate='CASCADE', ondelete='CASCADE'))
 
-    collection = relationship('Collection')
+    collection = relationship('Collection', back_populates='quicklook')

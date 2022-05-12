@@ -79,6 +79,24 @@ class Band(BaseModel):
             return None
         return resx, resy
 
+    def add_eo_meta(self, resolution_x: float, resolution_y: float,
+                    center_wavelength: Optional[float] = None, full_width_half_max: Optional[float] = None, **kwargs):
+        """Set the EO properties to the band definition."""
+        props = self.properties
+        props['resolution_x'] = resolution_x
+        props['resolution_y'] = resolution_y
+        if center_wavelength:
+            props['center_wavelength'] = center_wavelength
+        if full_width_half_max:
+            props['full_width_half_max'] = full_width_half_max
+        props.update(kwargs)
+        if self.metadata_ is None:
+            self.metadata_ = {}
+        self.metadata_['eo'] = props
+        # Copy a new object into instance to avoid internal prop matching using SA.
+        self.metadata_ = self.metadata_.copy()
+
+
 class BandSRC(BaseModel):
     """Model for band provenance/lineage."""
 

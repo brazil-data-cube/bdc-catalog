@@ -89,6 +89,9 @@ setup(
         'bdc_db.namespaces': [
             'bdc_catalog = bdc_catalog.config:BDC_CATALOG_SCHEMA'
         ],
+        'bdc.schemas': [
+            'bdc_catalog = bdc_catalog.jsonschemas'
+        ],
         'console_scripts': [
             'bdc-catalog = bdc_catalog.cli:cli'
         ]

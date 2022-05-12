@@ -92,6 +92,18 @@ class Collection(BaseModel):
         """The list of providers relationship of Collection."""
         return CollectionsProviders.get_providers(self.id)
 
+    @classmethod
+    def get_by_id(cls, collection_id: Union[str, int]) -> 'Collection':
+        """Retrieve a collection using the identifier or Collection Versioning."""
+        where = []
+        if isinstance(collection_id, str):
+            name, version = collection_id.rsplit('-', 1)
+            where.extend((Collection.name == name, Collection.version == version))
+        else:
+            where.append(Collection.id == collection_id)
+
+        return cls.query().filter(*where).first_or_404(f'Collection {collection_id} not found')
+
 
 class CollectionSRC(BaseModel):
     """Model for collection provenance/lineage."""

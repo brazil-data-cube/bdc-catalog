@@ -16,6 +16,7 @@ from lccs_db.models import LucClassificationSystem
 from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
                         Integer, PrimaryKeyConstraint, String,
                         Text, UniqueConstraint)
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import func
 
@@ -103,6 +104,16 @@ class Collection(BaseModel):
             where.append(Collection.id == collection_id)
 
         return cls.query().filter(*where).first_or_404(f'Collection {collection_id} not found')
+
+    @hybrid_property
+    def identifier(self):
+        """Retrieve the Collection Identifier which refers to Name-Version."""
+        return f'{self.name}-{self.version}'
+
+    @identifier.expression
+    def identifier(self):
+        """Identifier for Name-Version used in SQLAlchemy queries."""
+        return func.concat(self.name, '-', self.version)
 
 
 class CollectionSRC(BaseModel):

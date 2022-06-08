@@ -8,6 +8,7 @@
 
 """Model for the image item of a collection."""
 
+from datetime import datetime
 from typing import List
 
 from geoalchemy2 import Geometry
@@ -121,9 +122,22 @@ class Item(BaseModel):
     )
 
     @property
-    def processors(self):
+    def processors(self) -> List['Processor']:
         """The processors used that the item were generated."""
         return ItemsProcessors.get_processors(self.id)
+
+    def save(self, commit=True):
+        """Overwrite the BaseModel.save and update the assets metadata."""
+        now = datetime.utcnow()
+        now_str = now.strftime('%Y-%m-%dT%H:%M:%S')
+
+        self.updated = now
+
+        if self.assets:
+            for asset in self.assets.values():
+                asset['updated'] = now_str
+
+        super().save(commit=True)
 
 
 class ItemsProcessors(BaseModel):
@@ -135,7 +149,7 @@ class ItemsProcessors(BaseModel):
     __tablename__ = 'items_processors'
 
     item_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.items.id', onupdate='CASCADE', ondelete='CASCADE'),
-                           nullable=False)
+                     nullable=False)
     processor_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.processors.id', onupdate='CASCADE', ondelete='CASCADE'),
                           nullable=False)
 

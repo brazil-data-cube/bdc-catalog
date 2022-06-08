@@ -11,9 +11,12 @@ BDC-Catalog API
 
 .. automodule:: bdc_catalog
 
+.. automodule:: bdc_catalog.ext
+    :members:
+
 .. toctree::
     :maxdepth: 1
-    :caption: Files
+    :caption: Modules
 
     models
     utils

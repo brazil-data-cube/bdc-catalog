@@ -81,7 +81,22 @@ class Band(BaseModel):
 
     def add_eo_meta(self, resolution_x: float, resolution_y: float,
                     center_wavelength: Optional[float] = None, full_width_half_max: Optional[float] = None, **kwargs):
-        """Set the EO properties to the band definition."""
+        """Set the EO properties to the band definition.
+
+        This method follows the `STAC EO Extension for Bands <https://github.com/stac-extensions/eo#band-object>`_.
+
+        Args:
+            resolution_x: The sensor resolution in X.
+            resolution_y: The sensor resolution in Y.
+            center_wavelength: The center wavelength of the band, in micrometers (μm).
+                The center wavelength is calculated from:
+                ``center_wavelength = (min_wavelength + max_wavelength) / 2``.
+            full_width_half_max: Full width at half maximum (FWHM).
+                The width of the band, as measured at half the maximum transmission, in micrometers (μm).
+
+        Keyword Args:
+            solar_illumination (float): The solar illumination of the band, as measured at half the maximum transmission, in W/m2/micrometers.
+        """
         props = self.properties
         props['resolution_x'] = resolution_x
         props['resolution_y'] = resolution_y

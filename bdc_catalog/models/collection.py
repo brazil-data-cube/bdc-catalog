@@ -89,17 +89,23 @@ class Collection(BaseModel):
     )
 
     @property
-    def providers(self):
+    def providers(self) -> List['CollectionsProviders']:
         """The list of providers relationship of Collection."""
         return CollectionsProviders.get_providers(self.id)
 
     @classmethod
     def get_by_id(cls, collection_id: Union[str, int]) -> 'Collection':
-        """Retrieve a collection using the identifier or Collection Versioning."""
+        """Retrieve a collection using the identifier or Collection Versioning.
+
+        Args:
+            collection_id: The collection id (int) or the identifier (composed by Name-Version).
+
+        Raises:
+            werkzeug.exceptions.NotFound: When collection not found.
+        """
         where = []
         if isinstance(collection_id, str):
-            name, version = collection_id.rsplit('-', 1)
-            where.extend((Collection.name == name, Collection.version == version))
+            where.append(Collection.identifier == collection_id)
         else:
             where.append(Collection.id == collection_id)
 
@@ -112,7 +118,13 @@ class Collection(BaseModel):
 
     @identifier.expression
     def identifier(self):
-        """Identifier for Name-Version used in SQLAlchemy queries."""
+        """Identifier for Name-Version used in SQLAlchemy queries.
+
+        Example:
+            >>> collection = Collection.query().filter(Collection.identifier == 'S2_L2A-1').first() # doctest: +SKIP
+            >>> collection.identifier  # doctest: +SKIP
+            S2_L2A-1
+        """
         return func.concat(self.name, '-', self.version)
 
 

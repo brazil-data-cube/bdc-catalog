@@ -16,6 +16,7 @@ from lccs_db.models import LucClassificationSystem
 from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
                         Integer, PrimaryKeyConstraint, String,
                         Text, UniqueConstraint)
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import func
 
@@ -88,21 +89,43 @@ class Collection(BaseModel):
     )
 
     @property
-    def providers(self):
+    def providers(self) -> List['CollectionsProviders']:
         """The list of providers relationship of Collection."""
         return CollectionsProviders.get_providers(self.id)
 
     @classmethod
     def get_by_id(cls, collection_id: Union[str, int]) -> 'Collection':
-        """Retrieve a collection using the identifier or Collection Versioning."""
+        """Retrieve a collection using the identifier or Collection Versioning.
+
+        Args:
+            collection_id: The collection id (int) or the identifier (composed by Name-Version).
+
+        Raises:
+            werkzeug.exceptions.NotFound: When collection not found.
+        """
         where = []
         if isinstance(collection_id, str):
-            name, version = collection_id.rsplit('-', 1)
-            where.extend((Collection.name == name, Collection.version == version))
+            where.append(Collection.identifier == collection_id)
         else:
             where.append(Collection.id == collection_id)
 
         return cls.query().filter(*where).first_or_404(f'Collection {collection_id} not found')
+
+    @hybrid_property
+    def identifier(self):
+        """Retrieve the Collection Identifier which refers to Name-Version."""
+        return f'{self.name}-{self.version}'
+
+    @identifier.expression
+    def identifier(self):
+        """Identifier for Name-Version used in SQLAlchemy queries.
+
+        Example:
+            >>> collection = Collection.query().filter(Collection.identifier == 'S2_L2A-1').first() # doctest: +SKIP
+            >>> collection.identifier  # doctest: +SKIP
+            S2_L2A-1
+        """
+        return func.concat(self.name, '-', self.version)
 
 
 class CollectionSRC(BaseModel):

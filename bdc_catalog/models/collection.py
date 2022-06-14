@@ -57,8 +57,8 @@ class Collection(BaseModel):
                        comment='Contains the STAC Collection summaries.')
     item_assets = Column('item_assets', JSONB('bdc-catalog/collection-item-assets.json'),
                          comment='Contains the STAC Extension Item Assets.')
-    is_public = Column(Boolean(), nullable=False, default=True)
-    is_available = Column(Boolean(), nullable=False, default=False)
+    is_public = Column(Boolean(), nullable=False, default=True, server_default='True')
+    is_available = Column(Boolean(), nullable=False, default=False, server_default='False')
     category = Column(enum_collection_category, nullable=False)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))

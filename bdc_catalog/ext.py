@@ -20,13 +20,12 @@ class BDCCatalog:
     """Image catalog extension.
 
     Examples:
-        >>> from flask import Flask
-        >>> app = Flask(__name__)
-        >>> catalog = BDCCatalog(app)
-        >>> # db Flask-SQLAlchemy instance
-        >>> db = catalog.db
-        >>> with app.app_context():
-        >>>     db.session.execute('SELECT 1')
+        >>> from flask import Flask # doctest: +SKIP
+        >>> app = Flask(__name__) # doctest: +SKIP
+        >>> catalog = BDCCatalog(app) # doctest: +SKIP
+        >>> db = catalog.db # doctest: +SKIP
+        >>> with app.app_context(): # doctest: +SKIP
+        >>>     db.session.execute('SELECT 1') # doctest: +SKIP
     """
 
     # Reference to BrazilDataCubeDB app instance

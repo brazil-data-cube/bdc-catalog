@@ -51,8 +51,7 @@ install_requires = [
     'Flask-Alembic>=2.0.0',
     'GeoAlchemy2>=0.8.4',
     'py-multihash>=2,<3',
-    'bdc-db @ git+https://github.com/brazil-data-cube/bdc-db@v0.6.0',
-    'lccs-db @ git+https://github.com/brazil-data-cube/lccs-db@v0.8.0',
+    'lccs-db @ git+https://github.com/brazil-data-cube/lccs-db@v0.8.1',
 ]
 
 packages = find_packages()

@@ -25,8 +25,12 @@ def app():
 
 def pytest_sessionstart(session):
     """Load BDC-Catalog and prepare database environment."""
-    for command in ['init', 'create-namespaces', 'create-extension-postgis', 'create-schema']:
+    for command in ['init', 'create-namespaces', 'create-extension-postgis']:
         subprocess.call(f'bdc-catalog db {command}', shell=True)
+
+    subprocess.call(f'lccs-db db create-extension-hstore', shell=True)
+    # Create tables
+    subprocess.call(f'bdc-catalog db create-schema', shell=True)
 
 
 def pytest_sessionfinish(session, exitstatus):

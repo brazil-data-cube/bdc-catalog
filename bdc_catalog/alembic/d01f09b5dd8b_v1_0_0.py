@@ -18,7 +18,7 @@ from bdc_db.sqltypes import JSONB
 revision = 'd01f09b5dd8b'
 down_revision = 'c68b17b1860b'
 branch_labels = ()
-depends_on = '561ebe6266ad'  # TODO: Change this revision code when LCCS-DB releases a new version.
+depends_on = '561ebe6266ad'  # LCCS-DB stable 0.8.1
 
 
 def upgrade():

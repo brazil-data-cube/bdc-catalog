@@ -8,14 +8,14 @@
 
 """Model for the main table of image collections and data cubes."""
 
-from typing import List, Optional, Union
+from typing import List, Union
 
-from geoalchemy2 import Geometry
 from bdc_db.sqltypes import JSONB
+from geoalchemy2 import Geometry
 from lccs_db.models import LucClassificationSystem
-from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
-                        Integer, PrimaryKeyConstraint, String,
-                        Text, UniqueConstraint)
+from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey,
+                        Index, Integer, PrimaryKeyConstraint, String, Text,
+                        UniqueConstraint)
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import func

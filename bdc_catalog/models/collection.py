@@ -8,14 +8,14 @@
 
 """Model for the main table of image collections and data cubes."""
 
-from typing import List, Optional, Union
+from typing import List, Union
 
-from geoalchemy2 import Geometry
 from bdc_db.sqltypes import JSONB
+from geoalchemy2 import Geometry
 from lccs_db.models import LucClassificationSystem
-from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey, Index,
-                        Integer, PrimaryKeyConstraint, String,
-                        Text, UniqueConstraint)
+from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey,
+                        Index, Integer, PrimaryKeyConstraint, String, Text,
+                        UniqueConstraint)
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import func
@@ -57,8 +57,8 @@ class Collection(BaseModel):
                        comment='Contains the STAC Collection summaries.')
     item_assets = Column('item_assets', JSONB('bdc-catalog/collection-item-assets.json'),
                          comment='Contains the STAC Extension Item Assets.')
-    is_public = Column(Boolean(), nullable=False, default=True)
-    is_available = Column(Boolean(), nullable=False, default=False)
+    is_public = Column(Boolean(), nullable=False, default=True, server_default='True')
+    is_available = Column(Boolean(), nullable=False, default=False, server_default='False')
     category = Column(enum_collection_category, nullable=False)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))

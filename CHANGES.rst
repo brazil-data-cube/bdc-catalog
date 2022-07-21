@@ -11,6 +11,18 @@ Changes
 =======
 
 
+Version 1.0.0-alpha1 (2022-07-21)
+--------------------------
+
+- Add authorization control to items `#78 <https://github.com/brazil-data-cube/bdc-catalog/issues/78>`_.
+- Review JSONSchemas for collection metadata - instrument key `#68 <https://github.com/brazil-data-cube/bdc-catalog/issues/68>`_.
+- Use JSONSchemas to validate any JSONB field in bdc-catalog
+- Fix timeline trigger related item end_date `#159 <https://github.com/brazil-data-cube/bdc-catalog/issues/159>`_.
+- Review field names for v1.0 `#140 <https://github.com/brazil-data-cube/bdc-catalog/issues/140>`_.
+- Review version property - use float/string instead int `#144 <https://github.com/brazil-data-cube/bdc-catalog/issues/144>`_.
+- Add new fields for 1.0 - properties according STAC and srid `#157 <https://github.com/brazil-data-cube/bdc-catalog/issues/157>`_.
+
+
 Version 0.8.2 (2022-03-25)
 --------------------------
 

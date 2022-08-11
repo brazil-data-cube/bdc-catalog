@@ -55,6 +55,10 @@ def upgrade():
         bands_op.alter_column(column_name='scale', new_column_name='scale_mult')
         bands_op.add_column(sa.Column('scale_add', sa.Numeric(), nullable=True,
                                       comment='The value to sum in scale mult'))
+
+        sql = """UPDATE bdc.bands 
+        SET metadata = coalesce(metadata::jsonb,'{}'::jsonb) || ('{\"eo\":{\"resolution_x\":'||resolution_x||',\"resolution_y\":'||resolution_y||',\"center_wavelength\":'||center_wavelength||',\"full_width_half_max\": '||full_width_half_max||'}}')::jsonb"""
+        bands_op.execute(sql)
         bands_op.drop_column('center_wavelength')
         bands_op.drop_column('full_width_half_max')
         bands_op.drop_column('resolution_x')

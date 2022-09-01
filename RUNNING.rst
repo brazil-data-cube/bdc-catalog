@@ -13,16 +13,19 @@ Running BDC-Catalog in the Command Line
 Creating database definition
 ----------------------------
 
-**1.** Create a PostgreSQL database and enable the PostGIS extension::
+**1.** Create a PostgreSQL database and enable the required extensions (`postgis`, `hstore`)::
 
         SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb" \
         bdc-db db init
 
         SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb" \
-        bdc-db db create-namespace
+        bdc-db db create-namespaces
 
         SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb" \
         bdc-db db create-extension-postgis
+
+        SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb" \
+        lccs-db db create-extension-hstore
 
 
 **2.** After that, run ``BDC-DB`` command to prepare the Brazil Data Cube data model::

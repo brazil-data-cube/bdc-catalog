@@ -1,6 +1,6 @@
 ..
     This file is part of BDC-Catalog.
-    Copyright (C) 2019-2020 INPE.
+    Copyright (C) 2019-2022 INPE.
 
     BDC-Catalog is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
@@ -8,6 +8,27 @@
 
 Running BDC-Catalog in the Command Line
 =======================================
+
+The Brazil Data Cube Catalog system uses the `Alembic Environment <https://alembic.sqlalchemy.org/en/latest/>`_
+to upgrade/downgrade versions. If you would like to use it as experimental environments (dev only), you may consider to follow
+`Development Mode`.
+
+For production environment, we strongly recommend you to adopt alembic migration way to be able to support improvements.
+
+
+Development Mode
+----------------
+
+**This step is not recommended for production environments. It will not generate alembic migration tree.**
+
+For development purposes, we have prepared a command line `bdc-db db create-schema` to create all definitions for BDC-Catalog::
+
+        export SQLALCHEMY_DATABASE_URI="postgresql://postgres:password@localhost:5432/bdcdb"
+        bdc-db db init
+        bdc-db db create-namespaces
+        bdc-db db create-extension-postgis
+        lccs-db db create-extension-hstore
+        bdc-db db create-schema
 
 
 Creating database definition

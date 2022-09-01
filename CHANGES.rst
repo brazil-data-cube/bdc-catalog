@@ -11,8 +11,15 @@ Changes
 =======
 
 
+Version 1.0.0-alpha2 (2022-09-01)
+---------------------------------
+
+- Fix documentation RUNNING.rst
+- Fix migration conflict with LCCS-DB instance `#169 <https://github.com/brazil-data-cube/bdc-catalog/issues/169>`_.
+
+
 Version 1.0.0-alpha1 (2022-07-21)
---------------------------
+---------------------------------
 
 - Add authorization control to items `#78 <https://github.com/brazil-data-cube/bdc-catalog/issues/78>`_.
 - Review JSONSchemas for collection metadata - instrument key `#68 <https://github.com/brazil-data-cube/bdc-catalog/issues/68>`_.

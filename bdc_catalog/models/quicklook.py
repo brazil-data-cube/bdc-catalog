@@ -8,10 +8,13 @@
 
 """Model for collection QuickLook info."""
 
-from sqlalchemy import Column, ForeignKey
+from typing import Tuple
+
+from sqlalchemy import Column, ForeignKey, Index
 from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
+from .band import Band
 from .base_sql import BaseModel
 
 
@@ -19,9 +22,6 @@ class Quicklook(BaseModel):
     """Model for collection QuickLook info."""
 
     __tablename__ = 'quicklook'
-    __table_args__ = dict(
-        schema=BDC_CATALOG_SCHEMA
-    )
 
     collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'), primary_key=True)
     red = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.bands.id', onupdate='CASCADE', ondelete='CASCADE'))
@@ -29,3 +29,16 @@ class Quicklook(BaseModel):
     blue = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.bands.id', onupdate='CASCADE', ondelete='CASCADE'))
 
     collection = relationship('Collection', back_populates='quicklook')
+
+    __table_args__ = (
+        Index(None, collection_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
+    )
+
+    def get_bands(self) -> Tuple[Band, Band, Band]:
+        """Retrieve the Band object reference for each RGB channel."""
+        red = Band.query().filter(Band.id == self.red).first()
+        green = Band.query().filter(Band.id == self.green).first()
+        blue = Band.query().filter(Band.id == self.blue).first()
+
+        return red, green, blue

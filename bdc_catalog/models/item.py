@@ -87,7 +87,6 @@ class Item(BaseModel):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
-    is_public = Column(Boolean, default=True, nullable=False, server_default=expression.true())
     is_available = Column(Boolean, default=False, nullable=False, server_default=expression.false())
     collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     tile_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.tiles.id', onupdate='CASCADE', ondelete='CASCADE'))
@@ -111,11 +110,11 @@ class Item(BaseModel):
         Index(None, bbox, postgresql_using='gist'),
         Index(None, footprint, postgresql_using='gist'),
         Index(None, name),
-        Index(None, is_public),
         Index(None, is_available),
         Index(None, provider_id),
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
+        Index(None, start_date),
         Index(None, start_date.desc()),
         Index(None, metadata_),
         dict(schema=BDC_CATALOG_SCHEMA),

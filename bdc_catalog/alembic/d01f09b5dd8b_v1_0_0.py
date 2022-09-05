@@ -5,7 +5,6 @@ See more in CHANGES.rst
 Revision ID: d01f09b5dd8b
 Revises: 561ebe6266ad
 Create Date: 2022-06-08 12:06:57.476168
-
 """
 from alembic import op
 import geoalchemy2.types
@@ -100,9 +99,9 @@ def upgrade():
     op.drop_index('idx_bdc_collections_extent', table_name='collections', schema='bdc')
     op.create_index(op.f('idx_bdc_collections_category'), 'collections', ['category'], unique=False, schema='bdc')
     op.create_index(op.f('idx_bdc_collections_is_available'), 'collections', ['is_available'], unique=False, schema='bdc')
-    op.create_index(op.f('idx_bdc_collections_is_public'), 'collections', ['is_public'], unique=False, schema='bdc')
     op.create_index(op.f('idx_bdc_collections_spatial_extent'), 'collections', ['spatial_extent'], unique=False, schema='bdc', postgresql_using='gist')
     op.create_index(op.f('idx_bdc_collections_start_date'), 'collections', ['start_date', 'end_date'], unique=False, schema='bdc')
+    op.drop_column('collections', 'is_public', schema='bdc')
 
     # For Collection Providers table, identify version 0.8.0 before
     op.execute('CREATE TABLE IF NOT EXISTS bdc.collections_providers_legacy AS '
@@ -120,7 +119,6 @@ def upgrade():
     with op.batch_alter_table('items', schema='bdc') as item_op:
         item_op.alter_column(column_name='geom', new_column_name='bbox')
         item_op.alter_column(column_name='min_convex_hull', new_column_name='footprint')
-        item_op.add_column(sa.Column('is_public', sa.Boolean(), server_default=sa.text('true'), nullable=False))
         item_op.add_column(sa.Column('is_available', sa.Boolean(), server_default=sa.text('false'), nullable=False))
 
     op.drop_index('idx_bdc_items_geom', table_name='items', schema='bdc')
@@ -128,7 +126,6 @@ def upgrade():
     op.create_index(op.f('idx_bdc_items_bbox'), 'items', ['bbox'], unique=False, schema='bdc', postgresql_using='gist')
     op.create_index(op.f('idx_bdc_items_footprint'), 'items', ['footprint'], unique=False, schema='bdc', postgresql_using='gist')
     op.create_index(op.f('idx_bdc_items_is_available'), 'items', ['is_available'], unique=False, schema='bdc')
-    op.create_index(op.f('idx_bdc_items_is_public'), 'items', ['is_public'], unique=False, schema='bdc')
     op.create_index(op.f('idx_bdc_items_metadata'), 'items', ['metadata'], unique=False, schema='bdc')
     op.drop_constraint('items_srid_spatial_ref_sys_fkey', 'items', schema='bdc', type_='foreignkey')
 
@@ -161,7 +158,6 @@ def downgrade():
         item_op.alter_column(column_name='bbox', new_column_name='geom')
         item_op.alter_column(column_name='footprint', new_column_name='min_convex_hull')
         item_op.drop_column('is_available')
-        item_op.drop_column('is_public')
         item_op.add_column(sa.Column('application_id', sa.INTEGER(), autoincrement=False, nullable=True))
 
     op.create_table(
@@ -208,9 +204,10 @@ def downgrade():
                       geometry_type='POLYGON', srid=4326, from_text='ST_GeomFromEWKT',
                       name='geometry', spatial_index=False
                   ), autoincrement=False, nullable=True), schema='bdc')
+    op.add_column('collections',
+                  sa.Column('is_public', sa.Boolean, nullable=True, default=True, server_default='true'), schema='bdc')
     op.drop_index(op.f('idx_bdc_collections_start_date'), table_name='collections', schema='bdc')
     op.drop_index(op.f('idx_bdc_collections_spatial_extent'), table_name='collections', schema='bdc', postgresql_using='gist')
-    op.drop_index(op.f('idx_bdc_collections_is_public'), table_name='collections', schema='bdc')
     op.drop_index(op.f('idx_bdc_collections_is_available'), table_name='collections', schema='bdc')
     op.drop_index(op.f('idx_bdc_collections_category'), table_name='collections', schema='bdc')
     op.create_index('idx_bdc_collections_extent', 'collections', ['extent'], unique=False, schema='bdc', postgresql_using='gist')

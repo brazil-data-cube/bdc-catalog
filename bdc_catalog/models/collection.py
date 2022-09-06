@@ -23,6 +23,7 @@ from sqlalchemy.sql.functions import func
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
 from .provider import Provider
+from .role import Role
 
 name_collection_type = 'collection_type'
 options_collection_type = ('cube', 'collection', 'classification', 'mosaic')
@@ -57,7 +58,6 @@ class Collection(BaseModel):
                        comment='Contains the STAC Collection summaries.')
     item_assets = Column('item_assets', JSONB('bdc-catalog/collection-item-assets.json'),
                          comment='Contains the STAC Extension Item Assets.')
-    is_public = Column(Boolean(), nullable=False, default=True, server_default='True')
     is_available = Column(Boolean(), nullable=False, default=False, server_default='False')
     category = Column(enum_collection_category, nullable=False)
     start_date = Column(TIMESTAMP(timezone=True))
@@ -82,7 +82,6 @@ class Collection(BaseModel):
         Index(None, spatial_extent, postgresql_using='gist'),
         Index(None, classification_system_id),
         Index(None, category),
-        Index(None, is_public),
         Index(None, is_available),
         Index(None, start_date, end_date),
         dict(schema=BDC_CATALOG_SCHEMA),
@@ -205,3 +204,25 @@ class CollectionsProviders(BaseModel):
         """
         return dict(name=self.provider.name, description=self.provider.description,
                     url=self.provider.url, roles=self.roles)
+
+
+class CollectionRole(BaseModel):
+    """Model to represent the link between Collection and Role."""
+
+    __tablename__ = 'collections_roles'
+
+    collection_id = db.Column('collection_id', db.Integer(),
+                              db.ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'),
+                              nullable=False)
+
+    role_id = db.Column('role_id', db.Integer(),
+                        db.ForeignKey(Role.id, onupdate='CASCADE', ondelete='CASCADE'),
+                        nullable=False)
+
+    collection = relationship('Collection', lazy='joined', foreign_keys=[collection_id])
+    role = relationship('Role', lazy='joined')
+
+    __table_args__ = (
+        PrimaryKeyConstraint(collection_id, role_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
+    )

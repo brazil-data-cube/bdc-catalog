@@ -5,7 +5,6 @@ See more in CHANGES.rst
 Revision ID: d01f09b5dd8b
 Revises: 561ebe6266ad
 Create Date: 2022-06-08 12:06:57.476168
-
 """
 from alembic import op
 import geoalchemy2.types
@@ -100,9 +99,9 @@ def upgrade():
     op.drop_index('idx_bdc_collections_extent', table_name='collections', schema='bdc')
     op.create_index(op.f('idx_bdc_collections_category'), 'collections', ['category'], unique=False, schema='bdc')
     op.create_index(op.f('idx_bdc_collections_is_available'), 'collections', ['is_available'], unique=False, schema='bdc')
-    op.create_index(op.f('idx_bdc_collections_is_public'), 'collections', ['is_public'], unique=False, schema='bdc')
     op.create_index(op.f('idx_bdc_collections_spatial_extent'), 'collections', ['spatial_extent'], unique=False, schema='bdc', postgresql_using='gist')
     op.create_index(op.f('idx_bdc_collections_start_date'), 'collections', ['start_date', 'end_date'], unique=False, schema='bdc')
+    op.create_index(op.f('idx_bdc_collections_is_public'), 'collections', ['is_public'], unique=False, schema='bdc')
 
     # For Collection Providers table, identify version 0.8.0 before
     op.execute('CREATE TABLE IF NOT EXISTS bdc.collections_providers_legacy AS '

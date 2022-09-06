@@ -10,6 +10,13 @@
 Changes
 =======
 
+Version 1.0.0-alpha3 (2022-09-06)
+---------------------------------
+
+- Change way to manage control to collections: use roles instead bool flag `#168 <https://github.com/brazil-data-cube/bdc-catalog/issues/168>`_.
+- Review static checking: import orders
+- Update docs - model png and schema.
+
 
 Version 1.0.0-alpha2 (2022-09-01)
 ---------------------------------

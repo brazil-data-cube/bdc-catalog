@@ -115,7 +115,7 @@ class Item(BaseModel):
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
         Index(None, start_date),
-        Index(None, start_date.desc()),
+        Index('idx_bdc_items_start_date_desc', start_date.desc()),
         Index(None, metadata_),
         dict(schema=BDC_CATALOG_SCHEMA),
     )

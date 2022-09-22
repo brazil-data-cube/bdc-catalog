@@ -20,7 +20,7 @@
 Changes
 =======
 
-Version 1.0.0 (2022-09-23)
+Version 1.0.0 (2022-09-22)
 --------------------------
 
 - Change LICENSE to GPL v3

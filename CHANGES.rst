@@ -1,14 +1,38 @@
 ..
     This file is part of BDC-Catalog.
-    Copyright (C) 2019-2020 INPE.
+    Copyright (C) 2022 INPE.
 
-    BDC-Catalog is free software; you can redistribute it and/or modify it
-    under the terms of the MIT License; see LICENSE file for more details.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.html>.
 
 
 =======
 Changes
 =======
+
+Version 1.0.0 (2022-09-22)
+--------------------------
+
+- Change LICENSE to GPL v3
+- Add command line to manage initial collection data
+
+
+Version 1.0.0-alpha3 (2022-09-06)
+---------------------------------
+
+- Change way to manage control to collections: use roles instead bool flag `#168 <https://github.com/brazil-data-cube/bdc-catalog/issues/168>`_.
+- Review static checking: import orders
+- Update docs - model png and schema.
 
 
 Version 1.0.0-alpha2 (2022-09-01)

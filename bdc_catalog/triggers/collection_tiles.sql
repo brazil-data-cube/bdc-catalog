@@ -17,39 +17,30 @@
 --
 
 --
--- Defines triggers used in Brazil Data Cube Catalog.
--- Make sure to have initial tables created before.
+-- Trigger to keep up to date the collection tiles
 --
-
---
--- Trigger to keep up to date the collection start_date, end_date and extent attributes.
---
-CREATE OR REPLACE FUNCTION update_collection_time()
+CREATE OR REPLACE FUNCTION update_collection_tiles()
 RETURNS trigger AS $$
 BEGIN
     -- Once Item update/insert, calculate the min/max time and update in collections.
     UPDATE bdc.collections
-       SET start_date = stats.min_date,
-           end_date = stats.max_date,
-           spatial_extent = stats.extent
+       SET properties = COALESCE(properties, '{}'::JSONB) || tiles
       FROM (
-        SELECT min(start_date) AS min_date,
-               max(end_date) AS max_date,
-               ST_SetSRID(ST_Envelope(ST_Extent(bbox)), 4326) AS extent
-          FROM bdc.items
-         WHERE collection_id = NEW.collection_id
-           AND bdc.items.is_available = 't'
-      ) stats
+          SELECT ('{"bdc:tiles": '||to_json(array_agg(DISTINCT bdc.tiles.name))||'}')::JSONB as tiles
+            FROM bdc.tiles, bdc.items
+           WHERE bdc.items.collection_id = NEW.collection_id
+             AND bdc.items.tile_id = bdc.tiles.id
+      ) t
       WHERE id = NEW.collection_id;
 
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS update_collection_time_trigger
+DROP TRIGGER IF EXISTS update_collection_tiles_trigger
   ON bdc.items;
 
-CREATE TRIGGER update_collection_time_trigger
+CREATE TRIGGER update_collection_tiles_trigger
     AFTER INSERT OR UPDATE ON bdc.items
       FOR EACH ROW
-    EXECUTE PROCEDURE update_collection_time();
+    EXECUTE PROCEDURE update_collection_tiles();

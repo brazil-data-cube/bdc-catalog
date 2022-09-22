@@ -1,9 +1,19 @@
 #
-# This file is part of Brazil Data Cube Database module.
-# Copyright (C) 2019 INPE.
+# This file is part of BDC-Catalog.
+# Copyright (C) 2022 INPE.
 #
-# Brazil Data Cube Database module is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.html>.
 #
 
 """Model for the image item of a collection."""
@@ -87,7 +97,6 @@ class Item(BaseModel):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
-    is_public = Column(Boolean, default=True, nullable=False, server_default=expression.true())
     is_available = Column(Boolean, default=False, nullable=False, server_default=expression.false())
     collection_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.collections.id', onupdate='CASCADE', ondelete='CASCADE'), nullable=False)
     tile_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.tiles.id', onupdate='CASCADE', ondelete='CASCADE'))
@@ -111,12 +120,12 @@ class Item(BaseModel):
         Index(None, bbox, postgresql_using='gist'),
         Index(None, footprint, postgresql_using='gist'),
         Index(None, name),
-        Index(None, is_public),
         Index(None, is_available),
         Index(None, provider_id),
         Index('idx_items_start_date_end_date', start_date, end_date),
         Index(None, tile_id),
-        Index(None, start_date.desc()),
+        Index(None, start_date),
+        Index('idx_bdc_items_start_date_desc', start_date.desc()),
         Index(None, metadata_),
         dict(schema=BDC_CATALOG_SCHEMA),
     )

@@ -1,9 +1,19 @@
 #
-# This file is part of Brazil Data Cube Database module.
-# Copyright (C) 2019 INPE.
+# This file is part of BDC-Catalog.
+# Copyright (C) 2022 INPE.
 #
-# Brazil Data Cube Database module is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.html>.
 #
 
 """Model for the main table of image collections and data cubes."""
@@ -23,6 +33,7 @@ from sqlalchemy.sql.functions import func
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
 from .provider import Provider
+from .role import Role
 
 name_collection_type = 'collection_type'
 options_collection_type = ('cube', 'collection', 'classification', 'mosaic')
@@ -57,7 +68,6 @@ class Collection(BaseModel):
                        comment='Contains the STAC Collection summaries.')
     item_assets = Column('item_assets', JSONB('bdc-catalog/collection-item-assets.json'),
                          comment='Contains the STAC Extension Item Assets.')
-    is_public = Column(Boolean(), nullable=False, default=True, server_default='True')
     is_available = Column(Boolean(), nullable=False, default=False, server_default='False')
     category = Column(enum_collection_category, nullable=False)
     start_date = Column(TIMESTAMP(timezone=True))
@@ -82,7 +92,6 @@ class Collection(BaseModel):
         Index(None, spatial_extent, postgresql_using='gist'),
         Index(None, classification_system_id),
         Index(None, category),
-        Index(None, is_public),
         Index(None, is_available),
         Index(None, start_date, end_date),
         dict(schema=BDC_CATALOG_SCHEMA),
@@ -205,3 +214,25 @@ class CollectionsProviders(BaseModel):
         """
         return dict(name=self.provider.name, description=self.provider.description,
                     url=self.provider.url, roles=self.roles)
+
+
+class CollectionRole(BaseModel):
+    """Model to represent the link between Collection and Role."""
+
+    __tablename__ = 'collections_roles'
+
+    collection_id = db.Column('collection_id', db.Integer(),
+                              db.ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'),
+                              nullable=False)
+
+    role_id = db.Column('role_id', db.Integer(),
+                        db.ForeignKey(Role.id, onupdate='CASCADE', ondelete='CASCADE'),
+                        nullable=False)
+
+    collection = relationship('Collection', lazy='joined', foreign_keys=[collection_id])
+    role = relationship('Role', lazy='joined')
+
+    __table_args__ = (
+        PrimaryKeyConstraint(collection_id, role_id),
+        dict(schema=BDC_CATALOG_SCHEMA),
+    )

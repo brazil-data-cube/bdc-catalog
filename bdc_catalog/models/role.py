@@ -16,33 +16,29 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.html>.
 #
 
-"""Model for table ``bdc.applications``."""
+"""Model for table ``bdc.role``."""
 
-from sqlalchemy import Column, Integer, String, UniqueConstraint
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import Column, Index, Integer, String, Text
+from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
 
 
-class Processor(BaseModel):
-    """Represent the STAC extension for Processing: Processor.
+class Role(BaseModel):
+    """Model for table ``bdc.role``.
 
-    See More in `Processing Extension Specification <https://github.com/stac-extensions/processing>`_.
+    The role model consists in a basic way to specify a required roles to access collections/items.
+    These values are used by BDC-Catalog NGINX plugin in order to validate user access.
     """
 
-    __tablename__ = 'processors'
+    __tablename__ = 'roles'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(64), nullable=False)
-    facility = Column(String(255), nullable=False)
-    level = Column(String(32), nullable=False)
-    version = Column(String(32), nullable=False)
-    uri = Column(String(255))
-    metadata_ = Column('metadata', JSONB('bdc-catalog/processor.json'),
-                       comment='Follow the JSONSchema @jsonschemas/application-metadata.json')
+    name = Column(String(64), unique=True, nullable=False)
+    description = Column(Text)
 
     __table_args__ = (
-        UniqueConstraint(name, version),
+        Index(None, name),
         dict(schema=BDC_CATALOG_SCHEMA),
     )

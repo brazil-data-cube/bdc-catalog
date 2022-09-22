@@ -1,0 +1,64 @@
+{
+  "name": "S1-GRDH",
+  "title": "Sentinel-1 Level-1 Interferometric Wide Swath Ground Range Detected High Resolution",
+  "description": "Level-1 Ground Range Detected (GRD) products consist of focused SAR data that has been detected, multi-looked and projected to ground range using an Earth ellipsoid model.",
+  "collection_type": "collection",
+  "metadata": null,
+  "is_available": true,
+  "version": 1,
+  "category": "sar",
+  "version_predecessor": null,
+  "version_successor": null,
+  "bands": [
+    {
+      "name": "C-band",
+      "common_name": "microwave",
+      "description": "",
+      "min_value": 0,
+      "max_value": null,
+      "nodata": 0,
+      "scale": null,
+      "data_type": "int16",
+      "mime_type": "image/jp2",
+      "resolution_x": 20.4,
+      "resolution_y": 22.6,
+      "resolution_unit": "Meter",
+      "center_wavelength": 5.405,
+      "full_width_half_max": null
+    }
+  ],
+  "items": [
+    {
+      "name": "S1A_IW_GRDH_1SDV_20200918T092241_20200918T092306_034411_040094_0AEA",
+      "start_date": "2020-09-18T09:22:41",
+      "end_date": "2020-09-18T09:22:41",
+      "srid": 4326,
+      "footprint": {"type":"Polygon","coordinates":[[[-2.781502,-54.202312],[-2.284728,-56.475273],[-0.777327,-56.156578],[-1.269302,-53.884495],[-2.781502,-54.202312]]]},
+      "bbox": {"type":"Polygon","coordinates":[[[-2.781502,-54.202312],[-2.284728,-56.475273],[-0.777327,-56.156578],[-1.269302,-53.884495],[-2.781502,-54.202312]]]},
+      "assets": {
+        "thumbnail": {
+          "href": "/archive/sar/S1-GRDH/2020/09/18/S1A_IW_GRDH_1SDV_20200918T092241_20200918T092306_034411_040094_0AEA.png",
+          "type": "image/png",
+          "bdc:size": 313351,
+          "checksum:multihash": "1220457d89682019924d68b418eec7ac8d66d4026657df8f70e3967aa5ceb34bdc94",
+          "roles": [
+            "thumbnail"
+          ],
+          "created": "2021-07-28T14:35:34",
+          "updated": "2021-07-28T14:35:34"
+        },
+        "C-band": {
+          "href": "/archive/sar/S1-GRDH/2020/09/18/S1A_IW_GRDH_1SDV_20200918T092241_20200918T092306_034411_040094_0AEA.zip",
+          "type": "application/zip",
+          "bdc:size": 988427449,
+          "checksum:multihash": "1220a9ad44c05b263b855ddc4ea80a6d6b527a82e580bd20f26f4adfef7c46d832f7",
+          "roles": [
+            "data"
+          ],
+          "created": "2021-07-28T14:35:34",
+          "updated": "2021-07-28T14:35:34"
+        }
+      }
+    }
+  ]
+}

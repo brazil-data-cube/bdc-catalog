@@ -22,3 +22,7 @@ bdc_catalog.utils
 .. autofunction:: bdc_catalog.utils.check_sum
 
 .. autofunction:: bdc_catalog.utils.multihash_checksum_sha256
+
+.. autofunction:: bdc_catalog.utils.create_collection
+
+.. autofunction:: bdc_catalog.utils.create_item

@@ -16,16 +16,26 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.html>.
 #
 
+"""Represent a basic example how to initialize BDC-Catalog module inside a flask application.
+
+In order to list a collection, make sure you have load minimal collections inside ``fixtures``folder
+with command line from :py:meth:`bdc_catalog.cli.load_data`::
+
+    bdc-catalog load-data --ifile examples/fixtures/sentinel-2.json
+"""
+
 from flask import Flask
 
 from bdc_catalog import BDCCatalog
-from bdc_catalog.models import Collection, Item
+from bdc_catalog.models import Collection
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/bdc_catalog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/bdcdb'
 
 BDCCatalog(app)
 
 with app.app_context():
     # Retrieve all collections (Available Only)
     collections = Collection.query().filter(Collection.is_available.is_(True)).all()
+
+    print('Collections available:', ", ".join(c.identifier for c in collections))

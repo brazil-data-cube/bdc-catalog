@@ -47,6 +47,9 @@ tests_require = [
 extras_require = {
     'docs': docs_require,
     'tests': tests_require,
+    'geo': [
+        'Shapely>=1.8'
+    ]
 }
 
 extras_require['all'] = [req for _, reqs in extras_require.items() for req in reqs]
@@ -80,7 +83,7 @@ setup(
     description=__doc__,
     long_description=readme + '\n\n' + history,
     keywords=['database', 'postgresql', 'image collection', 'Earth Observation Data Cubes'],
-    license='MIT',
+    license='GPLv3',
     author='Brazil Data Cube Team',
     author_email='brazildatacube@inpe.br',
     url='https://github.com/brazil-data-cube/bdc-catalog',
@@ -117,7 +120,7 @@ setup(
         'Environment :: Web Environment',
         'Intended Audience :: Education',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: GPL v3 License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries :: Python Modules',

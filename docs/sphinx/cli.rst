@@ -16,4 +16,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.html>.
 
 
-.. include:: ../../USAGE.rst
+bdc_catalog.cli
+===============
+
+.. autofunction:: bdc_catalog.cli.load_data

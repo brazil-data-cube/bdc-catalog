@@ -36,6 +36,39 @@ class BDCCatalog:
         >>> db = catalog.db # doctest: +SKIP
         >>> with app.app_context(): # doctest: +SKIP
         >>>     db.session.execute('SELECT 1') # doctest: +SKIP
+
+    When the ``BDC-Catalog`` is loaded, the module make available a command line ``bdc-catalog``
+    with the following resources::
+
+        Usage: bdc-catalog [OPTIONS] COMMAND [ARGS]...
+
+          Database commands.
+
+          .. note:: You can invoke more than one subcommand in one go.
+
+        Options:
+          -e, --env-file FILE   Load environment variables from this file. python-
+                                dotenv must be installed.
+          -A, --app IMPORT      The Flask application or factory function to load, in
+                                the form 'module:name'. Module can be a dotted import
+                                or file path. Name is not required if it is 'app',
+                                'application', 'create_app', or 'make_app', and can be
+                                'name(args)' to pass arguments.
+          --debug / --no-debug  Set debug mode.
+          --version             Show the Flask version.
+          --help                Show this message and exit.
+
+        Commands:
+          alembic    Perform database migrations.
+          db         More database commands.
+          instance   Instance commands.
+          lccs       More lccs database commands.
+          load-data  Command line to load collections JSON into database.
+          routes     Show the routes for the app.
+          run        Run a development server.
+          shell      Run a shell in the app context.
+
+    You may proceed to the :doc:`cli` to see all supported command lines.
     """
 
     # Reference to BrazilDataCubeDB app instance

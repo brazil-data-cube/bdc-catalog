@@ -24,6 +24,7 @@ Version 1.0.0 (2022-09-23)
 --------------------------
 
 - Change LICENSE to GPL v3
+- Add command line to manage initial collection data
 
 
 Version 1.0.0-alpha3 (2022-09-06)

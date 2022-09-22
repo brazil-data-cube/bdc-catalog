@@ -16,8 +16,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/gpl-3.0.html>.
 
 
-BDC-Catalog API
-===============
+API
+===
 
 .. automodule:: bdc_catalog
 
@@ -28,6 +28,7 @@ BDC-Catalog API
     :maxdepth: 1
     :caption: Modules
 
+    cli
     models
     utils
 

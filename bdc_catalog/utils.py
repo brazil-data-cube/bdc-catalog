@@ -18,9 +18,10 @@
 """Utility for Image Catalog Extension."""
 
 import hashlib
+from datetime import datetime
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Tuple, Union
 
 import geoalchemy2
 import multihash as _multihash
@@ -91,3 +92,102 @@ def geom_to_wkb(geom: Any, srid: int = None) -> geoalchemy2.WKBElement:
     """
     # Use extended=True to available the Geometry as EWKB
     return from_shape(geom, srid=-1 if srid is None else srid, extended=True)
+
+
+def create_collection(name: str, version: Any, bands: list,
+                      category: str = 'eo', **kwargs) -> Tuple['Collection', bool]:
+    """Register a collection into database.
+
+    Note:
+        Used from :py:meth:`bdc_catalog.cli.load_data`
+    """
+    from bdc_catalog.models import Band, Collection, GridRefSys, MimeType, ResolutionUnit, db
+
+    collection = (
+        Collection.query()
+        .filter(Collection.name == name,
+                Collection.version == str(version))
+        .first()
+    )
+    if collection is not None:
+        return collection, False
+
+    with db.session.begin_nested():
+        collection = Collection(name=name, version=version)
+        collection.collection_type = kwargs.get('collection_type', 'collection')
+        collection.grs = GridRefSys.query().filter(GridRefSys.name == kwargs.get('grid_ref_sys')).first()
+        collection.description = kwargs.get('description')
+        collection.is_available = kwargs.get('is_available', True)
+        collection.title = kwargs.get('title', collection.name)
+        collection.category = category
+
+        for band in bands:
+            band_obj = Band(collection=collection, name=band['name'])
+            for prop, value in band.items():
+                if prop == 'mime_type':
+                    band_obj.mime_type = MimeType.query().filter(MimeType.name == value).first()
+                elif prop == 'resolution_unit':
+                    band_obj.resolution_unit = ResolutionUnit.query().filter(ResolutionUnit.name == value).first()
+                else:
+                    setattr(band_obj, prop, value)
+            db.session.add(band_obj)
+
+        db.session.add(collection)
+    db.session.commit()
+
+    return collection, True
+
+
+def create_item(collection_id: int, name: str,
+                bbox: Any,
+                footprint: Any,
+                srid: int,
+                start_date: Union[str, datetime],
+                is_available: bool = True,
+                **kwargs):
+    """Command helper to register an item.
+
+    Note:
+        This helper does not check if item exists. Make sure to insert unique values
+        otherwise may raise database unique constraint errors.
+
+    Note:
+        Used from :py:meth:`bdc_catalog.cli.load_data`
+
+    Args:
+        collection_id (int): The collection identifier
+        name (str): The item name. It usually well-known as ``scene_id``.
+        bbox (Any): The bbox shapely geometry.
+            Make sure to pass EPSG:4326 geom.
+        footprint (Any): The footprint shapely geometry.
+            Make sure to pass EPSG:4326 geom.
+        srid (int): Spatial reference system identifier.
+            Make sure you have it in database.
+        start_date (str|datetime): Item date.
+        is_available (bool): Item availability. Defaults to ``True``.
+
+    Keyword Args:
+        end_date (Optional[str, datetime]): Item end date. Defaults to ``start_date``.
+        cloud_cover (Optional[float]): Item cloud cover factor.
+        provider_id (Optional[int]): The data provider identifier.
+        tile_id (Optional[int]): Grid tile identifier
+    """
+    from bdc_catalog.models import Item, db
+
+    with db.session.begin_nested():
+        item = Item(name=name, collection_id=collection_id)
+        item.bbox = geom_to_wkb(bbox, srid=4326)
+        item.foot = geom_to_wkb(footprint, srid=4326)
+        item.srid = srid
+        item.is_available = is_available
+        # Default end_date as start_date.
+        item.start_date = item.end_date = start_date
+
+        for key, value in kwargs.items():
+            setattr(item, key, value)
+
+        db.session.add(item)
+
+    db.session.commit()
+
+    return item

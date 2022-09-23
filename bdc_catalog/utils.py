@@ -25,7 +25,6 @@ from typing import Any, Tuple, Union
 
 import geoalchemy2
 import multihash as _multihash
-from geoalchemy2.shape import from_shape
 
 
 def check_sum(file_path: Union[str, BytesIO], chunk_size=16384) -> bytes:
@@ -86,10 +85,14 @@ def geom_to_wkb(geom: Any, srid: int = None) -> geoalchemy2.WKBElement:
     It forces the SQLAlchemy field to load the Geometry into database with EWKB instead WKT
     to avoid any bit error precision.
 
+    Note:
+        Make sure you have installed extra ``geo`` or the library ``Shapely`` before.
+
     Args:
         geom: A shapely Geometry
         srid: The Geometry SRID associated.
     """
+    from geoalchemy2.shape import from_shape
     # Use extended=True to available the Geometry as EWKB
     return from_shape(geom, srid=-1 if srid is None else srid, extended=True)
 

@@ -99,12 +99,17 @@ class Collection(BaseModel):
 
     @property
     def providers(self) -> List['CollectionsProviders']:
-        """The list of providers relationship of Collection."""
+        """The list of providers relationship of Collection.
+
+        .. versionadded:: 1.0.0
+        """
         return CollectionsProviders.get_providers(self.id)
 
     @classmethod
     def get_by_id(cls, collection_id: Union[str, int]) -> 'Collection':
         """Retrieve a collection using the identifier or Collection Versioning.
+
+        .. versionadded:: 1.0.0
 
         Args:
             collection_id: The collection id (int) or the identifier (composed by Name-Version).
@@ -128,6 +133,8 @@ class Collection(BaseModel):
     @identifier.expression
     def identifier(self):
         """Identifier for Name-Version used in SQLAlchemy queries.
+
+        .. versionadded:: 1.0.0
 
         Example:
             >>> collection = Collection.query().filter(Collection.identifier == 'S2_L2A-1').first() # doctest: +SKIP
@@ -185,6 +192,8 @@ class CollectionsProviders(BaseModel):
     @classmethod
     def get_providers(cls, collection_id: Union[int, str]) -> List['CollectionsProviders']:
         """Retrieve the Providers related to the given collection.
+
+        .. versionadded:: 1.0.0
 
         Note:
             You may use both Collection.id or `CollectionName-Version` as identifier.

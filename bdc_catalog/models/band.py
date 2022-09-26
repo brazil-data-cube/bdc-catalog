@@ -93,6 +93,8 @@ class Band(BaseModel):
                     center_wavelength: Optional[float] = None, full_width_half_max: Optional[float] = None, **kwargs):
         """Set the EO properties to the band definition.
 
+        .. versionadded:: 1.0.0
+
         This method follows the `STAC EO Extension for Bands <https://github.com/stac-extensions/eo#band-object>`_.
 
         Args:

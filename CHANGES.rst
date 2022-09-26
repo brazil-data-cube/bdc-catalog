@@ -25,6 +25,7 @@ Version 1.0.0 (2022-09-22)
 
 - Change LICENSE to GPL v3
 - Add command line to manage initial collection data
+- Add method utility in ``Item.add_asset`` to make easy way to follow STAC Spec Item Asset. `#179 <https://github.com/brazil-data-cube/bdc-catalog/issues/179>`_.
 
 
 Version 1.0.0-alpha3 (2022-09-06)

@@ -18,20 +18,29 @@
 
 """Model for the image item of a collection."""
 
+import mimetypes
+import os
 from datetime import datetime
-from typing import List
+from typing import List, Union
 
 from geoalchemy2 import Geometry
 from sqlalchemy import (TIMESTAMP, Boolean, Column, ForeignKey, Index, Integer,
                         Numeric, PrimaryKeyConstraint, String)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm.attributes import flag_modified
 from sqlalchemy.sql import expression
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
 from .collection import Collection
 from .processor import Processor
+from ..utils import multihash_checksum_sha256
+
+try:
+    import rasterio
+except ImportError:
+    rasterio = None
 
 
 class SpatialRefSys(db.Model):
@@ -136,7 +145,13 @@ class Item(BaseModel):
         return ItemsProcessors.get_processors(self.id)
 
     def save(self, commit=True):
-        """Overwrite the BaseModel.save and update the assets metadata."""
+        """Overwrite the BaseModel.save and update the assets metadata.
+
+        Note:
+            This method uses
+            `SQLAlchemy flag_modified <https://docs.sqlalchemy.org/en/14/orm/session_api.html#sqlalchemy.orm.attributes.flag_modified>`_
+            to detect any change in ``assets``.
+        """
         now = datetime.utcnow()
         now_str = now.strftime('%Y-%m-%dT%H:%M:%S')
 
@@ -146,7 +161,142 @@ class Item(BaseModel):
             for asset in self.assets.values():
                 asset['updated'] = now_str
 
+            # Trick to SQLAlchemy be aware that the field was changed.
+            flag_modified(self, "assets")
+
         super().save(commit=True)
+
+    def add_asset(self, name: str, file: str, role: List[str], href: str, **kwargs):
+        """Add a new asset in Item context.
+
+        .. versionadded:: 1.0.0
+
+        Note:
+            If asset name already exists, it overwrites the asset definition.
+
+        Raises:
+            ValueError: When could not determine mimetype relationship.
+
+        Examples:
+            This example represent a minimal way to generate ``Item.assets`` that
+            follows `STAC Item Spec <https://stacspec.org/en/about/stac-spec/>`_.
+
+            .. doctest::
+                :skipIf: True
+
+                >>> item = Item(name='LC8-16D_V1_007011_20200101', collection_id=4)
+                >>> item.cloud_cover = 30.2
+                >>> item.start_date = '2020-01-01'
+                >>> item.end_date = '2020-01-16'
+                >>> item.add_asset('EVI', '/path/to/EVI.tif', role=['data'],
+                ...                href='/cubes/LC8/007011/2020/01/01/EVI.tif')
+                >>> item.add_asset('thumbnail', '/path/to/thumbnail.png', role=['thumbnail'],
+                ...                href='/cubes/LC8/007011/2020/01/01/thumbnail.png')
+                >>> item.save()
+
+        Args:
+            name (str): Asset name
+            file (str): Absolute file path
+            role (List[str]) - Asset role. Available values are: ['data'], ['thumbnail']
+            href (str): Relative file path for item asset.
+
+        Keyword Args:
+            **kwargs: All optional attributes specified in :meth:`bdc_catalog.models.Item.create_asset_definition`.
+            mime_type (str): Custom mime type for item asset.
+                When no mime type is set, it tries to find in :attr:`bdc_catalog.models.Band.mime_type`.
+                When there is no band relation and the value is ``None``, it will raise ``ValueError``.
+                Defaults to ``None``.
+        """
+        # TODO: Use
+        self.assets = self.assets or {}
+        mime_type = kwargs.get('mime_type')
+        if mime_type is None:
+            # Seek in band
+            if self.collection_id is None:
+                raise ValueError('Could not determine Mimetype when Item collection is None.')
+            collection = self.collection
+            mime_type = mimetypes.guess_type(os.path.basename(file))[0]
+            if collection is None:
+                collection = Collection.get_by_id(self.collection_id)
+            for band in collection.bands:
+                if band.name == name:
+                    mime_type = band.mime_type.name if band.mime_type else None
+                    break
+            if mime_type is None:
+                raise ValueError(f'Could not determine Mimetype for Asset "{name}" when Band.mime_type is None.')
+
+            kwargs['mime_type'] = mime_type
+
+        self.assets[name] = self.create_asset_definition(file=file, role=role, href=href, **kwargs)
+
+    @classmethod
+    def create_asset_definition(cls, file: str, role: List[str], href: str, mime_type: str,
+                                checksum: bool = True,
+                                created_at: Union[datetime, str] = None,
+                                fmt: str = '%Y-%m-%dT%H:%M:%S',
+                                is_raster: bool = False,
+                                **kwargs):
+        """Create Item Asset structure.
+
+        .. versionadded:: 1.0.0
+
+        This method follows the `STAC Item Spec <https://stacspec.org/en/about/stac-spec/>`_.
+
+        Note:
+            If the parameter ``is_raster`` is set, make sure you have ``rasterio`` installed.
+
+        Args:
+            file (str): The absolute file path
+            role (List[str]) - Asset role. Available values are: ['data'], ['thumbnail']
+            href (str): Relative file path for item asset.
+            mime_type (str): Custom mime type for item asset.
+            checksum (bool) - Flag to generate checksum. Defaults to ``True``.
+                The algorithm used is sha256.
+            created_at (datetime|str): The value indicating when asset were created.
+                Defaults to ``None``, which means to ``utc now``.
+            fmt (str): The datetime format for ``created`` and ``updated`` fields.
+            is_raster (bool): Flag to generate Raster metadata in Asset. Defaults to ``False``.
+
+        Keyword Args:
+            **kwargs: Any extra field value for Asset definition.
+                You may use this keyword arg to specify for own spec attribute.
+        """
+        _now_str = datetime.utcnow().strftime(fmt)
+        created = _now_str
+
+        if isinstance(created_at, datetime):
+            created = created_at.strftime(fmt)
+
+        asset = {
+            'href': str(href),
+            'type': mime_type,
+            'bdc:size': os.stat(file).st_size,
+            'roles': role,
+            'created': created,
+            'updated': _now_str
+        }
+        asset.update(**kwargs)
+        if checksum:
+            asset['checksum:multihash'] = multihash_checksum_sha256(str(file))
+
+        if is_raster:
+            if rasterio is None:
+                raise ImportError('Missing library "rasterio" to generate Item.assets')
+
+            with rasterio.open(str(file)) as data_set:
+                asset['bdc:raster_size'] = dict(
+                    x=data_set.shape[1],
+                    y=data_set.shape[0],
+                )
+
+                chunk_x, chunk_y = data_set.profile.get('blockxsize'), data_set.profile.get('blockxsize')
+
+                if chunk_x is None or chunk_x is None:
+                    return asset
+
+                asset['bdc:chunk_size'] = dict(x=chunk_x, y=chunk_y)
+
+        return asset
 
 
 class ItemsProcessors(BaseModel):

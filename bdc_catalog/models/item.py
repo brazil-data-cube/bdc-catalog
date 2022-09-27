@@ -164,7 +164,7 @@ class Item(BaseModel):
             # Trick to SQLAlchemy be aware that the field was changed.
             flag_modified(self, "assets")
 
-        super().save(commit=True)
+        super().save(commit=commit)
 
     def add_asset(self, name: str, file: str, role: List[str], href: str, **kwargs):
         """Add a new asset in Item context.

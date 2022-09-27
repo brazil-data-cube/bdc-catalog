@@ -31,6 +31,7 @@
 
     installation
     usage
+    tutorial
     api
     repository
     history

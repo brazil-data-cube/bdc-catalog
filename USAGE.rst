@@ -142,3 +142,4 @@ The following collection ``S2_L1C-1`` will be loaded::
     Collection S2_L1C-1 created
     -> Creating Item S2A_MSIL1C_20151122T132122_N0204_R038_T23LMF_20151122T132134
     - Total 1 items created.
+

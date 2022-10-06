@@ -19,15 +19,71 @@
 Tutorial
 ========
 
+This tutorial covers the well known usage of ``BDC-Catalog`` data management integrating with Python
+`SQLAlchemy <https://www.sqlalchemy.org/>`_.
+Its applicable to users who want to learn how to use ``Brazil Data Cube Catalog`` module in runtime and
+for users that have existing applications or related learning material for ``BDC-Catalog``.
+
+
+Requirement
+-----------
+
+For this tutorial, we will use an instance of PostgreSQL with PostGIS support
+``SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@localhost/bdcdb``
+You can set up a minimal PostgreSQL instance with Docker with the following command:
+
+.. code-block:: shell
+
+    docker run --name bdc_pg \
+               --detach \
+               --volume bdc_catalog_vol:/var/lib/postgresql/data \
+               --env POSTGRES_PASSWORD=postgres \
+               --publish 5432:5432 \
+               postgis/postgis:12-3.0
+
+
+.. note::
+
+    You may, optionally, skip this step if you have already a running PostgreSQL with PostGIS supported.
+
+.. note::
+
+    Consider to have a minimal module init as mentioned in :doc:`Usage - Development <usage>`.
+    You may use the following statement to initialize through Python context:
+
+    .. code-block:: python
+
+        from bdc_catalog import BDCCatalog
+        from flask import Flask
+
+        app = Flask(__name__)
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/bdcdb'
+        BDCCatalog(app)
+
+
+
 BDC-Catalog & STAC Spec
 -----------------------
 
-The ``BDC-Catalog`` was proposed to implement the ``STAC-Spec``.
-TODO: Describe relationship between ``BDC-Catalog`` and `STAC Spec <https://stacspec.org/en/about/stac-spec/>`_
+The ``BDC-Catalog`` was proposed to implement the `STAC Spec <https://stacspec.org/en/about/stac-spec/>`_.
+The STAC Spec is a way to standardize the geospatial assets metadata as catalog along the service applications.
+With the database model ``BDC-Catalog``, the Brazil Data Cube implements the STAC API Spec in the module
+`BDC-STAC <https://bdc-stac.readthedocs.io/en/latest/>`_. Currently, the ``BDC-STAC`` is supporting the STAC API 1.0.
 
+The diagram depicted in the figure below contains the most important concepts behind the STAC data model:
 
 .. image:: https://brazil-data-cube.github.io/_images/stac-model.png
    :target: https://brazil-data-cube.github.io/_images/stac-model.png
+
+The description of the concepts below are adapted from the STAC Specification:
+
+- ``Item``: a STAC Item is the atomic unit of metadata in STAC, providing links to the actual assets (including thumbnails) that they represent. It is a GeoJSON Feature with additional fields for things like time, links to related entities and mainly to the assets. According to the specification, this is the atomic unit that describes the data to be discovered in a STAC Catalog or Collection.
+
+- ``Asset``: a spatiotemporal asset is any file that represents information about the earth captured in a certain space and time.
+
+- ``Catalog``: provides a structure to link various STAC Items together or even to other STAC Catalogs or Collections.
+
+- ``Collection``: is a specialization of the Catalog that allows additional information about a spatiotemporal collection of data.
 
 .. collection_:
 
@@ -105,7 +161,55 @@ We have prepared a minimal func helper to pre-set named :func:`bdc_catalog.utils
 Create Band
 +++++++++++
 
-TODO:
+The model :class:`bdc_catalog.models.Band` aggregates the collection,
+Optionally, you may set extra metadata for a band using :class:`bdc_catalog.models.MimeType` and :class:`bdc_catalog.models.ResolutionUnit`.
+
+The model :class:`bdc_catalog.models.MimeType` deals with supported content types for :class:`bdc_catalog.models.Band`
+and indicates the nature and format of ``assets``.
+
+.. code-block:: python
+    :name: create-mime-py
+    :caption: Example how to create mime types
+
+    from bdc_catalog.models import MimeType
+
+    mimetypes = [
+        'image/png',
+        'image/tiff', 'image/tiff; application=geotiff',
+        'image/tiff; application=geotiff; profile=cloud-optimized',
+        'text/plain',
+        'text/html',
+        'application/json',
+        'application/geo+json',
+        'application/x-tar',
+        'application/gzip'
+    ]
+
+    for mimetype in mimetypes:
+        mime = MimeType(name=mimetype)
+        mime.save()
+
+
+The model :class:`bdc_catalog.models.ResolutionUnit` specifies the unit spatial resolution for :class:`bdc_catalog.models.Band`.
+So it can be represented as: `Meter (m)`, `degree`, `centimeters (cm)`, etc. The following snippet is used to create a new
+resolution unit.
+
+.. code-block:: python
+    :name: create-resolution-py
+
+    from bdc_catalog.models import ResolutionUnit
+
+    resolutions = [
+        ('Meter', 'm'),
+        ('Centimeter', 'cm'),
+        ('Degree', '°')
+    ]
+
+    for name, symbol in resolutions:
+        res = ResolutionUnit()
+        res.name = name
+        res.symbol = symbol
+        res.save()
 
 
 Access Collections
@@ -326,32 +430,3 @@ relationship with command:
 .. code-block:: python
 
     item.get_processors()
-
-
-Mime Types
-----------
-
-The model :class:`bdc_catalog.models.MimeType` deals with supported content types for :class:`bdc_catalog.models.Band`
-and indicates the nature and format of ``assets``.
-
-.. code-block:: python
-    :name: create-mime-py
-    :caption: Example how to create mime types
-
-    from bdc_catalog.models import MimeType
-
-    mimetypes = [
-        'image/png',
-        'image/tiff', 'image/tiff; application=geotiff',
-        'image/tiff; application=geotiff; profile=cloud-optimized',
-        'text/plain',
-        'text/html',
-        'application/json',
-        'application/geo+json',
-        'application/x-tar',
-        'application/gzip'
-    ]
-
-    for mimetype in mimetypes:
-        mime = MimeType(name=mimetype)
-        mime.save()

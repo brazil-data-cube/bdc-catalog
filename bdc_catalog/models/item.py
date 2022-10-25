@@ -207,7 +207,6 @@ class Item(BaseModel):
                 When there is no band relation and the value is ``None``, it will raise ``ValueError``.
                 Defaults to ``None``.
         """
-        # TODO: Use
         self.assets = self.assets or {}
         mime_type = kwargs.get('mime_type')
         if mime_type is None:

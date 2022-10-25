@@ -52,6 +52,7 @@ You can set up a minimal PostgreSQL instance with Docker with the following comm
     You may use the following statement to initialize through Python context:
 
     .. code-block:: python
+        :emphasize-lines: 8-10
 
         from bdc_catalog import BDCCatalog
         from flask import Flask
@@ -59,6 +60,13 @@ You can set up a minimal PostgreSQL instance with Docker with the following comm
         app = Flask(__name__)
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/bdcdb'
         BDCCatalog(app)
+
+        with app.app_context():
+            # Any operation related database here
+            pass
+
+
+    Since the ``BDC-Catalog`` were designed to work with Flask API framework, remember to always use it while ``app.app_context()`` as above.
 
 
 
@@ -358,7 +366,7 @@ You can also increment the query, delimiting restriction of ``cloud_cover`` less
 
 .. note::
 
-    Whenever the entry ``Item.query()`` is used, it retrieves ALL columns from :class:`bdc_catalog.models.Item`.
+    Whenever the entry ``Item.query()`` is used, it retrieves `ALL` columns from :class:`bdc_catalog.models.Item`.
     Depending your application, you may face performance issues due total amount of affected items.
     Since we are integrating with SQLAlchemy, you can specify desirable fields as following:
 
@@ -423,6 +431,17 @@ To attach the item with
         item_processor.save(commit=False)
 
     db.session.commit()
+
+
+.. note::
+
+    Optionally, you may use directly through :func:`bdc_catalog.models.Item.add_processor` as following:
+
+    .. code-block:: python
+
+        item.add_processor(processor)
+        item.save()
+
 
 After make a relationship between ``Item`` and ``Processor`` using ``ItemsProcessors``, you can access the
 relationship with command:

@@ -297,6 +297,21 @@ class Item(BaseModel):
 
         return asset
 
+    def add_processor(self, processor: Processor) -> 'ItemsProcessors':
+        """Attach a processor into item scope.
+
+        Note:
+            May raise error when processor is already attached.
+
+        Args:
+            processor (Processor): Instance of Processor
+        """
+        item_processor = ItemsProcessors()
+        item_processor.item = self
+        item_processor.processor = processor
+        db.session.add(item_processor)
+        return item_processor
+
 
 class ItemsProcessors(BaseModel):
     """Represent model to integrate with STAC Extension Processing.

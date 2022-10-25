@@ -46,11 +46,6 @@
                     "type": "string",
                     "title": "The processor algorithm applied in collection.",
                     "description": "The processor algorithm used in collection.",
-                    "enum": [
-                        "LaSRC",
-                        "Sen2Cor",
-                        "Function of Mask (Fmask)"
-                    ],
                     "examples": [
                         "LaSRC",
                         "Sen2Cor",

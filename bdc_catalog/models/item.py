@@ -312,6 +312,10 @@ class Item(BaseModel):
         db.session.add(item_processor)
         return item_processor
 
+    def get_processors(self) -> List[Processor]:
+        """Retrieve the processors related to Item."""
+        return ItemsProcessors.get_processors(self.id)
+
 
 class ItemsProcessors(BaseModel):
     """Represent model to integrate with STAC Extension Processing.

@@ -189,7 +189,7 @@ resolution unit.
 Access Collections
 ++++++++++++++++++
 
-In order to search for Items, please, take a look in the next query. To retrieve all collections from database use:
+In order to search for Collections, please, take a look in the next query. To retrieve all collections from database use:
 
 .. literalinclude:: ../../examples/query_collections.py
    :language: python
@@ -266,7 +266,7 @@ use as following:
 
 .. literalinclude:: ../../examples/query_items.py
    :language: python
-   :lines: 25-50
+   :lines: 25-42
    :emphasize-lines: 17
 
 
@@ -285,7 +285,7 @@ Since the ``BDC-Catalog`` integrates with ``SQLAlchemy ORM``, you can join relat
 .. literalinclude:: ../../examples/query_items.py
    :language: python
    :lines: 25-37,56-64
-   :emphasize-lines: 18
+   :emphasize-lines: 16,18
 
 
 .. note::

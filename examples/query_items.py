@@ -72,4 +72,4 @@ with app.app_context():
         .order_by(Item.start_date.desc())
         .all()
     )
-    print(f'Items (from tile): {[i.name for i in items[:10]]}')
+    print(f'Items (from roi): {[i.name for i in items[:10]]}')

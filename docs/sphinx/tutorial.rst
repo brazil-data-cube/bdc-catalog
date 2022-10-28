@@ -29,7 +29,7 @@ Requirement
 -----------
 
 For this tutorial, we will use an instance of PostgreSQL with PostGIS support
-``SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@localhost/bdcdb``
+``SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@localhost/bdc``
 You can set up a minimal PostgreSQL instance with Docker with the following command:
 
 .. code-block:: shell

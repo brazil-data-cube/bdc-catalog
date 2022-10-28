@@ -23,7 +23,6 @@ from typing import Optional, Tuple
 from bdc_db.sqltypes import JSONB
 from sqlalchemy import (Column, Enum, ForeignKey, Index, Integer, Numeric,
                         PrimaryKeyConstraint, String, Text)
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA

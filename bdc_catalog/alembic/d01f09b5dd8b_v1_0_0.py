@@ -56,7 +56,7 @@ def upgrade():
                                       comment='The value to sum in scale mult'))
 
         sql = """UPDATE bdc.bands 
-        SET metadata = coalesce(metadata::jsonb,'{}'::jsonb) || ('{\"eo\":{\"resolution_x\":'||resolution_x||',\"resolution_y\":'||resolution_y||',\"center_wavelength\":'||center_wavelength||',\"full_width_half_max\": '||full_width_half_max||'}}')::jsonb"""
+        SET metadata = coalesce(metadata::jsonb,'{}'::jsonb) || ('{\"eo\":{\"resolution_x\":'||resolution_x||',\"resolution_y\":'||resolution_y||',\"center_wavelength\":'||coalesce(center_wavelength, 0)||',\"full_width_half_max\": '||coalesce(full_width_half_max, 0)||'}}')::jsonb"""
         bands_op.execute(sql)
         bands_op.drop_column('center_wavelength')
         bands_op.drop_column('full_width_half_max')

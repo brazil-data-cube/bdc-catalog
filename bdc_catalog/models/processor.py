@@ -18,8 +18,8 @@
 
 """Model for table ``bdc.applications``."""
 
+from bdc_db.sqltypes import JSONB
 from sqlalchemy import Column, Integer, String, UniqueConstraint
-from sqlalchemy.dialects.postgresql import JSONB
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel
@@ -39,8 +39,8 @@ class Processor(BaseModel):
     level = Column(String(32), nullable=False)
     version = Column(String(32), nullable=False)
     uri = Column(String(255))
-    metadata_ = Column('metadata', JSONB('bdc-catalog/processor.json'),
-                       comment='Follow the JSONSchema @jsonschemas/application-metadata.json')
+    metadata_ = Column('metadata', JSONB('bdc-catalog/processor-metadata.json'),
+                       comment='Follow the JSONSchema @jsonschemas/bdc-catalog/processor-metadata.json')
 
     __table_args__ = (
         UniqueConstraint(name, version),

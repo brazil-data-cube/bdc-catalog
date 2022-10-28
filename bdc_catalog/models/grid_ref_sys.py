@@ -82,7 +82,7 @@ class GridRefSys(BaseModel):
             **opts
         )
 
-        inspector = inspect(grid_table)
+        inspector = inspect(db.engine)
         if inspector.has_table(table_name, schema=BDC_CATALOG_SCHEMA):
             raise RuntimeError(f'Table {table_name} already exists')
 

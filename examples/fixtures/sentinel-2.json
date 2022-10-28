@@ -22,11 +22,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 60.0,
-            "resolution_y": 60.0,
-            "resolution_unit": "Meter",
-            "center_wavelength": 0.4427,
-            "full_width_half_max": 0.021
+            "metadata": {
+                "eo": {
+                    "resolution_x": 60.0,
+                    "resolution_y": 60.0,
+                    "center_wavelength": 0.4427,
+                    "full_width_half_max": 0.021
+                }
+            },
+            "resolution_unit": "Meter"
         },
         {
             "name": "B02",
@@ -38,11 +42,14 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 10.0,
-            "resolution_y": 10.0,
-            "resolution_unit": "Meter",
-            "center_wavelength": 0.4924,
-            "full_width_half_max": 0.066
+            "metadata": {
+                "eo": {
+                    "resolution_x": 10.0,
+                    "resolution_y": 10.0,
+                    "center_wavelength": 0.4924,
+                    "full_width_half_max": 0.066
+                }
+            }
         },
         {
             "name": "B03",
@@ -54,11 +61,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 10.0,
-            "resolution_y": 10.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.5598,
-            "full_width_half_max": 0.036
+            "metadata": {
+                "eo": {
+                    "resolution_x": 10.0,
+                    "resolution_y": 10.0,
+                    "center_wavelength": 0.5598,
+                    "full_width_half_max": 0.036
+                }
+            }
         },
         {
             "name": "B04",
@@ -70,11 +81,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 10.0,
-            "resolution_y": 10.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.6646,
-            "full_width_half_max": 0.031
+            "metadata": {
+                "eo": {
+                    "resolution_x": 10.0,
+                    "resolution_y": 10.0,
+                    "center_wavelength": 0.6646,
+                    "full_width_half_max": 0.031
+                }
+            }
         },
         {
             "name": "B05",
@@ -86,11 +101,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 20.0,
-            "resolution_y": 20.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.7041,
-            "full_width_half_max": 0.015
+            "metadata": {
+                "eo": {
+                    "resolution_x": 20.0,
+                    "resolution_y": 20.0,
+                    "center_wavelength": 0.7041,
+                    "full_width_half_max": 0.015
+                }
+            }
         },
         {
             "name": "B06",
@@ -102,11 +121,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 20.0,
-            "resolution_y": 20.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.7405,
-            "full_width_half_max": 0.015
+            "metadata": {
+                "eo": {
+                    "resolution_x": 20.0,
+                    "resolution_y": 20.0,
+                    "center_wavelength": 0.7405,
+                    "full_width_half_max": 0.015
+                }
+            }
         },
         {
             "name": "B07",
@@ -118,11 +141,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 20.0,
-            "resolution_y": 20.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.7828,
-            "full_width_half_max": 0.020
+            "metadata": {
+                "eo": {
+                    "resolution_x": 20.0,
+                    "resolution_y": 20.0,
+                    "center_wavelength": 0.7828,
+                    "full_width_half_max": 0.020
+                }
+            }
         },
         {
             "name": "B08",
@@ -134,11 +161,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 10.0,
-            "resolution_y": 10.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.8328,
-            "full_width_half_max": 0.106
+            "metadata": {
+                "eo": {
+                    "resolution_x": 10.0,
+                    "resolution_y": 10.0,
+                    "center_wavelength": 0.8328,
+                    "full_width_half_max": 0.106
+                }
+            }
         },
         {
             "name": "B8A",
@@ -150,11 +181,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 20.0,
-            "resolution_y": 20.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.8647,
-            "full_width_half_max": 0.021
+            "metadata": {
+                "eo": {
+                    "resolution_x": 20.0,
+                    "resolution_y": 20.0,
+                    "center_wavelength": 0.8647,
+                    "full_width_half_max": 0.021
+                }
+            }
         },
         {
             "name": "B09",
@@ -166,11 +201,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 60.0,
-            "resolution_y": 60.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.9451,
-            "full_width_half_max": 0.020
+            "metadata": {
+                "eo": {
+                    "resolution_x": 60.0,
+                    "resolution_y": 60.0,
+                    "center_wavelength": 0.9451,
+                    "full_width_half_max": 0.020
+                }
+            }
         },
         {
             "name": "B10",
@@ -182,11 +221,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 60.0,
-            "resolution_y": 60.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 0.3735,
-            "full_width_half_max": 0.031
+            "metadata": {
+                "eo": {
+                    "resolution_x": 60.0,
+                    "resolution_y": 60.0,
+                    "center_wavelength": 0.3735,
+                    "full_width_half_max": 0.031
+                }
+            }
         },
         {
             "name": "B11",
@@ -198,11 +241,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 20.0,
-            "resolution_y": 20.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 1.6137,
-            "full_width_half_max": 0.091
+            "metadata": {
+                "eo": {
+                    "resolution_x": 20.0,
+                    "resolution_y": 20.0,
+                    "center_wavelength": 1.6137,
+                    "full_width_half_max": 0.091
+                }
+            }
         },
         {
             "name": "B12",
@@ -214,11 +261,15 @@
             "scale": 0.0001,
             "data_type": "int16",
             "mime_type": "image/jp2",
-            "resolution_x": 20.0,
-            "resolution_y": 20.0,
             "resolution_unit": "Meter",
-            "center_wavelength": 2.2024,
-            "full_width_half_max": 0.175
+            "metadata": {
+                "eo": {
+                    "resolution_x": 20.0,
+                    "resolution_y": 20.0,
+                    "center_wavelength": 2.2024,
+                    "full_width_half_max": 0.175
+                }
+            }
         }
     ],
     "items": [

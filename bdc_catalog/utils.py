@@ -131,6 +131,8 @@ def create_collection(name: str, version: Any, bands: list,
                     band_obj.mime_type = MimeType.query().filter(MimeType.name == value).first()
                 elif prop == 'resolution_unit':
                     band_obj.resolution_unit = ResolutionUnit.query().filter(ResolutionUnit.name == value).first()
+                elif prop == 'metadata':  # Special case to avoid internal SQLAlchemy metadata prop
+                    band_obj.metadata_ = value
                 else:
                     setattr(band_obj, prop, value)
             db.session.add(band_obj)

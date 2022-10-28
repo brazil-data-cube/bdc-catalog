@@ -23,6 +23,7 @@ from typing import Dict, Iterable, Union
 import geoalchemy2
 from sqlalchemy import Column, Index, Integer, String, Table, Text, func, text
 from sqlalchemy.dialects.postgresql import OID
+from sqlalchemy.inspection import inspect
 from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
@@ -69,7 +70,8 @@ class GridRefSys(BaseModel):
             srid = 100001
 
         opts = kwargs.copy()
-        opts['schema'] = BDC_CATALOG_SCHEMA
+        if not opts.get('schema'):
+            opts['schema'] = BDC_CATALOG_SCHEMA
 
         grid_table = Table(
             table_name.lower(), db.metadata,
@@ -80,7 +82,8 @@ class GridRefSys(BaseModel):
             **opts
         )
 
-        if grid_table.exists(db.engine):
+        inspector = inspect(grid_table)
+        if inspector.has_table(table_name, schema=BDC_CATALOG_SCHEMA):
             raise RuntimeError(f'Table {table_name} already exists')
 
         grid_table.create(bind=db.engine)

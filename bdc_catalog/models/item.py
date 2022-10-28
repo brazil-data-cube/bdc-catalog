@@ -207,7 +207,6 @@ class Item(BaseModel):
                 When there is no band relation and the value is ``None``, it will raise ``ValueError``.
                 Defaults to ``None``.
         """
-        # TODO: Use
         self.assets = self.assets or {}
         mime_type = kwargs.get('mime_type')
         if mime_type is None:
@@ -297,6 +296,25 @@ class Item(BaseModel):
                 asset['bdc:chunk_size'] = dict(x=chunk_x, y=chunk_y)
 
         return asset
+
+    def add_processor(self, processor: Processor) -> 'ItemsProcessors':
+        """Attach a processor into item scope.
+
+        Note:
+            May raise error when processor is already attached.
+
+        Args:
+            processor (Processor): Instance of Processor
+        """
+        item_processor = ItemsProcessors()
+        item_processor.item = self
+        item_processor.processor = processor
+        db.session.add(item_processor)
+        return item_processor
+
+    def get_processors(self) -> List[Processor]:
+        """Retrieve the processors related to Item."""
+        return ItemsProcessors.get_processors(self.id)
 
 
 class ItemsProcessors(BaseModel):

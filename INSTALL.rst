@@ -43,6 +43,9 @@ The ``Brazil Data Cube Catalog`` (``BDC-Catalog``) depends essentially on:
 - `py-multihash <https://multihash.readthedocs.io/en/latest/>`_: the Multihash Implementation in Python.
 
 
+All these libraries can be easily installed in the next steps.
+
+
 Clone the software repository
 +++++++++++++++++++++++++++++
 
@@ -61,30 +64,35 @@ Go to the source code folder::
     cd bdc-catalog
 
 
-Install in development mode::
-
-    pip3 install -e .[all]
-
-
 .. note::
 
-    If you want to create a new *Python Virtual Environment*, please, follow this instruction:
+    We recommend you to use a `Virtual Environment <https://docs.python.org/3/library/venv.html>`_ to provide
+    an isolated system site libraries. You can install it from ``APT`` as following::
 
-    *1.* Create a new virtual environment linked to Python 3.7::
+        sudo apt install python3-venv
 
-        python3.7 -m venv venv
+    And create an environment named ``venv``::
 
+        python3 -m venv venv
 
-    **2.** Activate the new environment::
+    If you don't want to install ``python3-venv`` in your system, you can also use install using `virtualenv <https://pypi.org/project/virtualenv/>`_ from PyPI::
+
+        pip install virtualenv
+
+    And use the command ``virtualenv`` to create an environment named ``venv``::
+
+        virtualenv venv
+
+    Once ``venv`` is created, make sure to activate::
 
         source venv/bin/activate
 
 
-    **3.** Update pip and setuptools::
+Install in development mode::
 
-        pip3 install --upgrade pip
+    pip3 install -U pip setuptools wheel
+    pip3 install -e .[all]
 
-        pip3 install --upgrade setuptools
 
 
 Build the Documentation
@@ -100,7 +108,7 @@ The above command will generate the documentation in HTML and it will place it u
 
 .. code-block:: shell
 
-    doc/sphinx/_build/html/
+    docs/sphinx/_build/html/
 
 
 The above command will generate the documentation in HTML and it will place it under::

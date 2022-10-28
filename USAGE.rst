@@ -45,8 +45,11 @@ all definitions for ``BDC-Catalog``::
         bdc-db db create-schema
 
 
+Production Mode
+---------------
+
 Creating database definition
-----------------------------
+++++++++++++++++++++++++++++
 
 **1.** Create a PostgreSQL database and enable the required extensions (`postgis`, `hstore`)::
 
@@ -90,7 +93,7 @@ Creating database definition
 
 
 Updating an Existing Data Model
--------------------------------
++++++++++++++++++++++++++++++++
 
 If you have followed the migration context and would like to upgrade to the latest module migration,
 use the following command::
@@ -100,7 +103,7 @@ use the following command::
 
 
 Updating the Migration Scripts
-------------------------------
+++++++++++++++++++++++++++++++
 
 Whenever you made change in a model, (or create a new model file and register with entry point ``bdc_db.models``,
 you should generate a new revision and commit these changes into versioning control system (Git).
@@ -142,3 +145,4 @@ The following collection ``S2_L1C-1`` will be loaded::
     Collection S2_L1C-1 created
     -> Creating Item S2A_MSIL1C_20151122T132122_N0204_R038_T23LMF_20151122T132134
     - Total 1 items created.
+

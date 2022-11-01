@@ -22,10 +22,11 @@ The example includes all the way to retrieve collection using Identifier, availa
 """
 
 from bdc_catalog import BDCCatalog
-from bdc_catalog.models import Collection
+from bdc_catalog.models import Collection, db
+from bdc_catalog.utils import geom_to_wkb
 from flask import Flask
 from shapely.geometry import box
-from sqlalchemy import func
+from sqlalchemy import func, update
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/bdc'
@@ -62,8 +63,29 @@ with app.app_context():
     roi = box(-54, -12, -53, -11)
     collections = (
         Collection.query()
-        .filter(func.ST_Intersects(Collection.spatial_extent, roi),
+        .filter(func.ST_Intersects(Collection.spatial_extent, geom_to_wkb(roi)),
                 Collection.start_date >= '2022-01-01')
         .all()
     )
     print(f"Collections Filter ({roi.wkt}): {','.join([c.identifier for c in collections])}")
+
+    # Update collection
+    collection.title = 'Sentinel-2 - Level-1C'
+    collection.save()
+
+    # Alternative ways to update
+    (
+        db.session.query(Collection)
+        .filter(Collection.identifier == "S2_L1C-1")
+        .update({"title": 'Sentinel-2 - Level-1C'}, synchronize_session="fetch")
+    )
+    db.session.commit()
+
+    # Mark all EO collections as available.
+    statement = (
+        update(Collection)
+        .where(Collection.category == 'eo')
+        .values(is_available=True)
+    )
+    db.session.execute(statement)
+    db.session.commit()

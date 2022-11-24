@@ -22,7 +22,6 @@ from typing import List, Union
 
 from bdc_db.sqltypes import JSONB
 from geoalchemy2 import Geometry
-from lccs_db.models import LucClassificationSystem
 from sqlalchemy import (ARRAY, TIMESTAMP, Boolean, Column, Enum, ForeignKey,
                         Index, Integer, PrimaryKeyConstraint, String, Text,
                         UniqueConstraint)
@@ -33,7 +32,6 @@ from sqlalchemy.sql.functions import func
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel, db
 from .provider import Provider
-from .role import Role
 
 name_collection_type = 'collection_type'
 options_collection_type = ('cube', 'collection', 'classification', 'mosaic')
@@ -57,7 +55,6 @@ class Collection(BaseModel):
         ForeignKey(f'{BDC_CATALOG_SCHEMA}.composite_functions.id', onupdate='CASCADE', ondelete='CASCADE'),
         comment='Function schema identifier. Used for data cubes.')
     grid_ref_sys_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.grid_ref_sys.id', onupdate='CASCADE', ondelete='CASCADE'))
-    classification_system_id = Column(ForeignKey(LucClassificationSystem.id, onupdate='CASCADE', ondelete='CASCADE'))
     collection_type = Column(enum_collection_type, nullable=False)
     metadata_ = Column('metadata', JSONB('bdc-catalog/collection-metadata.json'),
                        comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
@@ -69,6 +66,7 @@ class Collection(BaseModel):
     item_assets = Column('item_assets', JSONB('bdc-catalog/collection-item-assets.json'),
                          comment='Contains the STAC Extension Item Assets.')
     is_available = Column(Boolean(), nullable=False, default=False, server_default='False')
+    is_public = Column(Boolean(), nullable=False, default=True, server_default='true')
     category = Column(enum_collection_category, nullable=False)
     start_date = Column(TIMESTAMP(timezone=True))
     end_date = Column(TIMESTAMP(timezone=True))
@@ -82,17 +80,15 @@ class Collection(BaseModel):
     bands = relationship('Band', back_populates='collection')
     quicklook = relationship('Quicklook')
     timeline = relationship('Timeline')
-    # Joined Eager Loading. Default is Left Outer Join to lead object that does not refer to a related row.
-    classification_system = relationship('LucClassificationSystem', lazy='joined')
 
     __table_args__ = (
         UniqueConstraint('name', 'version'),
         Index(None, grid_ref_sys_id),
         Index(None, name),
         Index(None, spatial_extent, postgresql_using='gist'),
-        Index(None, classification_system_id),
         Index(None, category),
         Index(None, is_available),
+        Index(None, is_public),
         Index(None, start_date, end_date),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
@@ -223,25 +219,3 @@ class CollectionsProviders(BaseModel):
         """
         return dict(name=self.provider.name, description=self.provider.description,
                     url=self.provider.url, roles=self.roles)
-
-
-class CollectionRole(BaseModel):
-    """Model to represent the link between Collection and Role."""
-
-    __tablename__ = 'collections_roles'
-
-    collection_id = db.Column('collection_id', db.Integer(),
-                              db.ForeignKey(Collection.id, onupdate='CASCADE', ondelete='CASCADE'),
-                              nullable=False)
-
-    role_id = db.Column('role_id', db.Integer(),
-                        db.ForeignKey(Role.id, onupdate='CASCADE', ondelete='CASCADE'),
-                        nullable=False)
-
-    collection = relationship('Collection', lazy='joined', foreign_keys=[collection_id])
-    role = relationship('Role', lazy='joined')
-
-    __table_args__ = (
-        PrimaryKeyConstraint(collection_id, role_id),
-        dict(schema=BDC_CATALOG_SCHEMA),
-    )

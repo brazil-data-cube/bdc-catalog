@@ -18,8 +18,11 @@
 
 """Config test fixtures."""
 
+import json
+import os
 import subprocess
 
+import pkg_resources
 import pytest
 from flask import Flask
 
@@ -33,12 +36,33 @@ def app():
         yield _app
 
 
+@pytest.fixture()
+def fixture_dir():
+    """Retrieve the base path for fixtures."""
+    return pkg_resources.resource_filename(__name__, '../examples/fixtures/')
+
+
+@pytest.fixture()
+def json_data(fixture_dir):
+    """Load the fixture json data in test cases."""
+    data = {}
+    for filename in os.listdir(fixture_dir):
+        entry = os.path.join(fixture_dir, filename)
+
+        if not os.path.isfile(entry):
+            continue
+
+        with open(entry) as fd:
+            data[filename] = json.load(fd)
+
+    return data
+
+
 def pytest_sessionstart(session):
     """Load BDC-Catalog and prepare database environment."""
     for command in ['init', 'create-namespaces', 'create-extension-postgis']:
         subprocess.call(f'bdc-catalog db {command}', shell=True)
 
-    subprocess.call(f'lccs-db db create-extension-hstore', shell=True)
     # Create tables
     subprocess.call(f'bdc-catalog db create-schema', shell=True)
 

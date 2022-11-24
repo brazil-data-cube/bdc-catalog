@@ -17,7 +17,6 @@ from bdc_db.sqltypes import JSONB
 revision = 'd01f09b5dd8b'
 down_revision = 'c68b17b1860b'
 branch_labels = ()
-depends_on = '561ebe6266ad'  # LCCS-DB stable 0.8.1
 
 
 def upgrade():
@@ -56,7 +55,7 @@ def upgrade():
                                       comment='The value to sum in scale mult'))
 
         sql = """UPDATE bdc.bands 
-        SET metadata = coalesce(metadata::jsonb,'{}'::jsonb) || ('{\"eo\":{\"resolution_x\":'||resolution_x||',\"resolution_y\":'||resolution_y||',\"center_wavelength\":'||coalesce(center_wavelength, 0)||',\"full_width_half_max\": '||coalesce(full_width_half_max, 0)||'}}')::jsonb"""
+        SET metadata = CASE WHEN metadata::TEXT = 'null' THEN '{}'::jsonb ELSE coalesce(metadata::jsonb,'{}'::jsonb) || ('{\"eo\":{\"resolution_x\":'||resolution_x||',\"resolution_y\":'||resolution_y||',\"center_wavelength\":'||coalesce(center_wavelength, 0)||',\"full_width_half_max\": '||coalesce(full_width_half_max, 0)||'}}')::jsonb END"""
         bands_op.execute(sql)
         bands_op.drop_column('center_wavelength')
         bands_op.drop_column('full_width_half_max')

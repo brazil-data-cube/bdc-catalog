@@ -23,7 +23,7 @@ from geoalchemy2.shape import from_shape
 from shapely.geometry import Polygon
 
 from bdc_catalog import BDCCatalog
-from bdc_catalog.models import GridRefSys, MimeType
+from bdc_catalog.models import Collection, GridRefSys, MimeType, Provider
 
 
 @pytest.fixture
@@ -57,7 +57,7 @@ def test_create_grid(db):
     with pytest.raises(RuntimeError) as e:
         _ = GridRefSys.create_geometry_table(**fields, srid=4326, schema='public', extend_existing=True)
 
-    assert str(e.value) == f'Table {fields["table_name"]} already exists'
+    assert str(e.value) == f'Table {fields["table_name"].lower()} already exists'
 
 
 def test_base_query_methods(db):
@@ -75,3 +75,21 @@ def test_base_query_methods(db):
     db_mimes = MimeType.query().all()
     for mime in db_mimes:
         assert mime.name in expected_mime_types
+
+
+def test_provider_creation(db):
+    with db.session.begin_nested():
+        provider = Provider()
+        provider.name = 'ESA'
+        provider.url = 'https://www.esa.int/'
+        provider.save(commit=False)
+    db.session.commit()
+
+    assert provider.id > 0
+
+
+def test_collection_methods(db):
+    collection = Collection.get_by_id('S2_L1C-1')
+    assert collection
+
+    providers = collection.providers

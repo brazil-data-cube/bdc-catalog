@@ -19,6 +19,7 @@
 """Model for table ``bdc.providers``."""
 
 from sqlalchemy import Column, Index, Integer, String, Text
+from sqlalchemy.orm import relationship
 
 from ..config import BDC_CATALOG_SCHEMA
 from .base_sql import BaseModel

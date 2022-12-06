@@ -139,6 +139,44 @@ class Collection(BaseModel):
         """
         return func.concat(self.name, '-', self.version)
 
+    @classmethod
+    def get_collection_sources(cls, collection: Union['Collection', str, int]) -> List['Collection']:
+        """Trace data cube collection origin.
+
+        It traces all the collection origin from the given collection using
+        :class:`bdc_catalog.models.CollectionSRC`
+
+        Raises:
+            ValueError: When collection is related itself (cyclic relationship).
+        """
+        out = []
+        dupes = []
+        ref = collection
+        if not isinstance(collection, Collection):
+            ref = Collection.get_by_id(collection)
+
+        while ref is not None:
+            source: CollectionSRC = (
+                CollectionSRC.query()
+                .filter(CollectionSRC.collection_id == ref.id)
+                .first()
+            )
+            if source is None:
+                break
+
+            ref: Collection = Collection.query().get(source.collection_src_id)
+            if ref.id in dupes:
+                raise ValueError(f'Collection {ref.identifier} has self reference')
+
+            dupes.append(ref.id)
+            out.append(ref)
+        return out
+
+    @property
+    def sources(self) -> List['Collection']:
+        """Retrieve the list of referred collections marked as origin."""
+        return Collection.get_collection_sources(self)
+
 
 class CollectionSRC(BaseModel):
     """Model for collection provenance/lineage."""

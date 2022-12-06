@@ -303,6 +303,7 @@ class Item(BaseModel):
 
         Note:
             May raise error when processor is already attached.
+            Make sure to ``commit`` or ``rollback`` changes.
 
         Args:
             processor (Processor): Instance of Processor

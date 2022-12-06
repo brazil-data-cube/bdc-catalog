@@ -136,6 +136,7 @@ class Item(BaseModel):
         Index(None, start_date),
         Index('idx_bdc_items_start_date_desc', start_date.desc()),
         Index(None, start_date.desc(), id),
+        Index('idx_bdc_items_start_date_desc_id_is_available', start_date.desc(), id, is_available),
         Index(None, metadata_),
         dict(schema=BDC_CATALOG_SCHEMA),
     )

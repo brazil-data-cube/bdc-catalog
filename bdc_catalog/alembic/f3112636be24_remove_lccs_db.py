@@ -40,6 +40,9 @@ def upgrade():
 
     op.create_index('idx_bdc_items_start_date_desc_id', 'items', [sa.text('start_date DESC'), 'id'], unique=False,
                     schema='bdc')
+    op.create_index('idx_bdc_items_start_date_desc_id_is_available', 'items',
+                    [sa.text('start_date DESC'), 'id', 'is_available'], unique=False,
+                    schema='bdc')
     op.drop_table('collections_roles', schema='bdc')
     op.drop_table('roles', schema='bdc')
     # ### end Alembic commands ###
@@ -73,3 +76,4 @@ def downgrade():
         schema='bdc'
     )
     op.drop_index('idx_bdc_items_start_date_desc_id', table_name='items', schema='bdc')
+    op.drop_index('idx_bdc_items_start_date_desc_id_is_available', table_name='items', schema='bdc')

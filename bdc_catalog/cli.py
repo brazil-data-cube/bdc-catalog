@@ -72,14 +72,16 @@ def load_data(ifile: str, from_dir: str, verbose: bool):
                           'Make sure to install with "pip install shapely" or '
                           '"pip install -e .[geo]".')
 
+    if not ifile and not from_dir:
+        raise click.MissingParameter("Missing --ifile or --from-dir parameter.")
+
     entries = []
+
     if ifile:
         entries.append(Path(ifile))
     elif from_dir:
         for entry in Path(from_dir).glob('*.json'):
             entries.append(entry)
-    else:
-        raise click.MissingParameter("Missing --ifile or --from-dir parameter.")
 
     for entry in entries:
         with entry.open() as fd:

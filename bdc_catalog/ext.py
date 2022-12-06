@@ -83,7 +83,7 @@ class BDCCatalog:
         if app:
             self.init_app(app)
 
-    def init_app(self, app: Flask):
+    def init_app(self, app: Flask, **kwargs):
         """Initialize Flask application instance.
 
         Args:

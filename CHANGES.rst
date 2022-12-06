@@ -20,6 +20,14 @@
 Changes
 =======
 
+Version 1.0.1 (2022-12-06)
+--------------------------
+
+- Remove integration with lccs-db `#187 <https://github.com/brazil-data-cube/bdc-catalog/issues/187>`_.
+- Improve performance on items retrieval
+- Fix migration 0.8 - 1.0 related bands metadata ``null`` entry `#189 <https://github.com/brazil-data-cube/bdc-catalog/issues/1189>`_.
+
+
 Version 1.0.0 (2022-09-22)
 --------------------------
 

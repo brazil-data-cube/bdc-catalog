@@ -20,8 +20,7 @@
 
 from .band import Band, BandSRC
 from .base_sql import db
-from .collection import (Collection, CollectionRole, CollectionsProviders,
-                         CollectionSRC)
+from .collection import Collection, CollectionsProviders, CollectionSRC
 from .composite_function import CompositeFunction
 from .grid_ref_sys import GridRefSys
 from .item import Item, ItemsProcessors, SpatialRefSys
@@ -30,7 +29,6 @@ from .processor import Processor
 from .provider import Provider
 from .quicklook import Quicklook
 from .resolution_unit import ResolutionUnit
-from .role import Role
 from .tile import Tile
 from .timeline import Timeline
 
@@ -39,7 +37,6 @@ __all__ = (
     'Band',
     'BandSRC',
     'Collection',
-    'CollectionRole',
     'CollectionSRC',
     'CollectionsProviders',
     'CompositeFunction',
@@ -51,7 +48,6 @@ __all__ = (
     'Provider',
     'Quicklook',
     'ResolutionUnit',
-    'Role',
     'SpatialRefSys',
     'Tile',
     'Timeline',

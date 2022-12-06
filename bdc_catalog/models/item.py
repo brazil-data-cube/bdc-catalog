@@ -32,10 +32,10 @@ from sqlalchemy.orm.attributes import flag_modified
 from sqlalchemy.sql import expression
 
 from ..config import BDC_CATALOG_SCHEMA
+from ..utils import multihash_checksum_sha256
 from .base_sql import BaseModel, db
 from .collection import Collection
 from .processor import Processor
-from ..utils import multihash_checksum_sha256
 
 try:
     import rasterio
@@ -135,6 +135,7 @@ class Item(BaseModel):
         Index(None, tile_id),
         Index(None, start_date),
         Index('idx_bdc_items_start_date_desc', start_date.desc()),
+        Index(None, start_date.desc(), id),
         Index(None, metadata_),
         dict(schema=BDC_CATALOG_SCHEMA),
     )
@@ -302,6 +303,7 @@ class Item(BaseModel):
 
         Note:
             May raise error when processor is already attached.
+            Make sure to ``commit`` or ``rollback`` changes.
 
         Args:
             processor (Processor): Instance of Processor

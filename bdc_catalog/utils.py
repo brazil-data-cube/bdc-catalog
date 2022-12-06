@@ -81,19 +81,22 @@ def multihash_checksum_sha256(file_path: Union[str, BytesIO]):
 def geom_to_wkb(geom: Any, srid: int = None) -> geoalchemy2.WKBElement:
     """Create a WKB geometry from a shapely.geometry.Geometry.
 
-    This helper uses the GeoAlchemy2 helper to ensure to create a extended WKB element (EWKB).
+    This helper uses the GeoAlchemy2 helper to ensure to create an extended WKB element (EWKB).
     It forces the SQLAlchemy field to load the Geometry into database with EWKB instead WKT
     to avoid any bit error precision.
 
     Note:
-        Make sure you have installed extra ``geo`` or the library ``Shapely`` before.
+        Make sure you have installed extra ``geo`` or the library ``Shapely`` before::
+
+            pip install Shapely
 
     Args:
         geom: A shapely Geometry
         srid: The Geometry SRID associated.
     """
     from geoalchemy2.shape import from_shape
-    # Use extended=True to available the Geometry as EWKB
+
+    # Use extended=True to transform the geometry as EWKB
     return from_shape(geom, srid=-1 if srid is None else srid, extended=True)
 
 
@@ -104,7 +107,8 @@ def create_collection(name: str, version: Any, bands: list,
     Note:
         Used from :py:meth:`bdc_catalog.cli.load_data`
     """
-    from bdc_catalog.models import Band, Collection, GridRefSys, MimeType, ResolutionUnit, db
+    from bdc_catalog.models import (Band, Collection, GridRefSys, MimeType,
+                                    ResolutionUnit, db)
 
     collection = (
         Collection.query()

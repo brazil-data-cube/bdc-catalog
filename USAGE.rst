@@ -41,7 +41,6 @@ all definitions for ``BDC-Catalog``::
         bdc-db db init
         bdc-db db create-namespaces
         bdc-db db create-extension-postgis
-        lccs-db db create-extension-hstore
         bdc-db db create-schema
 
 
@@ -61,9 +60,6 @@ Creating database definition
 
         SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/bdcdb" \
         bdc-db db create-extension-postgis
-
-        SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/bdcdb" \
-        lccs-db db create-extension-hstore
 
 
 **2.** After that, run ``BDC-DB`` command to prepare the Brazil Data Cube data model::

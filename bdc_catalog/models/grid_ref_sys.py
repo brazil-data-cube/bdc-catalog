@@ -70,11 +70,12 @@ class GridRefSys(BaseModel):
             srid = 100001
 
         opts = kwargs.copy()
-        if not opts.get('schema'):
-            opts['schema'] = BDC_CATALOG_SCHEMA
+        schema = opts.get('schema', BDC_CATALOG_SCHEMA)
+        table_name_ = table_name.lower()
+        opts['schema'] = schema
 
         grid_table = Table(
-            table_name.lower(), db.metadata,
+            table_name_, db.metadata,
             db.Column('id', db.Integer(), primary_key=True, autoincrement=True),
             db.Column('tile', db.String),
             db.Column('geom', geoalchemy2.Geometry(geometry_type='Polygon', srid=srid, spatial_index=False)),
@@ -83,14 +84,14 @@ class GridRefSys(BaseModel):
         )
 
         inspector = inspect(db.engine)
-        if inspector.has_table(table_name, schema=BDC_CATALOG_SCHEMA):
-            raise RuntimeError(f'Table {table_name} already exists')
+        if inspector.has_table(table_name_, schema=schema):
+            raise RuntimeError(f'Table {table_name_} already exists')
 
         grid_table.create(bind=db.engine)
 
         db.session.execute(grid_table.insert().values(features))
 
-        table_id = cls.get_table_id(table_name, schema=opts.get('schema'))
+        table_id = cls.get_table_id(table_name_, schema=opts.get('schema'))
 
         grs.table_id = table_id
 

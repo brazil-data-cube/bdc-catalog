@@ -193,21 +193,53 @@ In order to search for Collections, please, take a look in the next query. To re
 
 .. literalinclude:: ../../examples/query_collections.py
    :language: python
-   :lines: 24-40
+   :lines: 24-25,27,30-41
 
 You can increment the query and restrict to show only ``available`` collections:
 
 
 .. literalinclude:: ../../examples/query_collections.py
    :language: python
-   :lines: 24-34,42-48
+   :lines: 24-25,27,34-35,43-49
 
 
 A collection, essentially, has a few unique keys. Its defined by both ``id`` and ``Name-Version``.
 
 .. literalinclude:: ../../examples/query_collections.py
    :language: python
-   :lines: 24-34,50-59
+   :lines: 24-25,27,34-35,51-60
+
+
+For spatial query constraints, consider to use special `SQLAlchemy func <https://docs.sqlalchemy.org/en/14/core/sqlelement.html#sqlalchemy.sql.expression.func>`_ to generate SQL expressions in runtime. In this case, we are going to use `ST_Intersects <https://postgis.net/docs/ST_Intersects.html>`_:
+
+
+.. literalinclude:: ../../examples/query_collections.py
+   :language: python
+   :lines: 24-25,27,34-35,63-70
+
+
+.. note::
+
+    Remember that property :attr:`bdc_catalog.models.Collection.spatial_extent` are updated whenever an item is inserted in database using SQL Triggers.
+
+
+Update collection
++++++++++++++++++
+
+The process to update any collection is quite simple. With support of SQLAlchemy, there a few ways to update a collection, which are:
+
+.. literalinclude:: ../../examples/query_collections.py
+   :language: python
+   :lines: 24-25,27,34-35,51-52,71-82
+
+
+If you would like to update several collections once, you have to adapt the query and then update in cascade as following:
+
+
+.. literalinclude:: ../../examples/query_collections.py
+   :language: python
+   :lines: 24-25,27,34-35,84-91
+
 
 
 .. item_:
@@ -257,6 +289,15 @@ You can register this item as following:
    :lines: 26-
 
 
+.. note::
+
+    We strongly recommend you to use :func:`bdc_catalog.utils.geom_to_wkb` to convert geometries into WKB instead WKT to avoid floating precision errors.
+
+.. note::
+
+    We also suggest you to keep the ``footprint`` as simplified geometries. It optimizes the queries while searching for spatial areas in PostgreSQL/PostGIS.
+
+
 Access Items
 ++++++++++++
 
@@ -286,6 +327,14 @@ Since the ``BDC-Catalog`` integrates with ``SQLAlchemy ORM``, you can join relat
    :language: python
    :lines: 25-37,56-64
    :emphasize-lines: 16,18
+
+
+If you would like to make a spatial query condition to filter a region of interest (ROI), use may use the following syntax:
+
+.. literalinclude:: ../../examples/query_items.py
+   :language: python
+   :lines: 25-37,66-75
+   :emphasize-lines: 14,18
 
 
 .. note::

@@ -21,9 +21,11 @@
 import subprocess
 import sys
 
+import pytest
+from click import MissingParameter
 from click.testing import CliRunner
 
-from bdc_catalog.cli import cli
+from bdc_catalog.cli import cli, load_data
 
 
 def test_basic_cli():
@@ -38,3 +40,14 @@ def test_cli_module():
     res = subprocess.call(f'{sys.executable} -m bdc_catalog', shell=True)
 
     assert res == 0
+
+
+def test_cli_load_data(fixture_dir):
+    """Test the BDCCatalog invoked as a module."""
+    # Test missing parameter
+    res = CliRunner().invoke(load_data, args=[])
+    assert res.exit_code != 0
+    assert "Missing --ifile or --from-dir parameter" in res.output
+
+    res = CliRunner().invoke(load_data, args=["--from-dir", fixture_dir])
+    assert res.exit_code == 0

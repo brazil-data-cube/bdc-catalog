@@ -214,7 +214,7 @@ class Item(BaseModel):
         mime_type = kwargs.get('mime_type')
         if mime_type is None:
             # Seek in band
-            if self.collection_id is None:
+            if self.collection is None and self.collection_id is None:
                 raise ValueError('Could not determine Mimetype when Item collection is None.')
             collection = self.collection
             mime_type = mimetypes.guess_type(os.path.basename(file))[0]

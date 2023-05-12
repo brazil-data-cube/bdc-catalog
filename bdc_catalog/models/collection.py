@@ -60,11 +60,14 @@ class Collection(BaseModel):
                        comment='Follow the JSONSchema @jsonschemas/collection-metadata.json')
     keywords = Column('keywords', ARRAY(String))
     properties = Column('properties', JSONB('bdc-catalog/collection-properties.json'),
-                        comment='Contains the properties offered by STAC collections')
+                        comment='Contains the properties offered by STAC collections',
+                        default={}, server_default='{}')
     summaries = Column('summaries', JSONB('bdc-catalog/collection-summaries.json'),
-                       comment='Contains the STAC Collection summaries.')
+                       comment='Contains the STAC Collection summaries.',
+                       default={}, server_default='{}')
     item_assets = Column('item_assets', JSONB('bdc-catalog/collection-item-assets.json'),
-                         comment='Contains the STAC Extension Item Assets.')
+                         comment='Contains the STAC Extension Item Assets.',
+                         default={}, server_default='{}')
     is_available = Column(Boolean(), nullable=False, default=False, server_default='False')
     is_public = Column(Boolean(), nullable=False, default=True, server_default='true')
     category = Column(enum_collection_category, nullable=False)

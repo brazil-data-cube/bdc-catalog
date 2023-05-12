@@ -24,14 +24,15 @@ RETURNS trigger AS $$
 BEGIN
     -- Once Item update/insert, calculate the min/max time and update in collections.
     UPDATE bdc.collections
-       SET properties = COALESCE(properties, '{}'::JSONB) || tiles
+       SET properties = COALESCE(NULLIF(properties, 'null'), '{}'::JSONB) || COALESCE(NULLIF(tiles, 'null'), '{}'::JSONB)
       FROM (
           SELECT ('{"bdc:tiles": '||to_json(array_agg(DISTINCT bdc.tiles.name))||'}')::JSONB as tiles
             FROM bdc.tiles, bdc.items
            WHERE bdc.items.collection_id = NEW.collection_id
              AND bdc.items.tile_id = bdc.tiles.id
       ) t
-      WHERE id = NEW.collection_id;
+      WHERE id = NEW.collection_id
+        AND grid_ref_sys_id is not null;
 
     RETURN NEW;
 END;

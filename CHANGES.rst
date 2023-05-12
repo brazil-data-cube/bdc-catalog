@@ -20,6 +20,13 @@
 Changes
 =======
 
+Version 1.0.2 (2023-05-12)
+--------------------------
+
+- Fix trigger related collection tiles, ensure JSON concatenation `#193 <https://github.com/brazil-data-cube/bdc-catalog/issues/193>`_.
+- Alter JSONB fields entities with ``server_default`` values in tables ``bdc.collections`` and ``bdc.items`` `#193 <https://github.com/brazil-data-cube/bdc-catalog/issues/193>`_.
+
+
 Version 1.0.1 (2022-12-06)
 --------------------------
 

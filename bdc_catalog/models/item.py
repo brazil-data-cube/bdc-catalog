@@ -114,7 +114,8 @@ class Item(BaseModel):
     cloud_cover = Column(Numeric)
     assets = Column(JSONB('bdc-catalog/item-assets.json'), comment='Follow the JSONSchema @jsonschemas/item-assets.json')
     metadata_ = Column('metadata', JSONB('bdc-catalog/item-metadata.json'),
-                       comment='Follow the JSONSchema @jsonschemas/item-metadata.json')
+                       comment='Follow the JSONSchema @jsonschemas/item-metadata.json',
+                       default={}, server_default='{}')
     provider_id = Column(ForeignKey(f'{BDC_CATALOG_SCHEMA}.providers.id', onupdate='CASCADE', ondelete='CASCADE'))
     bbox = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))
     footprint = Column(Geometry(geometry_type='Polygon', srid=4326, spatial_index=False))

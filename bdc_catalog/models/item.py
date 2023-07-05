@@ -1,6 +1,6 @@
 #
 # This file is part of BDC-Catalog.
-# Copyright (C) 2022 INPE.
+# Copyright (C) 2023 INPE.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -136,7 +136,7 @@ class Item(BaseModel):
         Index(None, tile_id),
         Index(None, start_date),
         Index('idx_bdc_items_start_date_desc', start_date.desc()),
-        Index(None, start_date.desc(), id),
+        Index('idx_bdc_items_start_date_desc_id', start_date.desc(), id),
         Index('idx_bdc_items_start_date_desc_id_is_available', start_date.desc(), id, is_available),
         Index(None, metadata_),
         dict(schema=BDC_CATALOG_SCHEMA),

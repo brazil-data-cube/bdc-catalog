@@ -128,8 +128,10 @@ def create_collection(name: str, version: Any, bands: list,
         collection.title = kwargs.get('title', collection.name)
         collection.category = category
 
+        db.session.add(collection)
+
         for band in bands:
-            band_obj = Band(collection=collection, name=band['name'])
+            band_obj = Band(collection_id=collection.id, name=band['name'])
             for prop, value in band.items():
                 if prop == 'mime_type':
                     band_obj.mime_type = MimeType.query().filter(MimeType.name == value).first()
@@ -141,7 +143,6 @@ def create_collection(name: str, version: Any, bands: list,
                     setattr(band_obj, prop, value)
             db.session.add(band_obj)
 
-        db.session.add(collection)
     db.session.commit()
 
     return collection, True

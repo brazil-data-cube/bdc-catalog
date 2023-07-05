@@ -21,8 +21,8 @@
 import json
 import os
 import subprocess
+from pathlib import Path
 
-import pkg_resources
 import pytest
 from flask import Flask
 
@@ -39,7 +39,9 @@ def app():
 @pytest.fixture()
 def fixture_dir():
     """Retrieve the base path for fixtures."""
-    return pkg_resources.resource_filename(__name__, '../examples/fixtures/')
+    package_dir = Path(__file__).parent.parent
+    directory = package_dir / "examples/fixtures"
+    return str(directory)
 
 
 @pytest.fixture()

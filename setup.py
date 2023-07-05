@@ -1,6 +1,6 @@
 #
 # This file is part of BDC-Catalog.
-# Copyright (C) 2022 INPE.
+# Copyright (C) 2023 INPE.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,8 @@ extras_require = {
     'docs': docs_require,
     'tests': tests_require,
     'geo': [
-        'Shapely>=1.8'
+        'Shapely>=1.8',
+        'rasterio>=1.3'
     ]
 }
 
@@ -122,7 +123,7 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: GPL v3 License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Scientific/Engineering :: GIS',
     ],

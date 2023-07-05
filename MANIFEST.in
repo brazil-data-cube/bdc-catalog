@@ -38,4 +38,5 @@ recursive-include docs *.rst
 recursive-include docs Makefile
 recursive-include examples *.py
 recursive-include tests *.py
+recursive-include tests *.tif
 recursive-include examples *.json

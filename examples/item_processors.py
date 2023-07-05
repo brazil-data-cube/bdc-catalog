@@ -52,4 +52,4 @@ with app.app_context():
     item.save()
 
     print(f'Item {item.name}:')
-    print(f'-> Processors: {", ".join([p.name for p in item.get_processors()])}')
+    print(f'-> Processors: {", ".join([p.name for p in item.processors])}')

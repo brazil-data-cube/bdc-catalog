@@ -107,14 +107,15 @@ class GridRefSys(BaseModel):
         if schema is None:
             schema = db.metadata.schema or 'public'
 
-        res = db.session.execute(f'SELECT \'{schema}.{grs_name.lower()}\'::regclass::oid AS table_id').first()
+        statement = text(f'SELECT \'{schema}.{grs_name.lower()}\'::regclass::oid AS table_id')
+        res = db.session.execute(statement).first()
 
         return res.table_id
 
     @property
     def crs(self) -> Union[str, None]:
         """Retrieve the Coordinate Reference System (CRS) from the GRID."""
-        spatial_ref_sys = Table('spatial_ref_sys', db.metadata, schema='public', autoload=True, autoload_with=db.engine)
+        spatial_ref_sys = Table('spatial_ref_sys', db.metadata, schema='public', autoload_with=db.engine)
 
         geom_table = self.geom_table
 
@@ -152,7 +153,7 @@ class GridRefSys(BaseModel):
         res = db.session.execute(expr.bindparams(table_name=grs_name.lower())).fetchone()
 
         if res:
-            return Table(res.table_name, db.metadata, schema=res.schema, autoload=True, autoload_with=db.engine)
+            return Table(res.table_name, db.metadata, schema=res.schema, autoload_with=db.engine)
 
         return None
 
